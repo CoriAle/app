@@ -1,13 +1,10 @@
-asn1crypto==0.24.0
 backports-abc==0.4
 backports.ssl-match-hostname==3.5.0.1
-bcrypt==3.1.4
 blessings==1.6
 bpython==0.15
 certifi==2016.2.28
 cffi==1.7.0
-chardet==3.0.4
-cryptography==2.2.2
+cryptography==1.4
 curtsies==0.2.6
 Django==1.9.1
 -e git+https://github.com/django-debug-toolbar/django-debug-toolbar.git@0ed1538374d3dc41d51fc562b4e8be6ce8208552#egg=django_debug_toolbar
@@ -23,15 +20,17 @@ Fabric==1.10.2
 greenlet==0.4.10
 idna==2.1
 ipaddress==1.0.16
-mysqlclient==1.3.4
+MySQL-python==1.2.5
+mysqlclient==1.3.7
 ndg-httpsclient==0.4.2
-paramiko==2.4.1
-pyasn1==0.4.3
-pycparser==2.18
-Pygments==2.2.0
-PyNaCl==1.2.1
+paramiko==1.16.0
+pyasn1==0.1.9
+pycparser==2.14
+pycrypto==2.6.1
+pycups==1.9.73
+Pygments==2.1.3
 pyOpenSSL==16.0.0
-python-dateutil==2.7.3
+python-dateutil==2.5.3
 pytz==2016.6.1
 redis==2.10.5
 requests==2.10.0
@@ -41,7 +40,5 @@ sockjs-tornado==1.0.3
 sqlparse==0.1.19
 tornado==4.3
 tornado-redis==2.4.18
-typing==3.6.4
-urllib3==1.22
 wcwidth==0.1.7
 Werkzeug==0.11.3
