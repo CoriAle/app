@@ -77,20 +77,20 @@ class MovimientoMovilWriteSerializer(serializers.ModelSerializer):
 
             # verificamos si el producto es combo
             if detalle.producto.es_combo and not detalle.producto.combo_mixto:
-                print '---> SI ES COMBO <---'
+                ## '---> SI ES COMBO <---'
                 if movimiento.tipo != 2:
                     raise ValueError('No se pueden ingresar o dar de baja combos, ingrese los productos individualmente')
                 if transaccion_data["tipo_transaccion"] == 1:
-                    print 'COMBO PEDIDO'
+                    #print 'COMBO PEDIDO'
                     # actualizamos los productos solo si es venta y un pedido
                     combos = Combo.objects.filter(producto_padre__id=detalle.producto.id)
                     existencia = combos.first().producto_combo.existencia
 
                     for item in combos:
-                        print 'ITEM EN COMBOS'
+                        #print 'ITEM EN COMBOS'
                         # evaluamos si hay existencias
                         if item.producto_combo.existencia < (detalle.cantidad*item.cantidad):
-                            print 'EVALUAR SI HAY EXISTENCIA'
+                            #print 'EVALUAR SI HAY EXISTENCIA'
                             raise ValueError('El producto {} no tiene suficientes existencias'
                                              .format(item.producto_combo.nombre))
                         item.producto_combo.existencia -= (detalle.cantidad*item.cantidad)
@@ -115,16 +115,16 @@ class MovimientoMovilWriteSerializer(serializers.ModelSerializer):
                         if existencia > cantidad:
                             existencia = cantidad
                 if transaccion_data["tipo_transaccion"] == 4:
-                    print 'COMBO PEDIDO'
+                    #print 'COMBO PEDIDO'
                     # actualizamos los productos solo si es venta y un pedido
                     combos = Combo.objects.filter(producto_padre__id=detalle.producto.id)
                     existencia = combos.first().producto_combo.existencia
 
                     for item in combos:
-                        print 'ITEM EN COMBOS'
+                        #print 'ITEM EN COMBOS'
                         # evaluamos si hay existencias
                         if item.producto_combo.existencia < (detalle.cantidad*item.cantidad):
-                            print 'EVALUAR SI HAY EXISTENCIA'
+                            #print 'EVALUAR SI HAY EXISTENCIA'
                             raise ValueError('El producto {} no tiene suficientes existencias'
                                              .format(item.producto_combo.nombre))
                         item.producto_combo.existencia -= (detalle.cantidad*item.cantidad)
@@ -161,12 +161,12 @@ class MovimientoMovilWriteSerializer(serializers.ModelSerializer):
                                 if presentacion.porcentaje_completo is True:
                                     detalle.precio_ficha = detalle.precio_venta
                                     detalle.save()
-                                    print 'PORCENTAJE COMPLETO'
+                                    #print 'PORCENTAJE COMPLETO'
                                 # Si el porcentaje es el de la chica
                                 else:
                                     detalle.precio_ficha = chica.porcentaje_chica * detalle.precio_venta
                                     detalle.save()
-                                    print 'PORCENTAJE ASIGNADO'
+                                    # 'PORCENTAJE ASIGNADO'
                             else:
                                 if not detalle.producto.se_descuenta:
                                     # Si NO se descuenta el producto

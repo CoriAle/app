@@ -435,7 +435,7 @@ class PersonaViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
         filas = detalle.count()
         datos = bailes.annotate(cantidad=Count('baile__nombre_baile'),precio=F('costo'))[ant:sig]
         datos_sin_cambio = bailes.annotate(cantidad=Count('baile__nombre_baile'),precio=F('costo'))[ant:sig]
-        print datos_sin_cambio == datos
+        #print datos_sin_cambio == datos
         for det in datos:
             if det['baile__nombre_baile'] == "Normal":
                 if conteo < 11:
@@ -450,7 +450,7 @@ class PersonaViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                     det['precio'] = Decimal(200) / Decimal(3)
                 det['precio'] = det['precio'].quantize(Decimal('1.00'))
                 # print "el detalle es {}, el nombre es {}".format(det, det['baile__nombre_baile'])
-        print datos_sin_cambio == datos
+        #print datos_sin_cambio == datos
 
         return Response({'filas':filas,'datos':datos,'total':detalle,
                          'total_sin_cambio':detalle_sin_cambio, 'datos_sin_cambio':datos_sin_cambio})

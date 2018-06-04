@@ -72,12 +72,10 @@ class ProductoWriteSerializer(serializers.ModelSerializer):
 
     @transaction.atomic
     def create(self, validated_data):
-        print validated_data['productos_presentacion']
         # extraemos los productos, evitamos el error si no existe
         try:
             productos_data = validated_data.pop('productos')
             presentaciones_data = validated_data.pop('productos_presentacion')
-            print presentaciones_data
         except:
             pass
 

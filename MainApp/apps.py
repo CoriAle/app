@@ -6,5 +6,5 @@ from django.apps import AppConfig
 class MainappConfig(AppConfig):
     name = 'MainApp'
 
-    def ready(self):
-        from .signals import *
+    #def ready(self):
+        #from .signals import *

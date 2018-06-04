@@ -13,7 +13,7 @@ class TipoProductoViewSet(viewsets.ModelViewSet):
     permission_classes = [BodegaMeseroPermission]
     def destroy(self, request, *args, **kwargs):
         model = self.get_object()
-        print model
+        #print model
         if model.nombre.upper() == 'COMBO' or model.nombre.upper() == 'COMBO MIXTO':
             return Response({'detail': 'No se puede eliminar {} '.format(model.nombre)},
                             status=status.HTTP_400_BAD_REQUEST)
