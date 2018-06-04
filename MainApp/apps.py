@@ -6,4 +6,4 @@ class MainappConfig(AppConfig):
     name = 'MainApp'
 
     def ready(self):
-        import signals
+        from .signals import add_transaccion_contable
