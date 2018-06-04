@@ -1,7 +1,6 @@
 import datetime
 from decimal import *
 from django.db import transaction
-from pip._vendor.requests.utils import super_len
 from rest_framework import viewsets, status
 from rest_framework.response import Response
 from MainApp.models import Persona

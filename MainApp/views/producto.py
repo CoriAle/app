@@ -226,7 +226,7 @@ class ProductoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                 # productos_presentacion__se_carga_a_empleada=False,
                 es_combo=False
             ).order_by('nombre')
-            print len(productos)
+            #print len(productos)
 
             serializer = ProductoSerializer(productos, many=True)
             return Response(serializer.data)
@@ -376,7 +376,7 @@ class ProductoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
         if nombre != "":
             detalles = detalles.filter(producto__nombre__icontains=nombre)
 
-        print len(detalles)
+        #print len(detalles)
         for detalle in detalles:
             esta = False
             for producto in productos:
@@ -439,7 +439,7 @@ class ProductoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
         presentacion = request.GET.get('presentacion')
         if presentacion != "" and presentacion is not None:
             detalles = detalles.filter(producto_presentacion__presentacion__nombre__icontains=presentacion)
-        print len(detalles)
+        #print len(detalles)
         for detalle in detalles:
             try:
                 # TIPO_MOVIMIENTO = ((1, 'Ingreso'), (2, 'Venta'), (3, 'Baja'))
@@ -465,6 +465,8 @@ class ProductoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                     'chica': persona
                 })
             except:
-                print detalle.id
+                pass
+                #print detalle.id
 
+        
         return Response(productos, status=status.HTTP_200_OK)
