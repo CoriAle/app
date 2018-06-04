@@ -60,7 +60,7 @@ class PagoPersonalViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
         except:
             pass
         # se guarda el pago con todos los datos recibidos
-        print request.data
+        #print request.data
         pago = PagoPersonal(
             comision_venta=request.data.get('comision_venta',0),
             comision_servicio=request.data.get('comision_servicio',0),
