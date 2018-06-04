@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <title>Comanda</title>
+    <meta charset="utf-8" />
+    <style type="text/css">
+        body {
+            background: #fff !important;
+            color: #000;
+            font-family: 'arial', sans-serif;
+            font-size: 0.8em;
+            word-wrap: break-word;
+            margin: 0;
+        }
+
+        .cabecera {
+            padding: 5px 25px 5px 25px;
+            background: #8BCAF1;
+        }
+
+        [class^=col] {
+            float: left;
+            height: auto;
+            -webkit-box-sizing: border-box;
+            -moz-box-sizing: border-box;
+            box-sizing: border-box;
+        }
+
+        .col-2 {
+            width: 20%;
+        }
+
+        .col-4 {
+            width: 40%;
+        }
+
+        .col-5 {
+            width: 50%;
+        }
+
+        .col-10 {
+            width: 100%;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="col-10" style="margin: 15px; border:1px #D8D8D8 solid; padding: 25px;">
+        <div class="col-10">
+            <div class="col-5">
+                Mesero: <u>{{ comanda.mesero }}</u>
+            </div>
+            <div class="col-5">
+                Fecha: <u>{{ comanda.fecha | date:"d/m/Y" }}</u>
+            </div>
+        </div>
+
+        <div class="col-10" style="margin-bottom:3px;">
+            <div class="col-5">
+                Transacción: <u>{{ comanda.transaccion}}</u>
+            </div>
+            <div class="col-5">
+                Hora: <u>{{ comanda.hora | date:"h:i a"}}</u>
+            </div>
+        </div>
+        <br><br><br>
+        <div class="col-10" style="border: 1px #D8D8D8 solid; border-bottom:none;">
+            <div class="col-4 cabecera">
+                Producto
+            </div>
+            <div class="col-2 cabecera">
+                Cantidad
+            </div>
+            <div class="col-4 cabecera">
+                Precio
+            </div>
+
+            {% for item in comanda.detalle %}
+            <div class="col-10">
+              <div class="col-4" style="padding: 10px 20px; border-bottom: 1px #D8D8D8 solid;">
+                  {{ item.nombre }}
+              </div>
+              <div class="col-2" style="padding: 10px 20px; border-bottom: 1px #D8D8D8 solid;">
+                  1
+              </div>
+              <div class="col-4" style="padding: 10px 20px; border-bottom: 1px #D8D8D8 solid;">
+                  {{ item.precio_venta }}
+              </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</body>
+
+</html>

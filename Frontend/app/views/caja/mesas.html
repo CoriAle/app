@@ -1,0 +1,99 @@
+<h3>Mesas en Uso</h3>
+<div ng-controller="MesasController as ctrl" class="row">
+   <div class="col-sm-3 col-xs-3">
+      <span class="input-group-btn">
+         <button type="submit" ng-click="ctrl.refrescar()" style="border-radius: 4px;" class="btn btn-purple">
+            <strong><i class="fa fa-refresh"> Refrescar</i>
+            </strong>
+         </button>
+      </span>
+   </div>
+   <div class="col-sm-3">
+      <form ng-submit="ctrl.buscar()" role="form" class="form-inline text-right">
+         <div class="form-group">
+            <div class="input-group">
+               <input type="text" ng-model="ctrl.query" placeholder="Buscar" class="form-control" />
+               <span class="input-group-btn">
+                  <button type="submit" class="btn btn-info">
+                     <strong><i class="fa fa-search"> Buscar Mesa</i>
+                     </strong>
+                  </button>
+               </span>
+            </div>
+         </div>
+      </form>
+   </div>
+   <div class="col-sm-6">
+      <div ng-init="ctrl.selectTipo(1)" class="form-group">
+         <div class="col-sm-3">
+            <div class="radio-inline c-radio c-radio-nofont">
+               <label>
+                  <input type="radio" ng-model="TipoFiltro" name="TipoFiltro" value="1" ng-change="ctrl.selectTipo(1)" />
+                  <span></span>Todos</label>
+            </div>
+         </div>
+         <div class="col-sm-3">
+            <div class="radio-inline c-radio c-radio-nofont">
+               <label>
+                  <input type="radio" ng-model="TipoFiltro" name="TipoFiltro" value="2" ng-change="ctrl.selectTipo(2)" />
+                  <span></span>Caja</label>
+            </div>
+         </div>
+         <div class="col-sm-3">
+            <div class="radio-inline c-radio c-radio-nofont">
+               <label>
+                  <input type="radio" ng-model="TipoFiltro" name="TipoFiltro" value="3" ng-change="ctrl.selectTipo(3)" />
+                  <span></span>Tablet</label>
+            </div>
+         </div>
+         <div class="col-sm-3">
+            <button type="button" ng-click="ctrl.filtrar(ctrl.tipo, 1)" class="btn btn-info">
+               <strong><i class="fa fa-search"></i>
+               </strong>
+            </button>
+         </div>
+      </div>
+   </div>
+   <br/>
+   <br/>
+   <div class="col-sm-12">
+      <div class="panel panel-primary">
+         <div class="panel-heading">
+            <strong>Lista de Mesas</strong>
+         </div>
+         <!-- START table-responsive-->
+         <div class="table-responsive">
+            <table class="table table-striped table-hover">
+               <thead>
+                  <tr>
+                     <th width="15%">Fecha</th>
+                     <th width="10%">Mesa</th>
+                     <th width="40%">Detalle</th>
+                     <th width="15%">Mesero</th>
+                     <th width="10%">Total</th>
+                     <th width="10%">Estado</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="item in ctrl.mesas">
+                     <td>{{ item.fecha | date: "dd/MM/yyyy hh:mm a"}}</td>
+                     <td>{{ item.mesa}}</td>
+                     <td>{{ item.detalle}}</td>
+                     <td>{{ item.mesero}}</td>
+                     <td>{{ item.total | currency: 'Q '}}</td>
+                     <td>{{ item.estado}}</td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <div class="panel-footer">
+         <div class="row">
+            <div class="col-sm-6">
+               <uib-pagination previous-text="Anterior" next-text="Siguiente" first-text="Primero" last-text="Ultimo" total-items="ctrl.pagingInfo.totalItems" items-per-page="ctrl.pagingInfo.itemsPerPage" ng-model="ctrl.pagingInfo.page" max-size="10" rotate="false"
+               ng-change="ctrl.selectPage(ctrl.pagingInfo.page)" boundary-links="true" class="pagination-sm"></uib-pagination>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

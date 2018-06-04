@@ -1,0 +1,212 @@
+// START panel
+h3 Producción del Personal
+.row(ng-controller="ProduccionPersonalController as ctrl")
+    .col-sm-12.col-xs-12
+        .form-group
+            .row
+                .col-sm-4
+                    label.control-label Fecha Hora Inicial
+                .col-sm-4
+                    label.control-label Fecha Hora Final
+                .col-sm-4
+                    label.control-label Nombre de Persona
+                        span
+                            small (En blanco para todos)
+            .row
+                .col-sm-4
+                    p.input-group
+                        input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.iniDate', is-open='ctrl.opened', uib-datepicker-options='ctrl.dateOptions', close-text='Cerrar')
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='ctrl.open($event)')
+                                em.fa.fa-calendar
+
+                    table.uib-timepicker.ng-isolate-scope.ng-not-empty.ng-valid.ng-valid-time.ng-dirty.ng-valid-parse.ng-touched
+                        tbody
+                            tr.text-center
+                                td.uib-increment.hours
+                                    a.btn.btn-link(ng-click='ctrl.incrementHours()', tabindex='0')
+                                        span.glyphicon.glyphicon-chevron-up
+                                td  
+                                td.uib-increment.minutes
+                                    a.btn.btn-link(ng-click='ctrl.incrementMinutes()', tabindex='0')
+                                        span.glyphicon.glyphicon-chevron-up
+                                td.ng-hide
+                            tr
+                                td.form-group.uib-time.hours
+                                    input.form-control.text-center.ng-pristine.ng-valid.ng-not-empty.ng-valid-maxlength.ng-touched(style='width: 50px;', type='text', placeholder='HH', ng-model='ctrl.hoursini', maxlength='2', tabindex='0')
+                                td.uib-separator :
+                                td.form-group.uib-time.minutes
+                                    input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='width:50px;', type='text', placeholder='MM', ng-model='ctrl.minutesini', maxlength='2', tabindex='0')
+                                td.uib-separator &nbsp;
+                                td.form-group.uib-time.minutes(style="cursor: pointer;")
+                                    input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='cursor: pointer; width:60px;', type='text', ng-model='ctrl.meridianos', maxlength='2', tabindex='0', ng-click='ctrl.toggleMeridian()', readonly)
+                            tr.text-center
+                                td.uib-decrement.hours
+                                    a.btn.btn-link(ng-click='ctrl.decrementHours()', tabindex='0')
+                                        span.glyphicon.glyphicon-chevron-down
+                                td  
+                                td.uib-decrement.minutes
+                                    a.btn.btn-link(ng-click='ctrl.decrementMinutes()', tabindex='0')
+                                        span.glyphicon.glyphicon-chevron-down
+                                td.ng-hide
+
+                .col-sm-4
+                    p.input-group
+                        input.form-control(type='text', name="date", min-date="ctrl.iniDate", max-date="ctrl.hoy", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.finDate', is-open='ctrl.openend', uib-datepicker-options='ctrl.finDate', close-text='Cerrar')
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='ctrl.openfin($event)')
+                                em.fa.fa-calendar
+
+                    table.uib-timepicker.ng-isolate-scope.ng-not-empty.ng-valid.ng-valid-time.ng-dirty.ng-valid-parse.ng-touched
+                        tbody
+                            tr.text-center
+                                td.uib-increment.hours
+                                    a.btn.btn-link(ng-click='ctrl.incrementHoursF()', tabindex='0')
+                                        span.glyphicon.glyphicon-chevron-up
+                                td  
+                                td.uib-increment.minutes
+                                    a.btn.btn-link(ng-click='ctrl.incrementMinutesF()', tabindex='0')
+                                        span.glyphicon.glyphicon-chevron-up
+                                td.ng-hide
+                            tr
+                                td.form-group.uib-time.hours
+                                    input.form-control.text-center.ng-pristine.ng-valid.ng-not-empty.ng-valid-maxlength.ng-touched(style='width: 50px;', type='text', placeholder='HH', ng-model='ctrl.hoursfin', maxlength='2', tabindex='0')
+                                td.uib-separator :
+                                td.form-group.uib-time.minutes
+                                    input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='width:50px;', type='text', placeholder='MM', ng-model='ctrl.minutesfin', maxlength='2', tabindex='0')
+                                td.uib-separator &nbsp;
+                                    td.form-group.uib-time.minutes
+                                        input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='cursor: pointer; width:60px;', type='text', ng-model='ctrl.meridiano', maxlength='2', tabindex='0', ng-click='ctrl.toggleMeridianF()', readonly)
+                            tr.text-center
+                                td.uib-decrement.hours
+                                    a.btn.btn-link(ng-click='ctrl.decrementHoursF()', tabindex='0')
+                                        span.glyphicon.glyphicon-chevron-down
+                                td  
+                                td.uib-decrement.minutes
+                                    a.btn.btn-link(ng-click='ctrl.decrementMinutesF()', tabindex='0')
+                                        span.glyphicon.glyphicon-chevron-down
+                                td.ng-hide
+                .col-sm-4
+                    input.form-control(type='text' ng-model='ctrl.nombre')
+
+        .form-group(ng-init="ctrl.selectTipo(1)")
+            .col-sm-3
+                .radio-inline.c-radio.c-radio-nofont
+                    label
+                        input(type='radio', ng-model="TipoFiltro", name='TipoFiltro', value='1', ng-change='ctrl.selectTipo(1)')
+                        span
+                        |  Todos
+            .col-sm-3
+                .radio-inline.c-radio.c-radio-nofont
+                    label
+                        input(type='radio', ng-model="TipoFiltro", name='TipoFiltro', value='2', ng-change='ctrl.selectTipo(2)')
+                        span
+                        |  Chicas
+            .col-sm-3
+                .radio-inline.c-radio.c-radio-nofont
+                    label
+                        input(type='radio', ng-model="TipoFiltro", name='TipoFiltro', value='3', ng-change='ctrl.selectTipo(3)')
+                        span
+                        |  Empleados
+            .col-sm-3
+                button.btn.btn-info(type="button" ng-click="ctrl.filtro_pagos()")
+                    strong
+                        i.fa.fa-search
+    br
+    hr
+    br
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de Empleados
+            // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th(width="10%") Nombre
+                            th(width="10%") Sueldo Base
+                            th(width="10%") Comisión Ventas
+                            th(width="10%") Comisión Botellas
+                            th(width="10%") Adelantos
+                            th(width="10%") Gastos
+                            th(width="10%") Bailes
+                            th(width="10%") Total
+                            th(width="7%") Acciones
+                    tbody
+                        tr(ng-repeat="item in ctrl.items")
+                            td {{ item.nombre }}
+                            td {{ item.sueldo | currency:'Q ' }}
+                            td {{ item.codigo_barra ? item.total_ventas : item.total_ventasp | currency:'Q ' }}
+                            td {{ item.total_servicios | currency:'Q ' }}
+                            td(style="color:#f77600;") {{ item.total_adelantos | currency:'Q ' }}
+                            td(style="color:#f77600;") {{ item.total_gastos | currency:'Q ' }}
+                            td {{ item.total_bailes | currency:'Q ' }}
+                            td(style="color:#1e983b;") {{ item.sueldo + item.total_ventas + item.total_ventasp + item.total_servicios - item.total_adelantos - item.total_gastos + item.total_bailes | currency:'Q ' }}
+                            td(align="center")
+                                btn-group.btn-group-sm
+                                    button.btn.btn-purple(type="button", ui-sref="app.detalle_chica({id: item.id})", title="Ver detalle empleado", ng-if="item.codigo_barra==true")
+                                        i.fa.fa-search
+                                    button.btn.btn-purple(type="button", ui-sref="app.detalle_chica({id: item.id})", title="Ver detalle empleado", ng-if="item.codigo_barra==false")
+                                        i.fa.fa-search
+
+            // END table-responsive
+            // END panel
+
+            // Pagination - Panel Footer
+        .panel-footer
+            .row
+                .col-sm-6
+                    uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")
+                //- .col-sm-6(align="right")
+                //- 	button.btn.btn-default(type="button", ng-click="accion.cancel()")
+                //- 		i.fa.fa-times-circle
+                //- 		|  Cancelar
+                //- 	button.btn.btn-success(type="button", ng-disabled="accion.valida()", ng-click="accion.add()" ng-class="accion.pago.id > 0 ? 'btn-warning':'btn-success'")
+                //- 		i.fa.fa-floppy-o
+                //- 		|  Guardar
+
+script(type="text/ng-template", id="accionesPago.html")
+    .modal-header
+        h3.modal-title Ingreso Pago
+        .modal-body
+        .row
+            .col-md-12
+                form.form-validate.form-horizontal(name='accion.formAdd', ng-submit='accion.addPago()', novalidate='')
+                    .form-group
+                        .col-sm-4
+                            label.control-label Motivo
+                            select.form-control(name="motivo", ng-model="accion.pago.motivo", required="", ng-options="m.nombre for m in accion.motivos track by m.nombre")
+                                option(value='') Seleccione una opcion
+                            .text-danger(ng-messages='accion.formAdd.motivo.$error', ng-show='accion.formAdd.motivo.$invalid && !accion.formAdd.motivo.$pristine')
+                                div(ng-message='required') Campo requerido
+
+                        .col-sm-4
+                            label.control-label Monto
+                            input.form-control(placeholder='Monto', type='number', step='1', name="monto", ng-model="accion.pago.monto", required="", ng-min='0.01')
+                            .text-danger(ng-messages='accion.formAdd.monto.$error', ng-show='accion.formAdd.monto.$invalid && !accion.formAdd.monto.$pristine')
+                                div(ng-message='required') Campo requerido
+                                div(ng-message='min') Debe ser mayor a 0
+
+                        .col-sm-4
+                            label.control-label Empleado
+                            select.form-control(name="empleado", ng-model="accion.pago.persona", required="", ng-options="e.id as e.nombre for e in accion.listaEmpleados track by e.nombre")
+                                option(value='') Seleccione un empleado
+                            .text-danger(ng-messages='accion.formAdd.empleado.$error', ng-show='accion.formAdd.empleado.$invalid && !accion.formAdd.empleado.$pristine')
+                                div(ng-message='required') Campo requerido
+                    .form-group.col-sm-12
+                        label.control-label Observacion
+                        textarea.form-control(placeholder='Observación', name="observacion", ng-model="accion.pago.observacion", required="")
+                        .text-danger(ng-messages='accion.formAdd.observacion.$error', ng-show='accion.formAdd.observacion.$invalid && !accion.formAdd.observacion.$pristine')
+                            div(ng-message='required') Campo requerido
+                            div(ng-message='min') Debe ser mayor a 0
+
+    .alert.alert-danger(ng-show='accion.errMsg') {{accion.errMsg}}
+    .alert.alert-info(ng-show='accion.agregarMsg') {{accion.agregarMsg}}
+    .modal-footer
+        button.btn.btn-default(type="button", ng-click="accion.cancel()")
+            i.fa.fa-times-circle
+            |  Cancelar
+        button.btn.btn-success(type="button", ng-disabled="accion.valida()", ng-click="accion.add()" ng-class="accion.pago.id > 0 ? 'btn-warning':'btn-success'")
+            i.fa.fa-floppy-o
+            |  Guardar

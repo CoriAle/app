@@ -1,0 +1,35 @@
+.modal-header
+
+  .modal-body
+    .form-group(style='font-size:large; font-weight:bold')
+      p
+        .col-sm-12(ng-if="!accion.estadoCaja")
+          .col-sm-6
+            span Detalle del cierre
+            br
+            span Ventas Efectivo: {{accion.ventas.efectivo | currency : 'Q '}}
+            br
+            span Ventas Tarjeta: {{accion.ventas.tarjeta | currency : 'Q '}}
+            br
+            span Cortesias: {{accion.ventas.cortesias | currency : 'Q '}}
+            br
+            span Total ventas: {{accion.ventas.totales | currency : 'Q '}}
+            br
+          .col-sm-6(style="text-align:right;")
+            span Total apertura: {{accion.apertura | currency : 'Q '}}
+            br
+            span(ng-class="'text-warning'") Total pagos: {{accion.ventas.pagos | currency : 'Q '}}
+            br
+            span(ng-class="accion.ventas.tdia < 0 ? 'text-danger':'text-success'") Total día: {{accion.ventas.tdia | currency: 'Q '}}
+            br
+            span Cierre: {{accion.total | currency : 'Q '}}
+            br
+            span(ng-class="accion.ventas.diferencia < 0 ? 'text-danger':'text-success'") Diferencia: {{accion.ventas.diferencia | currency: 'Q '}}
+        .col-sm-12(ng-if="accion.estadoCaja" style="text-align:right;")
+          span Total: {{accion.total | currency : 'Q '}}
+  modal-footer
+    .row
+      .col-sm-6(style="text-align:left;")
+        button.btn.bg-primary(type="button", ng-click="accion.cancel()")
+          i.fa.fa-times-circle
+          |  Cerrar

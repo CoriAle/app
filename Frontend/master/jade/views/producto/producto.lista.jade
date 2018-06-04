@@ -1,0 +1,121 @@
+h3 LISTADO DE PRODUCTOS
+.row(ng-controller="ProductoController as ctrl")
+    .col-sm-4.col-xs-12
+        .btn-group(uib-dropdown='', is-open="ctrl.open_menu")
+            button.btn.btn-success(type="button", uib-dropdown-toggle="", ng-disabled="disabled")
+                i.fa.fa-plus-circle
+                |  Nuevo Producto
+                span.caret
+            ul.dropdown-menu(uib-dropdown-menu="", role="menu", aria-labelledby="single-button")
+                li(role="menuitem")
+                    a(ui-sref="app.producto.nuevo.normal")
+                        strong Producto Normal
+                li(role='menuitem')
+                    a(ui-sref="app.producto.nuevo.combo")
+                        strong Combo Normal
+                li(role='menuitem')
+                    a(ui-sref="app.producto.nuevo.mixto")
+                        strong Combo Mixto
+    .col-sm-3.col-xs-12
+        button.btn.bg-green(type="button", ng-click='ctrl.openInventario()', title="Imprimir inventario")
+            i.fa.fa-print   Inventario
+    .col-sm-2.col-xs-12
+        h4.text-right Buscar Productos:
+    .col-sm-3.col-xs-12
+        form.form-inline.text-right(ng-submit="ctrl.search()", role="form")
+            .form-group
+                .input-group
+                    input.form-control(type="text", ng-model="ctrl.query", placeholder="Buscar")
+                    span.input-group-btn
+                        button.btn.btn-info(type="submit")
+                            strong
+                                i.fa.fa-search  Buscar
+    br
+    br
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de Productos
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th(width="20%") Nombre
+                            th(width="10%", style="text-align:center") Existencia
+                            th(width="15%", style="text-align:center") Existencia Minima
+                            th(width="20%", style="text-align:center") Tipo de Producto
+                            //- th(width="11%", style="text-align:center") Creado
+                            //- th(width="11%") Modificado
+                            th(width="10%", style="text-align:center") Es Combo
+                            th(width="10%", style="text-align:center") Combo mixto
+                            th(style="text-align:center") Acciones
+                    tbody
+                        tr(ng-repeat="item in ctrl.producto", ng-class="(item.existencia <= item.existencia_minima && item.es_combo == false) ? 'menor' : ''")
+                            td {{ item.nombre}}
+                            td(align="center") {{ item.existencia}}
+                            td(align="center") {{ item.existencia_minima}}
+                            td(align="center") {{ item.tipo_producto.nombre}}
+                            //- td(align="center") {{ item.creado | date:'dd-MM-yyyy'}}
+                            //- td(align="center") {{ item.modificado | date:'dd-MM-yyyy'}}
+                            th(style="text-align:center") {{ item.es_combo ? 'SI' : 'NO'}}
+                            th(style="text-align:center") {{ item.combo_mixto ? 'SI' : 'NO'}}
+                            td(align="center")
+                                .btn-group.btn-group-sm
+                                    //- button.btn.btn-info(type="button", ui-sref='app.producto.ver({id: item.id})', title="Ver")
+                                    //-     i.fa.fa-eye
+                                    button.btn.btn-warning(type="button", ui-sref="app.producto.editar({id: item.id})", title="Editar", ng-if="item.es_combo==false && item.combo_mixto==false")
+                                        i.fa.fa-pencil
+                                    button.btn.btn-warning(type="button", ui-sref="app.producto.editarcombo({id: item.id})", title="Editar", ng-if="item.es_combo==true && item.combo_mixto==false")
+                                        i.fa.fa-pencil
+                                    button.btn.btn-warning(type="button", ui-sref="app.producto.editarmixto({id: item.id})", title="Editar", ng-if="item.es_combo==true && item.combo_mixto==true")
+                                        i.fa.fa-pencil
+                                    button.btn.btn-danger(type="button",  ng-click='ctrl.removeProducto(item)', title="Eliminar")
+                                        i.fa.fa-ban
+            // END table-responsive
+            // END panel
+
+        uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")
+
+script(type="text/ng-template", id="impresionInventario.html")
+    .modal-header
+        h3.modal-title Impresión de Inventario
+        .modal-body
+        .row
+            .col-md-12(align="center")
+                uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="impr.pagingInfo.totalItems", items-per-page="impr.pagingInfo.itemsPerPage", ng-model="impr.pagingInfo.page", max-size="15", rotate="false",ng-change="impr.selectPage(impr.pagingInfo.page)", boundary-links="true")
+            .col-md-12(print-section)
+                form.form-validate.form-horizontal(name='impr.formAdd')
+                    .form-group
+                        label.col-sm-12.h4(align="center" style="text-align:center;") * Inventario de Productos - Prestige *
+                    .form-group
+                        label.col-sm-12 Fecha: {{ impr.hoy }}
+                    .form-group
+                        .col-sm-12
+                            .panel.panel-primary
+                                .panel-heading
+                                    strong Lista de Productos
+                                .table-responsive
+                                    table.table.table-striped.table-hover
+                                        thead
+                                            tr
+                                                th(width="65%", style="text-align:center") Nombre
+                                                th(width="35%", style="text-align:center") Existencia
+                                        tbody
+                                            tr(ng-repeat="item in impr.producto")
+                                                td {{ item[0] }}
+                                                td(align="center") {{ item[1] }}
+                                // END table-responsive
+                                // END panel
+                    .form-group
+                        label.col-sm-12(align="right" style="text-align:right;") Pagina: {{ impr.pagingInfo.page }}
+
+    .modal-footer
+        .row
+            .col-sm-6(style="text-align:left;")
+                button.btn.btn-default(type="button", ng-click="impr.cancel()")
+                    i.fa.fa-times-circle
+                    |  Cancelar
+            .col-sm-6(style="text-align:right;")
+                button.btn.btn-primary(type="button" print-btn)
+                    i.fa.fa-print
+                    |  Imprimir

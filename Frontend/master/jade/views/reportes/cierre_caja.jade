@@ -1,0 +1,43 @@
+h3 Reporte de Cajas
+.row(ng-controller="CierreCajasController as ctrl")
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Cierres de Caja
+            // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th(width="10%") Fecha Apertura
+                            th(width="10%") Fecha Cierre
+                            th(width="10%") Apertura
+                            th(width="10%") Cierre
+                            th(width="10%") Vendido
+                            th(width="10%") Diferencia
+                            th(width="10%") Costo Vendido
+                            th(width="10%") Caja
+                            th(width="10%") Usuario
+                            th(width="10%") Accion
+                    tbody
+                        tr(ng-repeat="item in ctrl.lista")
+                            td {{ item.creado | date:'dd/MM/yy hh:mm a' }}
+                            td {{ item.modificado | date:'dd/MM/yy hh:mm a' }}
+                            td {{ item.apertura | currency: 'Q ' }}
+                            td {{ item.cierre | currency: 'Q ' }}
+                            td {{ item.vendido | currency: 'Q ' }}
+                            td {{ item.diferencia | currency: 'Q ' }}
+                            td {{ item.costo_vendido | currency: 'Q ' }}
+                            td {{ item.caja.nombre }}
+                            td {{ item.usuario.username }}
+                            td
+                                button.btn.btn-info(type="button", ng-click='ctrl.datosCierre(item.id)', title="Ver datos del cierre")
+                                    i.fa.fa-barcode
+
+            // END table-responsive
+            // END panel
+
+    uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero",
+    last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage",
+    ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.loadData(ctrl.pagingInfo)",
+    boundary-links="true")

@@ -1,0 +1,48 @@
+(function() {
+    'use strict';
+
+    angular
+        .module('app.core', [
+            'ngRoute',
+            'ngAnimate',
+            'ngStorage',
+            'ngCookies',
+            'pascalprecht.translate',
+            'ui.bootstrap',
+            'ui.router',
+            'oc.lazyLoad',
+            'cfp.loadingBar',
+            'ngSanitize',
+            'ngResource',
+            'tmh.dynamicLocale',
+            'ui.utils',
+            'ngMessages',
+            'barcode',
+            'AngularPrint',
+            'angular-md5',
+            'app.tipoproducto',
+            'app.tipopersona',
+            'app.presentacion',
+            'app.producto',
+            'app.persona',
+            'app.movimiento',
+            'app.usuario',
+            'app.login',
+            'app.perfilusuario',
+            'app.venta',
+            'app.pago',
+            'app.caja',
+            'app.reporteventa',
+            'app.configuracion',
+            'app.pedidococina',
+            'app.baile',
+            'app.tipodepositoretiro',
+            'app.depositoretiro',
+            'app.formapago',
+            'app.cuenta',
+            'app.detallemovimiento',
+            // 'app.personacuenta',
+            // 'app.empresacuenta',
+            'app.productopresentacion'
+        ]);
+})();

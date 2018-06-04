@@ -1,0 +1,74 @@
+// START panel
+h3 Administración de Tipos de Producto
+.row(ng-controller="TipoProductoController as ctrl")
+  .col-sm-6.col-xs-12
+    button.btn.btn-success(type="button", ng-click="ctrl.showAdd(true)")
+      i.fa.fa-plus-circle
+      |  Nuevo Tipo de Producto
+  .col-sm-6.col-xs-12
+    form.form-inline.text-right(ng-submit="ctrl.load()", role="form")
+      .form-group
+        .input-group
+          input.form-control(type="text", ng-model="ctrl.query", placeholder="Buscar nombre...")
+          span.input-group-btn
+            button.btn.btn-info(type="submit")
+              strong
+                i.fa.fa-search  Buscar
+  br
+  br
+  .col-sm-12
+    form.form-horizontal(name="ctrl.form", ng-submit='ctrl.add()', ng-show="ctrl.show", autocomplete="off", novalidate="")
+      .panel.panel-success(ng-class="ctrl.tipoProducto.id != 0 ? 'panel-warning':''")
+        .panel-heading
+          strong Datos del Tipo de Producto
+        .panel-body
+          input(name="id", type="hidden", ng-model="ctrl.tipoProducto.id")
+          .form-group(ng-class="{ 'has-error' : ctrl.form.nombre.$invalid && ctrl.form.nombre.$dirty }")
+            label.control-label.col-sm-2 Nombre
+            .col-sm-4
+              input.form-control(name="nombre", type="text", ng-model="ctrl.tipoProducto.nombre", required, ng-minlength="2")
+              .text-danger(ng-messages="ctrl.form.nombre.$error", ng-show="ctrl.form.nombre.$dirty" role="alert")
+                div(ng-message="required") Nombre es obligatorio
+                div(ng-message="minlength") Nombre debe tener por lo menos 2 carácteres
+            label.control-label.col-sm-2 Mostrar en AppMovil
+            .col-sm-4
+              .checkbox.c-checkbox
+                label
+                    input(type='checkbox', ng-model='ctrl.tipoProducto.mostrar')
+                    span.fa.fa-check
+                    | Si
+
+        .panel-footer.text-right
+          .row
+            .col-sm-6.text-left
+              button.btn.btn-danger(type="button", ng-if='ctrl.tipoProducto.id != 0'  ng-click='ctrl.disable(ctrl.tipoProducto)', title="Eliminar")
+                i.fa.fa-trash-o  Eliminar este tipo de producto
+            .col-sm-6.text-right
+              button.btn.btn-default(type="button", ng-click="ctrl.showAdd(false)")
+                i.fa.fa-times  Cancelar
+              button.btn.btn-primary(type="submit", ng-disabled="ctrl.form.$invalid")
+                i.fa.fa-floppy-o  Guardar
+    .panel.panel-primary
+      .panel-heading
+        strong Lista de Tipos de Productos
+      // START table-responsive
+      .table-responsive
+        table.table.table-striped.table-hover
+          thead
+            tr
+              th(width="80%") Nombre
+              th Acciones
+          tbody
+            tr(ng-repeat="item in ctrl.lista")
+              td
+                | {{ item.nombre }}
+              td
+                .btn-group.btn-group-sm
+                  button.btn.btn-warning(type="button", ng-click="ctrl.edit(item)", title="Editar")
+                    i.fa.fa-pencil
+                  button.btn.btn-danger(type="button",  ng-click="ctrl.disable(item)", title="Eliminar")
+                    i.fa.fa-ban
+      // END table-responsive
+      // END panel
+
+    uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")

@@ -1,0 +1,116 @@
+.row(ng-controller="PedidoPagoController as ctrl")
+	.col-sm-12        
+		.panel.panel-primary
+			.panel-heading
+				strong Datos de Orden
+			.panel-body
+				.row.col-sm-8
+					.form-group.col-sm-6
+						label.control-label.col-sm-4 Nit
+						.col-sm-8
+							input.form-control(name="nit", type="text", value="{{ ctrl.pedido.persona.nit }}", readonly="")
+
+					.form-group.col-sm-6
+						label.control-label.col-sm-4 Mesa
+						.col-sm-8
+							input.form-control(name="mesa", type="text", value="{{ ctrl.pedido.mesa.nombre }}", readonly="")
+
+					.form-group.col-sm-6
+						label.control-label.col-sm-4 Cliente
+						.col-sm-8
+							input.form-control(name="cliente", type="text", readonly="", value="{{ ctrl.pedido.persona.nombre}}")          
+
+				.row.col-sm-4
+					h1 Total: {{ctrl.pedido.total | currency : 'Q '}}
+				.row.col-sm-12
+					.form-group.col-sm-12
+						.panel.panel-primary
+							.panel-heading
+								strong Detalle de Orden
+							.panel-body
+								.row
+								.table-responsive
+									table.table.table-striped.table-hover
+										thead
+											tr
+												th Producto
+												th Cantidad
+												th Precio
+												th Sub-total
+										tbody
+											tr(ng-repeat="item in ctrl.pedido.detalle")
+												td {{item.producto.nombre}}
+												td {{item.cantidad}}
+												td {{item.precio_venta | currency : 'Q '}}
+												td {{item.precio_venta*item.cantidad | currency : 'Q '}}
+
+			.panel-footer.text-right
+				button.btn.btn-success(ng-click="ctrl.openPagos()")
+					i.fa.fa-money
+					|  Realizar Pago
+				button.btn.btn-primary(ui-sref="app.caja.pendientes")
+					i.fa.fa-arrow-left
+					|  Volver
+
+script(type="text/ng-template", id="addPago.html")
+	.modal-header
+		h3.modal-title Agregar Pagos
+	.modal-body
+		.alert.alert-danger(ng-show='nuevo.errMsg') {{nuevo.errMsg}}
+		.alert.alert-warning(ng-show='nuevo.tipoMsg') {{nuevo.tipoMsg}}
+		.alert.alert-info(ng-show='nuevo.agregarMsg') {{nuevo.agregarMsg}}
+		.row
+			.col-md-12
+				form.form-validate.form-horizontal(name='nuevo.formAdd', ng-submit='nuevo.addPago()', novalidate='')
+					.form-group
+						.col-sm-10
+							h1 Total: {{nuevo.total | currency : 'Q '}}
+					.form-group
+						label.control-label.col-sm-2 Monto
+						.col-sm-8
+							input.form-control(placeholder='Monto', type='number', step='0.01', name="monto", ng-model="nuevo.pago.monto", required="", ng-min='0.01')
+							.text-danger(ng-messages='nuevo.formAdd.monto.$error', ng-show='nuevo.formAdd.monto.$invalid && !nuevo.formAdd.monto.$pristine')
+								div(ng-message='required') Campo requerido
+								div(ng-message='min') Debe ser mayor a 0
+					.form-group
+						label.control-label.col-sm-2 Forma de Pago
+						.col-sm-8
+							select.form-control(name="forma", ng-model="nuevo.pago.tipo", required="", ng-options="tipo.nombre for tipo in nuevo.tipos")
+								option(value='tipo') Seleccione una opcion
+							.text-danger(ng-messages='nuevo.formAdd.forma.$error', ng-show='nuevo.formAdd.forma.$invalid && !nuevo.formAdd.forma.$pristine')
+								div(ng-message='required') Campo requerido
+						.col-sm-2
+							button.btn.btn-primary(type="submit", ng-click="nuevo.addPago()", title="Agregar Pago", ng-disabled="nuevo.formAdd.$invalid")
+								i.fa.fa-plus-circle
+					.form-group(ng-if="nuevo.pago.tipo.id==4")
+						label.control-label.col-sm-2 Motivo
+						.col-sm-8
+							input.form-control(placeholder='Motivo de la cortesia', type='text', name="motivo", ng-model="nuevo.pago.motivo", required="")
+							.text-danger(ng-messages='nuevo.formAdd.motivo.$error', ng-show='nuevo.formAdd.motivo.$invalid && !nuevo.formAdd.motivo.$pristine')
+								div(ng-message='required') Campo requerido
+					.form-group.col-sm-12
+						table.table.table-bordered.table-hover.primary
+							tr(style='font-weight: bold')
+								td(style='width:20%') Forma de Pago
+								td(style='width:35%') Motivo
+								td(style='width:15%') Monto
+								td(style='width:10%') Acciones
+							tr(ng-repeat='item in nuevo.pagos')
+								td {{ item.tipo.nombre }}
+								td(ng-if="item.tipo.id==4") {{ item.motivo }}
+								td(ng-if="item.tipo.id!=4") {{  }}
+								td {{ item.monto | currency: 'Q '}}
+								td(style='white-space: nowrap')
+									.buttons
+										button.btn.btn-sm.btn-danger(type='button', ng-click='nuevo.remove(item)')
+											em.fa.fa-trash-o
+	.modal-footer
+		.row
+			.col-sm-6(style="text-align:left;")
+				button.btn.btn-default(type="button", ng-click="nuevo.cancel()")
+					i.fa.fa-times-circle
+					|  Cancelar
+			.col-sm-6(style="text-align:right;")
+				button.btn.btn-success(type="button", ng-disabled="nuevo.valida()", ng-click="nuevo.submit()")
+					i.fa.fa-floppy-o
+					|  Guardar

@@ -1,0 +1,93 @@
+<!-- START panel-->
+<h3>Administración de Pagos</h3>
+<div ng-controller="PagoModalController as ctrl" class="row">
+   <div class="col-sm-12 col-xs-12">
+      <div class="form-group">
+         <div class="row">
+            <div class="col-sm-4">
+               <label class="control-label">Fecha Inicial</label>
+            </div>
+            <div class="col-sm-4">
+               <label class="control-label">Fecha Final</label>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-sm-4">
+               <p class="input-group">
+                  <input type="text" name="date" required="" uib-datepicker-popup="{{ctrl.format}}" ng-model="ctrl.iniDate" is-open="ctrl.opened" uib-datepicker-options="ctrl.dateOptions" close-text="Cerrar" class="form-control" />
+                  <span class="input-group-btn">
+                     <button type="button" ng-click="ctrl.open($event)" class="btn btn-default">
+                        <em class="fa fa-calendar"></em>
+                     </button>
+                  </span>
+               </p>
+            </div>
+            <div class="col-sm-4">
+               <p class="input-group">
+                  <input type="text" name="date" required="" uib-datepicker-popup="{{ctrl.format}}" ng-model="ctrl.finDate" is-open="ctrl.openend" uib-datepicker-options="ctrl.finDate" close-text="Cerrar" class="form-control" />
+                  <span class="input-group-btn">
+                     <button type="button" ng-click="ctrl.openfin($event)" class="btn btn-default">
+                        <em class="fa fa-calendar"></em>
+                     </button>
+                  </span>
+               </p>
+            </div>
+            <div class="col-sm-2">
+               <span class="input-group-btn">
+                  <button type="button" ng-click="ctrl.filtro_pagos()" class="btn btn-info">
+                     <strong><i class="fa fa-search"></i>
+                     </strong>
+                  </button>
+               </span>
+            </div>
+            <div class="col-sm-2">
+               <button type="button" ng-click="ctrl.openPagos()" class="btn btn-success"><i class="fa fa-plus-circle"></i> Agregar pago</button>
+            </div>
+         </div>
+      </div>
+   </div>
+   <br/>
+   <br/>
+   <div class="col-sm-12">
+      <div class="panel panel-primary">
+         <div class="panel-heading">
+            <strong>Lista de gastos</strong>
+         </div>
+         <!-- START table-responsive-->
+         <div class="table-responsive">
+            <table class="table table-striped table-hover">
+               <thead>
+                  <tr>
+                     <th width="20%">Fecha</th>
+                     <th width="20%">Descripcion</th>
+                     <th width="15%">Responsable</th>
+                     <th width="15%">Pago a</th>
+                     <th width="15%">Tipo de Persona</th>
+                     <th width="15%">Monto</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="item in ctrl.lista">
+                     <td>{{ item.creado | date:'dd/MM/yy hh:mm a' }}</td>
+                     <td>{{ item.descripcion }}</td>
+                     <td>{{ item.usuario.username }}</td>
+                     <td>{{ item.cuenta_entrada.persona.nombre }}</td>
+                     <td>{{ item.cuenta_entrada.persona.tipo_persona.nombre }}</td>
+                     <td>{{ item.monto | currency:'Q ' }}</td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <!-- END table-responsive-->
+         <!-- END panel-->
+      </div>
+      <uib-pagination previous-text="Anterior" next-text="Siguiente" first-text="Primero" last-text="Ultimo" total-items="ctrl.pagingInfo.totalItems" items-per-page="ctrl.pagingInfo.itemsPerPage" ng-model="ctrl.pagingInfo.page" max-size="10" rotate="false"
+      ng-change="ctrl.selectPage(ctrl.pagingInfo.page)" boundary-links="true" class="pagination-sm"></uib-pagination>
+   </div>
+</div>
+<script type="text/ng-template" id="accionesPago.html" tabindex="-1" data-focus-on="input:first" class="modal hide fade">
+   <div class="modal-header"><h3 class="modal-title">Ingreso Pago</h3><div class="modal-body">	Detalle de Gasto</div><div class="row"><div class="col-md-12"><form name="accion.formAdd" ng-submit="accion.create()" novalidate="" class="form-validate form-horizontal"><div class="form-group"><label class="control-label col-sm-2">Motivo</label><div class="col-sm-9"><select name="motivo" ng-model="accion.motivoSelect" ng-options="item as item.nombre for item in accion.listaTipoegreso" value="{{accion.listaTipoegreso.id}}" class="input-md form-control"></select></div></div><div class="form-group"><label class="col-sm-2 control-label">Tipo Persona</label><div class="col-sm-4"><select name="tipopersona" ng-model="accion.tipopersonaSelect" ng-options="item.nombre for item in accion.listaTipopersona" class="input-md form-control"></select></div><label class="control-label col-sm-2">Monto</label><div class="col-sm-2"><input type="number" ng-model="accion.monto" placeholder="Monto" name="monto" required="" min="0.01" class="form-control"/></div></div><div class="form-group"><label class="control-label col-sm-2">Persona</label><div class="col-sm-4"><div class="input-group"><input name="persona" ng-model="accion.personaSelect" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="cuentas as cuentas.nombre for cuentas in accion.personacuenta($viewValue) | limitTo:7" typeahead-min-length="1" typeahead-loading="loadingTipo" typeahead-no-results="noResultsTipo" ng-show="accion.tipopersonaSelect" value="{{accion.personaSelect.cuenta.id}}" class="form-control"/><span ng-if="accion.tipopersonaSelect.nombre=='Proveedor'" class="input-group-btn"><button type="button" ng-click="accion.openPersona()" class="btn btn-primary"><small><em class="fa fa-plus icon-lg"></em></small></button></span></div><div ng-show="noResultsTipo" class="text-danger"><i class="fa fa-times">No se encontraron resultados y/o seleccione Tipo Persona</i></div><div ng-messages="accion.formAdd.persona.$error" ng-show="accion.formAdd.persona.$invalid &amp;&amp; !accion.formAdd.persona.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div><span auto-close="disabled" ng-show="loadingTipo" class="i fa fa-circle-o-notch fa-spin"></span></div></div><hr/><div class="form-group"><label class="col-sm-2 control-label">Cuenta</label><div class="col-sm-4"><div class="input-group"><input name="empresa" ng-model="accion.empresaSelect" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="cuenta as cuenta.nombre_empresa for cuenta in accion.empresacuenta($viewValue) | limitTo:7" typeahead-min-length="1" typeahead-loading="loadingEmpresa" typeahead-no-results="noResults" class="form-control"/></div><div ng-show="noResults" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i></div><div ng-messages="accion.formAdd.empresa.$error" ng-show="accion.formAdd.empresa.$invalid &amp;&amp; !accion.formAdd.empresa.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div><span auto-close="disabled" ng-show="loadingEmpresa" class="i fa fa-circle-o-notch fa-spin"></span></div></div><div class="form-group"><label class="col-sm-2 control-label">Descripcion</label><div class="col-sm-10"><textarea placeholder="Descripcion" name="descripcion" ng-minlength="2" ng-required="true" ng-model="accion.descripcion" class="form-control"></textarea></div></div></form></div></div></div><div ng-show="accion.errMsg" class="alert alert-danger">{{accion.errMsg}}		</div><div ng-show="accion.agregarMsg" class="alert alert-info">{{accion.agregarMsg}}</div><div class="modal-footer"><button type="button" ng-click="accion.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar		</button><button type="button" ng-disabled="accion.valida()" ng-click="accion.create()" ng-class="accion.empresaSelect.id &gt; 0 ? 'btn-success':'btn-warning'" class="btn btn-success"><i class="fa fa-floppy-o"></i> Guardar</button></div>
+</script>
+<script type="text/ng-template" id="addPersona.html" tabindex="-1" data-focus-on="input:first" class="modal hide fade">
+   <div class="modal-header"><h3 class="modal-title">Ingresar Persona</h3></div><div class="modal-body"><div ng-show="tipos.errMsg" class="alert alert-danger">{{tipos.errMsg}}</div><div class="row"><div class="col-md-12"><form name="tipos.formValidate" ng-submit="tipos.ok()" novalidate="" class="form-validate form-horizontal"><div class="form-group"><label class="col-sm-2 control-label">Nombre</label><div ng-class="{'has-error': tipos.formValidate.nombre.$invalid &amp;&amp; !tipos.formValidate.nombre.$pristine}" class="col-sm-4"><input id="nombre" placeholder="Nombre" type="text" name="nombre" ng-model="tipos.model.nombre" value="" required="" class="form-control"/><div ng-messages="tipos.formValidate.nombre.$error" ng-show="tipos.formValidate.nombre.$invalid &amp;&amp; !tipos.formValidate.nombre.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div><label class="col-sm-2 control-label">Tipo de Persona</label><div ng-class="{'has-error': tipos.formValidate.tipo_persona.$invalid &amp;&amp; !tipos.formValidate.tipo_persona.$pristine}" class="col-sm-4"><input disabled="disabled" name="tipo_persona" ng-required="true" type="text" ng-model="tipos.proveedor.nombre" class="form-control"/><div ng-messages="tipos.formValidate.tipo_persona.$error" ng-show="tipos.formValidate.tipo_persona.$dirty" role="alert" class="text-danger"><div ng-message="required">Tipo de Persona es obligatorio</div></div></div></div><div class="form-group"><label class="col-sm-2 control-label">Direccion</label><div ng-class="{'has-error': tipos.formValidate.direccion.$invalid &amp;&amp; !tipos.formValidate.direccion.$pristine}" class="col-sm-4"><input id="direccion" placeholder="Direccion" type="text" name="direccion" ng-model="tipos.model.direccion" value="" required="" class="form-control"/><div ng-messages="tipos.formValidate.direccion.$error" ng-show="tipos.formValidate.direccion.$invalid &amp;&amp; !tipos.formValidate.direccion.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="minlength">Direccion requerida</div></div></div><label class="col-sm-2 control-label">Telefono</label><div ng-class="{'has-error': tipos.formValidate.telefono.$invalid &amp;&amp; !tipos.formValidate.telefono.$pristine}" class="col-sm-4"><input id="telefono" placeholder="Telefono" type="text" name="telefono" ng-model="tipos.model.telefono" value="" required="" class="form-control"/><div ng-messages="tipos.formValidate.telefono.$error" ng-show="tipos.formValidate.telefono.$invalid &amp;&amp; !tipos.formValidate.telefono.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div></div><div class="form-group"><label class="col-sm-2 control-label">Nit</label><div ng-class="{'has-error': tipos.formValidate.nit.$invalid &amp;&amp; !tipos.formValidate.nit.$pristine}" class="col-sm-4"><input id="nit" placeholder="Nit" type="text" name="nit" ng-model="tipos.model.nit" value="" required="" ng-maxlength="10" class="form-control"/><div ng-messages="tipos.formValidate.nit.$error" ng-show="tipos.formValidate.nit.$invalid &amp;&amp; !tipos.formValidate.nit.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="maxlength">Nit es muy largo</div></div></div></div></form></div></div></div><div class="modal-footer"><button type="button" ng-disabled="tipos.formValidate.$invalid" ng-click="tipos.ok()" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button><button type="button" ng-click="tipos.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button></div>
+</script>

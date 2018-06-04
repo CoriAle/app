@@ -1,0 +1,233 @@
+<!-- START panel-->
+<div ng-controller="ProductoNormalController as nuevo" class="row">
+   <div class="col-sm-12">
+      <div class="panel panel-success">
+         <div class="panel-heading">
+            <strong>Nuevo Producto</strong>
+         </div>
+         <div class="panel-body">
+            <form ng-submit="nuevo.submit()" name="nuevo.formValidate" autocomplete="off" novalidate="" class="form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Nombre</label>
+                  <div class="col-sm-10">
+                     <input placeholder="Nombre" type="text" name="nombre" required="required" ng-model="nuevo.producto.nombre" class="form-control" />
+                     <div ng-messages="nuevo.formValidate.nombre.$error" ng-show="nuevo.formValidate.nombre.$invalid &amp;&amp; !nuevo.formValidate.nombre.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Tipo Producto</label>
+                  <div class="col-sm-4">
+                     <div class="input-group">
+                        <input name="tipos" ng-model="nuevo.producto.tipo_producto" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="t as t.nombre for t in nuevo.tipos($viewValue)" typeahead-min-length="1" typeahead-loading="loadingTipo"
+                        typeahead-no-results="noResultsTipo" class="form-control" />
+                        <span class="input-group-btn">
+                           <button type="button" ng-click="nuevo.openTipo()" title="Nuevo Tipo de Producto" class="btn btn-primary">
+                              <small>
+                                 <em class="fa fa-plus icon-lg"></em>
+                              </small>
+                           </button>
+                        </span>
+                     </div>
+                     <div ng-show="noResultsTipo" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                     </div>
+                     <div ng-messages="nuevo.formValidate.tipos.$error" ng-show="nuevo.formValidate.tipos.$invalid &amp;&amp; !nuevo.formValidate.tipos.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                     </div>
+                     <span auto-close="disabled" ng-show="loadingTipo" class="i fa fa-circle-o-notch fa-spin"></span>
+                  </div>
+                  <label class="col-sm-2 control-label">Precio Costo</label>
+                  <div class="col-sm-4">
+                     <input placeholder="Precio Costo" type="number" step="0.01" name="costo" required="" ng-model="nuevo.producto.precio_costo" ng-min="0.01" class="form-control" />
+                     <div ng-messages="nuevo.formValidate.costo.$error" ng-show="nuevo.formValidate.costo.$invalid &amp;&amp; !nuevo.formValidate.costo.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="min">Debe ser mayor a 0</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label ng-hide="nuevo.combo || nuevo.mixto" class="col-sm-2 control-label">Existencia Minima</label>
+                  <div ng-hide="nuevo.combo || nuevo.mixto" class="col-sm-4">
+                     <input placeholder="Existencia Minima" type="number" name="minima" ng-required="!nuevo.combo" ng-model="nuevo.producto.existencia_minima" ng-min="0" class="form-control" />
+                     <div ng-messages="nuevo.formValidate.minima.$error" ng-show="nuevo.formValidate.minima.$invalid &amp;&amp; !nuevo.formValidate.minima.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="min">No pueden ser numeros negativos</div>
+                     </div>
+                  </div>
+                  <label class="col-sm-2 control-label">Se descuenta</label>
+                  <div class="col-sm-1">
+                     <div class="checkbox c-checkbox">
+                        <label>
+                           <input type="checkbox" ng-model="nuevo.producto.se_descuenta" />
+                           <span class="fa fa-check"></span>Si</label>
+                     </div>
+                  </div>
+                  <label class="col-sm-2 control-label">Comestible</label>
+                  <div class="col-sm-1">
+                     <div class="checkbox c-checkbox">
+                        <label>
+                           <input type="checkbox" ng-model="nuevo.producto.comsetible" />
+                           <span class="fa fa-check"></span>Si</label>
+                     </div>
+                  </div>
+               </div>
+            </form>
+            <form name="nuevo.presentacionForm" ng-submit="nuevo.addPresentacion()" autocomplete="off" novalidate="" class="form-horizontal">
+               <div class="panel panel-primary">
+                  <div class="panel-heading">
+                     <strong>Agregar presentacion del producto</strong>
+                  </div>
+                  <div class="panel-body">
+                     <div class="row col-sm-12">
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label">Presentacion</label>
+                           <div class="col-sm-4">
+                              <div class="input-group">
+                                 <input name="presentacion" ng-model="nuevo.presentacion.presentacion" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="t as t.nombre for t in nuevo.presentaciones($viewValue)" typeahead-min-length="1"
+                                 typeahead-loading="loadingPresentacion" typeahead-no-results="noResultsPresentacion" class="form-control" />
+                                 <span class="input-group-btn">
+                                    <button type="button" ng-click="nuevo.openPresentacion()" title="Nueva Presentacion" class="btn btn-primary">
+                                       <small>
+                                          <em class="fa fa-plus icon-lg"></em>
+                                       </small>
+                                    </button>
+                                 </span>
+                              </div>
+                              <span auto-close="disabled" ng-show="loadingPresentacion" class="i fa fa-circle-o-notch fa-spin"></span>
+                              <div ng-show="noResultsPresentacion" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                              </div>
+                              <div ng-messages="nuevo.presentacionForm.presentacion.$error" ng-show="nuevo.presentacionForm.presentacion.$invalid &amp;&amp; !nuevo.presentacionForm.presentacion.$pristine" class="text-danger">
+                                 <div ng-message="required">Campo requerido</div>
+                              </div>
+                           </div>
+                           <label class="col-sm-2 control-label">Precio Venta</label>
+                           <div class="col-sm-4">
+                              <input placeholder="Precio Venta" type="number" step="0.01" name="venta" required="" ng-model="nuevo.presentacion.precio_venta" ng-min="0.01" class="form-control" />
+                              <div ng-messages="nuevo.presentacionForm.venta.$error" ng-show="nuevo.presentacionForm.venta.$invalid &amp;&amp; !nuevo.presentacionForm.venta.$pristine" class="text-danger">
+                                 <div ng-message="required">Campo requerido</div>
+                                 <div ng-message="min">Debe de ser mayor a 0</div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label">Cantidad de Fichas</label>
+                           <div class="col-sm-4">
+                              <input placeholder="Cantidad Fichas" type="number" name="cantidad_fichas" required="required" ng-model="nuevo.presentacion.cantidad_fichas" ng-min="0" class="form-control" />
+                              <div ng-messages="nuevo.presentacionForm.cantidad_fichas.$error" ng-show="nuevo.presentacionForm.cantidad_fichas.$invalid &amp;&amp; !nuevo.presentacionForm.cantidad_fichas.$pristine" class="text-danger">
+                                 <div ng-message="required">Campo requerido</div>
+                                 <div ng-message="min">No pueden ser numeros negativos</div>
+                              </div>
+                           </div>
+                           <label class="col-sm-2 control-label">Precio de Fichas</label>
+                           <div class="col-sm-4">
+                              <input placeholder="Precio de Fichas" type="number" step="0.01" name="precio_fichas" required="" ng-model="nuevo.presentacion.precio_fichas" ng-min="0" class="form-control" />
+                              <div ng-messages="nuevo.presentacionForm.precio_fichas.$error" ng-show="nuevo.presentacionForm.precio_fichas.$invalid &amp;&amp; !nuevo.presentacionForm.precio_fichas.$pristine" class="text-danger">
+                                 <div ng-message="required">Campo requerido</div>
+                                 <div ng-message="min">Debe de ser mayor a 0</div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label">Comisión Mesero</label>
+                           <div class="col-sm-4">
+                              <input placeholder="Comision Mesero" type="number" step="0.01" name="comision_mesero" required="" ng-model="nuevo.presentacion.comision_mesero" ng-min="0" class="form-control" />
+                              <div ng-messages="nuevo.presentacionForm.comision_mesero.$error" ng-show="nuevo.presentacionForm.comision_mesero.$invalid &amp;&amp; !nuevo.presentacionForm.comision_mesero.$pristine" class="text-danger">
+                                 <div ng-message="required">Campo requerido</div>
+                                 <div ng-message="min">Debe de ser mayor a 0</div>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label">Imprime Ticket</label>
+                           <div class="col-sm-2">
+                              <div class="checkbox c-checkbox">
+                                 <label>
+                                    <input type="checkbox" ng-model="nuevo.presentacion.se_imprime_ticket" />
+                                    <span class="fa fa-check"></span>Si</label>
+                              </div>
+                           </div>
+                           <label class="col-sm-2 control-label">Se Carga a empleada</label>
+                           <div class="col-sm-2">
+                              <div class="checkbox c-checkbox">
+                                 <label>
+                                    <input type="checkbox" ng-model="nuevo.presentacion.se_carga_a_empleada" />
+                                    <span class="fa fa-check"></span>Si</label>
+                              </div>
+                           </div>
+                           <label class="col-sm-2 control-label">Mostrar en AppMovil</label>
+                           <div class="col-sm-2">
+                              <div class="checkbox c-checkbox">
+                                 <label>
+                                    <input type="checkbox" ng-model="nuevo.presentacion.mostrar" />
+                                    <span class="fa fa-check"></span>Si</label>
+                              </div>
+                           </div>
+                        </div>
+                        <div class="form-group">
+                           <div class="col-sm-12">
+                              <button type="submit" ng-disabled="nuevo.presentacionForm.$invalid" style="float:right" class="btn btn-primary"><i class="fa fa-floppy-o"> Agregar</i>
+                              </button>
+                           </div>
+                        </div>
+                        <div class="panel panel-default">
+                           <div class="panel-body">
+                              <div class="panel-heading">
+                                 <strong>Presentaciones del producto</strong>
+                              </div>
+                              <div class="form-group">
+                                 <div class="col-sm-12">
+                                    <table class="table table-bordered table-hover primary">
+                                       <tr style="font-weight: bold">
+                                          <td style="width:15%">Presentación</td>
+                                          <td style="width:15%">Precio Venta</td>
+                                          <td style="width:15%">Fichas</td>
+                                          <td style="width:15%">Precio Fichas</td>
+                                          <td style="width:15%">Comisión Mesero</td>
+                                          <td style="width:15%">Mostrar Móvil</td>
+                                          <td style="width:10%">Imprime</td>
+                                          <td>Acciones</td>
+                                       </tr>
+                                       <tr ng-repeat="presentacion in nuevo.producto.productos_presentacion">
+                                          <td>{{ presentacion.presentacion.nombre }}</td>
+                                          <td>{{ presentacion.precio_venta | currency: 'Q '}}</td>
+                                          <td>{{ presentacion.cantidad_fichas }}</td>
+                                          <td>{{ presentacion.precio_fichas | currency: 'Q '}}</td>
+                                          <td>{{ presentacion.comision_mesero | currency: 'Q '}}</td>
+                                          <td ng-if="presentacion.mostrar">Si</td>
+                                          <td ng-if="!presentacion.mostrar">No</td>
+                                          <td ng-if="presentacion.se_imprime_ticket">Si</td>
+                                          <td ng-if="!presentacion.se_imprime_ticket">No</td>
+                                          <td style="white-space: nowrap">
+                                             <div class="buttons">
+                                                <button type="button" ng-click="nuevo.removePresentacion(presentacion)" class="btn btn-sm btn-danger">
+                                                   <em class="fa fa-trash-o"></em>
+                                                </button>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+         <div class="panel-footer text-right">
+            <button type="button" ui-sref="app.producto.lista" class="btn btn-default"><i class="fa fa-times"> Cancelar</i>
+            </button>
+            <button ng-disabled="nuevo.validacion()" type="submit" ng-click="nuevo.submit()" class="btn btn-success"><i class="fa fa-floppy-o"> Guardar</i>
+            </button>
+         </div>
+      </div>
+   </div>
+</div>
+<script type="text/ng-template" id="addTipo.html">
+   <div class="modal-header"><h3 class="modal-title">Ingresar Nueva Presentacion</h3></div><div class="modal-body"><div ng-show="tipos.errMsg" class="alert alert-danger">{{tipos.errMsg}}</div><div class="row"><div class="col-md-12"><form name="tipos.formValidate" ng-submit="tipos.ok()" novalidate="" class="form-validate form-horizontal"><div class="form-group"><label class="col-sm-2 control-label">Nombre</label><div class="col-sm-10"><input placeholder="Nombre" type="text" name="nombre" required="" ng-model="tipos.model.nombre" class="form-control"/><div ng-messages="tipos.formValidate.nombre.$error" ng-show="tipos.formValidate.nombre.$invalid &amp;&amp; !tipos.formValidate.nombre.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div></div></form></div></div></div><div class="modal-footer"><button type="button" ng-click="tipos.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button><button type="button" ng-disabled="tipos.formValidate.$invalid" ng-click="tipos.ok()" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button></div>
+</script>
+<script type="text/ng-template" id="addPresentacion.html">
+   <div class="modal-header"><h3 class="modal-title">Ingresar Nuevo Tipo de Producto</h3></div><div class="modal-body"><div ng-show="tipos.errMsg" class="alert alert-danger">{{tipos.errMsg}}</div><div class="row"><div class="col-md-12"><form name="tipos.formValidate" ng-submit="tipos.ok()" novalidate="" class="form-validate form-horizontal"><div class="form-group"><label class="col-sm-2 control-label">Nombre</label><div class="col-sm-10"><input placeholder="Nombre" type="text" name="nombre" required="" ng-model="tipos.model.nombre" class="form-control"/><div ng-messages="tipos.formValidate.nombre.$error" ng-show="tipos.formValidate.nombre.$invalid &amp;&amp; !tipos.formValidate.nombre.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div></div></form></div></div></div><div class="modal-footer"><button type="button" ng-click="tipos.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button><button type="button" ng-disabled="tipos.formValidate.$invalid" ng-click="tipos.ok()" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button></div>
+</script>

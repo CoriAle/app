@@ -1,0 +1,83 @@
+<!-- START panel-->
+<h3>Egreso</h3>
+<div ng-controller="RetiroController as ctrl" class="row">
+   <div class="col-sm-12">
+      <form name="ctrl.formRetiro" ng-submit="ctrl.create()" utocomplete="off" novalidate="" class="form-validate form-horizontal">
+         <div class="panel panel-success">
+            <div class="panel-heading">
+               <strong>Detalle de Gasto</strong>
+            </div>
+            <div class="panel-body">
+               <div ng-class="{ 'has-error' : ctrl.formRetiro.nombre.$invalid &amp;&amp; ctrl.formRetiro.nombre.$dirty }" class="form-group">
+                  <label class="control-label col-sm-2">Motivo</label>
+                  <div class="col-sm-9">
+                     <select name="motivo" ng-model="ctrl.motivoSelect" ng-options="item as item.nombre for item in ctrl.listaTipoegreso" value="{{ctrl.listaTipoegreso.id}}" class="input-md form-control"></select>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Tipo Persona</label>
+                  <div class="col-sm-4">
+                     <select name="tipopersona" ng-model="ctrl.tipopersonaSelect" ng-options="item.nombre for item in ctrl.listaTipopersona" class="input-md form-control"></select>
+                  </div>
+                  <label class="control-label col-sm-2">Monto</label>
+                  <div class="col-sm-2">
+                     <input type="number" ng-model="ctrl.monto" placeholder="Monto" name="monto" required="" min="0.01" class="form-control" />
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="control-label col-sm-2">Persona</label>
+                  <div class="col-sm-4">
+                     <div class="input-group">
+                        <input name="persona" ng-model="ctrl.personaSelect" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="cuentas as cuentas.nombre for cuentas in ctrl.personacuenta($viewValue) | limitTo:7" typeahead-min-length="1"
+                        typeahead-loading="loadingTipo" typeahead-no-results="noResultsTipo" ,="," ng-show="ctrl.tipopersonaSelect" class="form-control" />
+                     </div>
+                     <div ng-show="noResultsTipo" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                     </div>
+                     <div ng-messages="ctrl.formRetiro.persona.$error" ng-show="ctrl.formRetiro.persona.$invalid &amp;&amp; !ctrl.formRetiro.persona.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                     </div>
+                     <span auto-close="disabled" ng-show="loadingTipo" class="i fa fa-circle-o-notch fa-spin"></span>
+                  </div>
+               </div>
+               <hr/>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Cuenta</label>
+                  <div class="col-sm-4">
+                     <div class="input-group">
+                        <input name="empresa" ng-model="ctrl.empresaSelect" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="cuenta as cuenta.nombre_empresa for cuenta in ctrl.empresacuenta($viewValue) | limitTo:7" typeahead-min-length="1"
+                        typeahead-loading="loadingEmpresa" typeahead-no-results="noResults" class="form-control" />
+                     </div>
+                     <div ng-show="noResults" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                     </div>
+                     <div ng-messages="ctrl.formRetiro.empresa.$error" ng-show="ctrl.formRetiro.empresa.$invalid &amp;&amp; !ctrl.formRetiro.empresa.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                     </div>
+                     <span auto-close="disabled" ng-show="loadingEmpresa" class="i fa fa-circle-o-notch fa-spin"></span>
+                  </div>
+                  <label class="col-sm-2 control-label">Forma Pago</label>
+                  <div class="col-sm-4">
+                     <select name="formapago" ng-model="ctrl.tipopagoSelect" ng-options="item as item.tipo for item in ctrl.listaFormaPago" value="{{ctrl.listaFormaPago.id}}" class="input-md form-control"></select>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Descripcion</label>
+                  <div class="col-sm-10">
+                     <textarea placeholder="Descripcion" name="descripcion" ng-minlength="2" ng-required="true" ng-model="ctrl.descripcion" class="form-control"></textarea>
+                  </div>
+               </div>
+            </div>
+            <div class="panel-footer text-right">
+               <div class="row">
+                  <div class="col-sm-6 text-left"></div>
+                  <div class="col-sm-6 text-right">
+                     <button type="button" ng-click="ctrl.close()" class="btn btn-default"><i class="fa fa-times-circle"> Cancelar</i>
+                     </button>
+                     <button type="submit" ng-disabled="ctrl.form.$invalid" class="btn btn-primary"><i class="fa fa-floppy-o"> Guardar</i>
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>

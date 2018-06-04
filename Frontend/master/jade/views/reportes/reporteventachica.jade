@@ -1,0 +1,80 @@
+// START panel
+h3 Reporte de Ventas por Chica
+.row(ng-controller="ReporteVentaChicaController as ctrl")
+	.col-sm-12.col-xs-12      
+		.form-group
+			.row
+				.col-sm-3
+					label.control-label Fecha Inicial
+				.col-sm-3
+					label.control-label Fecha Final
+			.row
+				.col-sm-3          
+					p.input-group
+						input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.iniDate', is-open='ctrl.opened', uib-datepicker-options='ctrl.dateOptions', close-text='Cerrar')
+						span.input-group-btn
+							button.btn.btn-default(type='button', ng-click='ctrl.open($event)')
+								em.fa.fa-calendar
+				.col-sm-3          
+					p.input-group
+						input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.finDate', is-open='ctrl.openend', uib-datepicker-options='ctrl.finDate', close-text='Cerrar')
+						span.input-group-btn
+							button.btn.btn-default(type='button', ng-click='ctrl.openfin($event)')
+								em.fa.fa-calendar
+					
+		.form-group
+			label.col-sm-2.control-label Reporte de:
+			.col-sm-3
+				.input-group
+						input.form-control(name='persona', ng-model='ctrl.personaNombre', type="text", placeholder="Buscar por Nombre...", 
+						uib-typeahead="cuentas as cuentas.nombre for cuentas in ctrl.personacuenta($viewValue) | limitTo:7", typeahead-min-length="1", 
+						typeahead-loading="loadingTipo", typeahead-no-results="noResultsTipo")
+				
+				.text-danger(ng-show="noResultsTipo")
+						i.fa.fa-times No se encontró chica
+				.text-danger(ng-messages='ctrl.formRetiro.persona.$error', ng-show='ctrl.formRetiro.persona.$invalid && !ctrl.formRetiro.persona.$pristine')
+						div(ng-message='required') Campo requerido
+				span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingTipo")
+					
+			.col-sm-3
+
+				span.input-group-btn
+					button.btn.btn-info(type="button" ng-click="ctrl.filtro_reporte()")
+						strong
+							i.fa.fa-search
+		br
+		br
+	.col-sm-12
+		.panel.panel-primary
+			.panel-heading
+				strong Detalle de Ventas
+			// START table-responsive
+			.table-responsive
+				table.table.table-striped.table-hover
+					thead
+						tr
+							th(width="15%") Fecha
+							th(width="5%") No.
+							th(width="11%") Tipo Documento
+							th(width="10%") Responsable	
+							th(width="29%") Observaciones
+							th(width="10%") Transaccion
+							th(width="10%") Anulado
+							th(width="10%") Valor
+					tbody
+						tr(ng-repeat="item in ctrl.lista")
+							td {{ item.modificado | date:'dd/MM/yy hh:mm a' }}
+							td {{ item.id }}
+							td {{ ctrl.lista.tipo_doc }}
+							td {{ item.transacciones[0].usuario.username }}
+							td {{ item.motivo }}
+							td(ng-if="item.transacciones[0].tipo_transaccion == 4") Envio a caja
+							td(ng-if="item.transacciones[0].tipo_transaccion == 3") Cobrado
+							td(ng-if="item.anulado") Si
+							td(ng-if="!item.anulado") No
+							td {{ item.total | currency: 'Q ' }}
+										
+			// END table-responsive
+			// END panel
+
+		uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")

@@ -1,0 +1,37 @@
+<div ng-controller="LoginController as login" class="block-center mt-xl wd-xl">
+   <!-- START panel-->
+   <div class="panel panel-dark panel-flat">
+      <div class="panel-heading text-center">
+         <a href="#">
+            <img src="app/img/logo.png" alt="Image" class="block-center img-rounded" />
+         </a>
+      </div>
+      <div class="panel-body">
+         <p class="text-center pv">Inicia sesión para Ingresar</p>
+         <form role="form" ng-submit="login.login()" name="login.loginForm" novalidate="" class="form-validate mb-lg">
+            <div class="form-group has-feedback">
+               <input id="exampleInputEmail1" type="text" name="username" placeholder="Ingrese su Usuario" autocomplete="off" ng-model="login.account.username" required="" class="form-control" />
+               <span class="fa fa-user form-control-feedback text-muted"></span>
+               <span ng-show="login.loginForm.username.$dirty &amp;&amp; login.loginForm.username.$error.required" class="text-danger">Campo Requerido</span>
+            </div>
+            <div class="form-group has-feedback">
+               <input id="exampleInputPassword1" type="password" name="account_password" placeholder="Password" ng-model="login.account.password" required="" class="form-control" />
+               <span class="fa fa-lock form-control-feedback text-muted"></span>
+               <span ng-show="login.loginForm.account_password.$dirty &amp;&amp; login.loginForm.account_password.$error.required" class="text-danger">Campo Requerido</span>
+            </div>
+            <div class="clearfix">
+               <div class="pull-right"></div>
+            </div>
+            <button type="submit" class="btn btn-block btn-primary mt-lg">Login</button>
+         </form>
+         <div ng-show="login.authMsg" class="alert alert-danger text-center">{{login.authMsg}}</div>
+      </div>
+   </div>
+   <!-- END panel-->
+   <div class="p-lg text-center">
+      <span>&copy;</span>
+      <span ng-bind="app.year"></span>
+      <span>-</span>
+      <span ng-bind="app.name"></span>
+   </div>
+</div>

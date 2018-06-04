@@ -1,0 +1,127 @@
+h3 Reporte de Bailes
+.row(ng-controller="ReporteBailesController as ctrl")
+    .col-sm-12.col-xs-12
+        .form-group
+            .row
+                .col-sm-3
+                    label.control-label Fecha Hora Inicial
+                .col-sm-3
+                    label.control-label Fecha Hora Final
+                .col-sm-3
+                    label.control-label Nombre de Persona
+                        span
+                            small (En blanco para todos)
+            .row
+                .col-sm-3
+                    p.input-group
+                        input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.iniDate', is-open='ctrl.opened', uib-datepicker-options='ctrl.dateOptions', close-text='Cerrar')
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='ctrl.open($event)')
+                                em.fa.fa-calendar
+
+                    //table.uib-timepicker.ng-isolate-scope.ng-not-empty.ng-valid.ng-valid-time.ng-dirty.ng-valid-parse.ng-touched
+                    //    tbody
+                    //        tr.text-center
+                    //            td.uib-increment.hours
+                    //                a.btn.btn-link(ng-click='ctrl.incrementHours()', tabindex='0')
+                    //                    span.glyphicon.glyphicon-chevron-up
+                    //            td  
+                    //            td.uib-increment.minutes
+                    //                a.btn.btn-link(ng-click='ctrl.incrementMinutes()', tabindex='0')
+                    //                    span.glyphicon.glyphicon-chevron-up
+                    //            td.ng-hide
+                    //        tr
+                    //            td.form-group.uib-time.hours
+                    //                input.form-control.text-center.ng-pristine.ng-valid.ng-not-empty.ng-valid-maxlength.ng-touched(style='width: 50px;', type='text', placeholder='HH', ng-model='ctrl.hoursini', maxlength='2', tabindex='0')
+                    //            td.uib-separator :
+                    //            td.form-group.uib-time.minutes
+                    //                input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='width:50px;', type='text', placeholder='MM', ng-model='ctrl.minutesini', maxlength='2', tabindex='0')
+                    //            td.uib-separator &nbsp;
+                    //            td.form-group.uib-time.minutes(style="cursor: pointer;")
+                    //                input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='cursor: pointer; width:60px;', type='text', ng-model='ctrl.meridianos', maxlength='2', tabindex='0', ng-click='ctrl.toggleMeridian()', readonly)
+                    //        tr.text-center
+                    //            td.uib-decrement.hours
+                    //                a.btn.btn-link(ng-click='ctrl.decrementHours()', tabindex='0')
+                    //                    span.glyphicon.glyphicon-chevron-down
+                    //            td  
+                    //            td.uib-decrement.minutes
+                    //                a.btn.btn-link(ng-click='ctrl.decrementMinutes()', tabindex='0')
+                    //                    span.glyphicon.glyphicon-chevron-down
+                    //            td.ng-hide
+
+                .col-sm-3
+                    p.input-group
+                        input.form-control(type='text', name="date", min-date="ctrl.iniDate", max-date="ctrl.hoy", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.finDate', is-open='ctrl.openend', uib-datepicker-options='ctrl.finDate', close-text='Cerrar')
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='ctrl.openfin($event)')
+                                em.fa.fa-calendar
+
+                    //table.uib-timepicker.ng-isolate-scope.ng-not-empty.ng-valid.ng-valid-time.ng-dirty.ng-valid-parse.ng-touched
+                    //    tbody
+                    //        tr.text-center
+                    //            td.uib-increment.hours
+                    //                a.btn.btn-link(ng-click='ctrl.incrementHoursF()', tabindex='0')
+                    //                    span.glyphicon.glyphicon-chevron-up
+                    //            td  
+                    //            td.uib-increment.minutes
+                    //                a.btn.btn-link(ng-click='ctrl.incrementMinutesF()', tabindex='0')
+                    //                    span.glyphicon.glyphicon-chevron-up
+                    //            td.ng-hide
+                    //        tr
+                    //            td.form-group.uib-time.hours
+                    //                input.form-control.text-center.ng-pristine.ng-valid.ng-not-empty.ng-valid-maxlength.ng-touched(style='width: 50px;', type='text', placeholder='HH', ng-model='ctrl.hoursfin', maxlength='2', tabindex='0')
+                    //            td.uib-separator :
+                    //            td.form-group.uib-time.minutes
+                    //                input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='width:50px;', type='text', placeholder='MM', ng-model='ctrl.minutesfin', maxlength='2', tabindex='0')
+                    //            td.uib-separator &nbsp;
+                    //                td.form-group.uib-time.minutes
+                    //                    input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='cursor: pointer; width:60px;', type='text', ng-model='ctrl.meridiano', maxlength='2', tabindex='0', ng-click='ctrl.toggleMeridianF()', readonly)
+                    //        tr.text-center
+                    //            td.uib-decrement.hours
+                    //                a.btn.btn-link(ng-click='ctrl.decrementHoursF()', tabindex='0')
+                    //                    span.glyphicon.glyphicon-chevron-down
+                    //            td  
+                    //            td.uib-decrement.minutes
+                    //                a.btn.btn-link(ng-click='ctrl.decrementMinutesF()', tabindex='0')
+                    //                    span.glyphicon.glyphicon-chevron-down
+                    //            td.ng-hide
+                .col-sm-3
+                    input.form-control(type='text' ng-model='ctrl.nombre')
+                .col-sm-3
+                    button.btn.btn-info(type="button" ng-click="ctrl.filtro_pagos()")
+                        strong
+                            i.fa.fa-search
+
+    br
+    hr
+    br
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de Empleados
+            // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th(width="13%") Fecha del Baile
+                            th(width="10%") Señorita
+                            th(width="10%") Anulado
+                    tbody
+                        tr(ng-repeat="item in ctrl.items")
+                            td {{ item.creado | date:'dd/MM/yy hh:mm a' }}
+                            td {{ item.persona.nombre }}
+                            td {{ item.anulado ? 'SI' : 'NO' }}
+
+            // END table-responsive
+            // END panel
+
+            // Pagination - Panel Footer
+        .panel-footer
+            .row
+                .col-sm-7
+                    uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente",
+                    first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems",
+                    items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page",
+                    max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)",
+                    boundary-links="true")

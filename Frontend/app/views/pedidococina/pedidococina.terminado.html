@@ -1,0 +1,86 @@
+<!-- START panel-->
+<h4>Pedidos Servidos</h4>
+<div ng-controller="PedidoCocinaServicoController as ctrl" class="row">
+   <div class="col-sm-12 col-xs-12">
+      <div class="form-group">
+         <div class="row">
+            <div class="col-sm-4">
+               <label class="control-label">Fecha Inicial</label>
+            </div>
+            <div class="col-sm-4">
+               <label class="control-label">Fecha Final</label>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-sm-4">
+               <p class="input-group">
+                  <input uib-datepicker-popup="dd/MM/yyyy" name="desde" required="required" type="text" ng-model="ctrl.busqueda.desde" is-open="ctrl.desdeOpened" close-text="Cerrar" clear-text="Limpiar" current-text="Hoy" class="form-control" />
+                  <span class="input-group-btn">
+                     <button type="button" ng-click="ctrl.desdeDP($event)" class="btn btn-default">
+                        <em class="fa fa-calendar"></em>
+                     </button>
+                  </span>
+               </p>
+               <div ng-messages="ctrl.searchForm.desde.$error" ng-show="ctrl.searchForm.desde.$dirty" role="alert" class="text-danger">
+                  <div ng-message="date">Desde debe ser una fecha</div>
+                  <div ng-message="required">Desde es obligatorio</div>
+               </div>
+            </div>
+            <div class="col-sm-4">
+               <p class="input-group">
+                  <input uib-datepicker-popup="dd/MM/yyyy" name="hasta" required="required" type="text" ng-model="ctrl.busqueda.hasta" is-open="ctrl.hastaOpened" close-text="Cerrar" clear-text="Limpiar" current-text="Hoy" class="form-control" />
+                  <span class="input-group-btn">
+                     <button type="button" ng-click="ctrl.hastaDP($event)" class="btn btn-default">
+                        <em class="fa fa-calendar"></em>
+                     </button>
+                  </span>
+               </p>
+               <div ng-messages="ctrl.searchForm.hasta.$error" ng-show="ctrl.searchForm.hasta.$dirty" role="alert" class="text-danger">
+                  <div ng-message="date">Hasta debe ser una fecha</div>
+                  <div ng-message="required">Hasta es obligatorio</div>
+               </div>
+            </div>
+            <div class="col-sm-2">
+               <span class="input-group-btn">
+                  <button type="button" ng-click="ctrl.load()" class="btn btn-info">
+                     <strong><i class="fa fa-search"></i>
+                     </strong>
+                  </button>
+               </span>
+            </div>
+         </div>
+      </div>
+   </div>
+   <br/>
+   <br/>
+   <div class="col-sm-12">
+      <div class="panel panel-primary">
+         <div class="panel-heading">
+            <strong>Lista de gastos</strong>
+         </div>
+         <!-- START table-responsive-->
+         <div class="table-responsive">
+            <table class="table table-striped table-hover">
+               <thead>
+                  <tr>
+                     <th width="20%">Fecha y Hora</th>
+                     <th width="50%">Producto</th>
+                     <th width="15%">Mesa</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="item in ctrl.lista">
+                     <td>{{ item.creado | date:'dd/MM/yyyy' }}
+                        <strong>{{ item.creado | date:'HH:mm:ss'}}</strong>
+                     </td>
+                     <td>{{ item.producto.nombre }}</td>
+                     <td>{{ item.movimiento.mesa.id }}</td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+      </div>
+      <uib-pagination previous-text="Anterior" next-text="Siguiente" first-text="Primero" last-text="Ultimo" total-items="ctrl.pagingInfo.totalItems" items-per-page="ctrl.pagingInfo.itemsPerPage" ng-model="ctrl.pagingInfo.page" max-size="10" rotate="false"
+      ng-change="ctrl.selectPage(ctrl.pagingInfo.page)" boundary-links="true" class="pagination-sm"></uib-pagination>
+   </div>
+</div>

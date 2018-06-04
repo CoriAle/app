@@ -1,0 +1,36 @@
+// START panel
+//- script
+//-     $("#formver :input").attr("disabled", true);
+.row
+.modal-header
+    h3.modal-title(style="text-align:center;") Autorización
+    .modal-body
+    .row
+        .col-sm-12(ng-controller="AutorizacionController as ctrl")
+            form.form-validate(role='form', ng-submit="ctrl.login()", name='ctrl.loginForm', novalidate='').mb-lg
+                .row
+                    .col-sm-12
+                        .form-group.has-feedback
+                            input#exampleInputEmail1.form-control(type='text', name="username" placeholder='Ingrese su Usuario', autocomplete="off", ng-model="ctrl.account.username", required='')
+                            span.fa.fa-user.form-control-feedback.text-muted
+                            span.text-danger(ng-show="ctrl.loginForm.username.$dirty && ctrl.loginForm.username.$error.required") Campo Requerido
+                .row
+                    .col-sm-12
+                        .form-group.has-feedback
+                            input#exampleInputPassword1.form-control(type='password', name="account_password" placeholder='Password', ng-model="ctrl.account.password", required='')
+                            span.fa.fa-lock.form-control-feedback.text-muted
+                            span.text-danger(ng-show="ctrl.loginForm.account_password.$dirty && ctrl.loginForm.account_password.$error.required") Campo Requerido
+
+                .clearfix
+                    .pull-right
+
+                .row
+                    .col-sm-12
+                        button.btn.btn-block.btn-primary.mt-lg(type='submit') Login
+                .row
+                    .col-sm-12
+                        button.btn.btn-block.btn-default.mt-lg(type='button', ng-click='ctrl.cancelogin()') Salir
+
+            .row
+                .col-sm-12
+                    .alert.alert-danger.text-center(ng-show='ctrl.authMsg') {{ctrl.authMsg}}

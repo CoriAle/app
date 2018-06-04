@@ -1,0 +1,192 @@
+// START panel
+h3 Administración de Pagos
+.row(ng-controller="PagoModalController as ctrl")
+    .col-sm-12.col-xs-12      
+        .form-group
+            .row
+                .col-sm-4
+                    label.control-label Fecha Inicial
+                .col-sm-4
+                    label.control-label Fecha Final
+            .row
+                .col-sm-4          
+                    p.input-group
+                        input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.iniDate', is-open='ctrl.opened', uib-datepicker-options='ctrl.dateOptions', close-text='Cerrar')
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='ctrl.open($event)')
+                                em.fa.fa-calendar
+                .col-sm-4          
+                    p.input-group
+                        input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.finDate', is-open='ctrl.openend', uib-datepicker-options='ctrl.finDate', close-text='Cerrar')
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='ctrl.openfin($event)')
+                                em.fa.fa-calendar
+                .col-sm-2
+                    span.input-group-btn
+                        button.btn.btn-info(type="button" ng-click="ctrl.filtro_pagos()")
+                            strong
+                                i.fa.fa-search
+                .col-sm-2
+                    button.btn.btn-success(type="button", ng-click="ctrl.openPagos()")
+                        i.fa.fa-plus-circle
+                        |  Agregar pago
+    br
+    br
+    .col-sm-12    
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de gastos
+            // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th(width="20%") Fecha
+                            th(width="20%") Descripcion
+                            th(width="15%") Responsable
+                            th(width="15%") Pago a
+                            th(width="15%") Tipo de Persona
+                            th(width="15%") Monto
+                    tbody
+                        tr(ng-repeat="item in ctrl.lista")
+                            td {{ item.creado | date:'dd/MM/yy hh:mm a' }}
+                            td {{ item.descripcion }}
+                            td {{ item.usuario.username }}
+                            td {{ item.cuenta_entrada.persona.nombre }}
+                            td {{ item.cuenta_entrada.persona.tipo_persona.nombre }}
+                            td {{ item.monto | currency:'Q ' }}
+            // END table-responsive
+            // END panel
+
+        uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")
+
+script(type="text/ng-template", id="accionesPago.html", class="modal hide fade", tabindex="-1", data-focus-on="input:first")
+    .modal-header
+        h3.modal-title Ingreso Pago
+        .modal-body	Detalle de Gasto
+        .row
+            .col-md-12
+                form.form-validate.form-horizontal(name='accion.formAdd', ng-submit='accion.create()', novalidate='')
+                    .form-group
+                        label.control-label.col-sm-2 Motivo
+                        .col-sm-9
+                            //- Lista Motivos de Egreso
+                            select.input-md(name='motivo', ng-model='accion.motivoSelect', 
+                            ng-options='item as item.nombre for item in accion.listaTipoegreso', value="{{accion.listaTipoegreso.id}}", class="form-control")
+
+                    .form-group
+                        label.col-sm-2.control-label Tipo Persona
+                        .col-sm-4
+                            //- Lista Tipos de Personas
+                            select.input-md(name='tipopersona', ng-model='accion.tipopersonaSelect', 
+                            ng-options='item.nombre for item in accion.listaTipopersona', class="form-control")
+                        label.control-label.col-sm-2 Monto
+                        .col-sm-2
+                            //- Monto
+                            input.form-control(type="number", ng-model="accion.monto" placeholder="Monto", name="monto", required="", min="0.01")
+                                
+                    .form-group
+                        label.control-label.col-sm-2 Persona
+                        .col-sm-4
+                            //- Lista de Personas con Cuenta
+                            .input-group
+                                input.form-control(name='persona', ng-model='accion.personaSelect', ng-required="true", type="text", placeholder="Buscar por Nombre...", 
+                                uib-typeahead="cuentas as cuentas.nombre for cuentas in accion.personacuenta($viewValue) | limitTo:7", 
+                                typeahead-min-length="1", typeahead-loading="loadingTipo", typeahead-no-results="noResultsTipo", ng-show="accion.tipopersonaSelect",
+                                value="{{accion.personaSelect.cuenta.id}}")
+                                span.input-group-btn(ng-if="accion.tipopersonaSelect.nombre=='Proveedor'")
+                                    button.btn.btn-primary(type="button", ng-click="accion.openPersona()")
+                                        small: em.fa.fa-plus.icon-lg
+                            
+                            .text-danger(ng-show="noResultsTipo")
+                                i.fa.fa-times No se encontraron resultados y/o seleccione Tipo Persona
+                            .text-danger(ng-messages='accion.formAdd.persona.$error', ng-show='accion.formAdd.persona.$invalid && !accion.formAdd.persona.$pristine')
+                                div(ng-message='required') Campo requerido
+                            span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingTipo")
+                        //- label.col-sm-2.control-label Semanal
+                        //- .col-sm-2
+                        //-     .checkbox.c-checkbox
+                        //-         label
+                        //-             input(type='checkbox', ng-model='accion.semanal')
+                        //-             span.fa.fa-check
+                        //-             | Si
+
+                    hr
+                    .form-group
+                        label.col-sm-2.control-label Cuenta
+                        .col-sm-4
+                            //- Lista de Empresas con cuenta
+                            .input-group
+                                input.form-control(name='empresa', ng-model='accion.empresaSelect', ng-required="true", type="text", placeholder="Buscar por Nombre...", 
+                                uib-typeahead="cuenta as cuenta.nombre_empresa for cuenta in accion.empresacuenta($viewValue) | limitTo:7", typeahead-min-length="1", typeahead-loading="loadingEmpresa", typeahead-no-results="noResults")
+                            
+                            .text-danger(ng-show="noResults")
+                                i.fa.fa-times No se encontraron resultados
+                            .text-danger(ng-messages='accion.formAdd.empresa.$error', ng-show='accion.formAdd.empresa.$invalid && !accion.formAdd.empresa.$pristine')
+                                div(ng-message='required') Campo requerido
+                            span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingEmpresa")
+                    
+                    .form-group
+                        label.col-sm-2.control-label Descripcion
+                        .col-sm-10
+                            textarea.form-control(placeholder="Descripcion", name="descripcion", ng-minlength='2', ng-required="true", ng-model="accion.descripcion")
+
+
+    .alert.alert-danger(ng-show='accion.errMsg') {{accion.errMsg}}		
+    .alert.alert-info(ng-show='accion.agregarMsg') {{accion.agregarMsg}}
+    .modal-footer
+        button.btn.btn-default(type="button", ng-click="accion.cancel()")
+            i.fa.fa-times-circle
+            |  Cancelar		
+        button.btn.btn-success(type="button", ng-disabled="accion.valida()", ng-click="accion.create()" ng-class="accion.empresaSelect.id > 0 ? 'btn-success':'btn-warning'")
+            i.fa.fa-floppy-o
+            |  Guardar
+
+script(type="text/ng-template", id="addPersona.html", class="modal hide fade", tabindex="-1", data-focus-on="input:first")
+    .modal-header
+        h3.modal-title Ingresar Persona
+    .modal-body
+        .alert.alert-danger(ng-show='tipos.errMsg') {{tipos.errMsg}}
+        .row
+            .col-md-12
+                form.form-validate.form-horizontal(name='tipos.formValidate', ng-submit='tipos.ok()', novalidate='')
+                    .form-group
+                        label.col-sm-2.control-label Nombre
+                        .col-sm-4(ng-class="{'has-error': tipos.formValidate.nombre.$invalid && !tipos.formValidate.nombre.$pristine}")
+                            input.form-control(id='nombre',placeholder='Nombre', type='text', name='nombre', ng-model='tipos.model.nombre', value='', required='')
+                            .text-danger(ng-messages='tipos.formValidate.nombre.$error', ng-show='tipos.formValidate.nombre.$invalid && !tipos.formValidate.nombre.$pristine')
+                                div(ng-message='required') Campo requerido
+                        label.col-sm-2.control-label Tipo de Persona
+                        .col-sm-4(ng-class="{'has-error': tipos.formValidate.tipo_persona.$invalid && !tipos.formValidate.tipo_persona.$pristine}")
+                            input.form-control(disabled, name="tipo_persona", ng-required="true", type="text", ng-model="tipos.proveedor.nombre")
+                            //- span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingTipo")
+                            //- .text-danger(ng-show="noResults")
+                            //- 	i.fa.fa-times No se encontraron resultados
+                            .text-danger(ng-messages="tipos.formValidate.tipo_persona.$error", ng-show="tipos.formValidate.tipo_persona.$dirty" role="alert")
+                                div(ng-message="required") Tipo de Persona es obligatorio
+                    .form-group
+                        label.col-sm-2.control-label Direccion
+                        .col-sm-4(ng-class="{'has-error': tipos.formValidate.direccion.$invalid && !tipos.formValidate.direccion.$pristine}")
+                            input.form-control(id='direccion', placeholder='Direccion', type='text', name='direccion', ng-model='tipos.model.direccion', value='', required='')
+                            .text-danger(ng-messages='tipos.formValidate.direccion.$error', ng-show='tipos.formValidate.direccion.$invalid && !tipos.formValidate.direccion.$pristine')
+                                div(ng-message='required') Campo requerido
+                                div(ng-message='minlength') Direccion requerida
+                        label.col-sm-2.control-label Telefono
+                        .col-sm-4(ng-class="{'has-error': tipos.formValidate.telefono.$invalid && !tipos.formValidate.telefono.$pristine}")
+                            input.form-control(id='telefono', placeholder='Telefono', type='text', name='telefono', ng-model='tipos.model.telefono', value='', required='')
+                            .text-danger(ng-messages='tipos.formValidate.telefono.$error', ng-show='tipos.formValidate.telefono.$invalid && !tipos.formValidate.telefono.$pristine')
+                                div(ng-message='required') Campo requerido
+                    .form-group
+                        label.col-sm-2.control-label Nit
+                        .col-sm-4(ng-class="{'has-error': tipos.formValidate.nit.$invalid && !tipos.formValidate.nit.$pristine}")
+                            input.form-control(id='nit', placeholder='Nit', type='text', name='nit', ng-model='tipos.model.nit', value='', required='', ng-maxlength='10')
+                            .text-danger(ng-messages='tipos.formValidate.nit.$error', ng-show='tipos.formValidate.nit.$invalid && !tipos.formValidate.nit.$pristine')
+                                div(ng-message='required') Campo requerido
+                                div(ng-message='maxlength') Nit es muy largo
+    .modal-footer
+        button.btn.btn-primary(type="button", ng-disabled="tipos.formValidate.$invalid", ng-click="tipos.ok()")
+            i.fa.fa-floppy-o
+            |  Guardar
+        button.btn.btn-default(type="button", ng-click="tipos.cancel()")
+            i.fa.fa-times-circle
+            |  Cancelar

@@ -1,0 +1,112 @@
+<!-- START panel-->
+<h3>Administración de Persona</h3>
+<div ng-controller="PersonaController as ctrl" class="row">
+   <div class="col-sm-12 col-xs-12">
+      <div class="form-group">
+         <div class="row">
+            <div class="col-sm-6 col-xs-12">
+               <button type="button" ui-sref="app.persona.nuevo" class="btn btn-success"><i class="fa fa-plus-circle"></i> Nueva Persona</button>
+            </div>
+            <div class="col-sm-6 col-xs-12">
+               <form ng-submit="ctrl.search()" role="form" class="form-inline text-right">
+                  <div class="form-group">
+                     <div class="input-group">
+                        <input type="text" ng-model="ctrl.query" placeholder="Buscar" class="form-control" />
+                        <span class="input-group-btn">
+                           <button type="submit" class="btn btn-info">
+                              <strong><i class="fa fa-search"></i> Buscar</strong>
+                           </button>
+                        </span>
+                     </div>
+                  </div>
+               </form>
+            </div>
+         </div>
+      </div>
+      <div class="form-group">
+         <div class="row">
+            <label class="col-sm-2 control-label">Tipo Persona:</label>
+            <div class="col-sm-3">
+               <select name="tipopersona" ng-model="ctrl.tipopersonaSelect" ng-options="item.nombre for item in ctrl.listaTipopersona" class="input-md form-control"></select>
+            </div>
+            <div class="col-sm-2 col-sm-offset-1">
+               <span class="input-group-btn">
+                  <button type="button" ng-click="ctrl.filtro_tipo_persona()" class="btn btn-info">
+                     <strong><i class="fa fa-search"></i>
+                     </strong>
+                  </button>
+               </span>
+            </div>
+         </div>
+      </div>
+   </div>
+   <br/>
+   <br/>
+   <div class="col-sm-12">
+      <div class="panel panel-primary">
+         <div class="panel-heading">
+            <strong>Lista de Personas</strong>
+         </div>
+         <!-- START table-responsive-->
+         <div class="table-responsive">
+            <table class="table table-striped table-hover">
+               <thead>
+                  <tr>
+                     <th width="25%" class="text-center">Nombre</th>
+                     <th width="25%" class="text-center">Direccion</th>
+                     <th width="15%" class="text-center">Telefono</th>
+                     <th width="15%" class="text-center">Nit</th>
+                     <th class="text-center">Acciones</th>
+                  </tr>
+               </thead>
+               <tbody>
+                  <tr ng-repeat="item in ctrl.persona">
+                     <td>{{ item.nombre}}</td>
+                     <td>{{ item.direccion}}</td>
+                     <td>{{ item.telefono}}</td>
+                     <td>{{ item.nit}}</td>
+                     <td class="text-right">
+                        <div ng-hide="item.codigo_barra" class="btn-group btn-group-sm">
+                           <button type="button" ui-sref="app.persona.editar({id: item.id})" title="Editar" class="btn btn-warning"><i class="fa fa-pencil"></i>
+                           </button>
+                           <button type="button" ng-click="ctrl.removePersona(item.id)" title="Eliminar" class="btn btn-danger"><i class="fa fa-ban"></i>
+                           </button>
+                        </div>
+                        <div ng-show="item.codigo_barra" class="btn-group btn-group-sm">
+                           <button type="button" ng-click="ctrl.openBarcode(item.id)" title="Generar Codigo de Barras" class="btn btn-info"><i class="fa fa-barcode"></i>
+                           </button>
+                           <button type="button" ui-sref="app.persona.editar({id: item.id})" title="Editar" class="btn btn-warning"><i class="fa fa-pencil"></i>
+                           </button>
+                           <button type="button" ng-click="ctrl.removePersona(item.id)" title="Eliminar" class="btn btn-danger"><i class="fa fa-ban"></i>
+                           </button>
+                        </div>
+                     </td>
+                  </tr>
+               </tbody>
+            </table>
+         </div>
+         <!-- END table-responsive-->
+         <!-- END panel-->
+      </div>
+      <uib-pagination previous-text="Anterior" next-text="Siguiente" first-text="Primero" last-text="Ultimo" total-items="ctrl.pagingInfo.totalItems" items-per-page="ctrl.pagingInfo.itemsPerPage" ng-model="ctrl.pagingInfo.page" max-size="10" rotate="false"
+      ng-change="ctrl.selectPage(ctrl.pagingInfo.page)" boundary-links="true" class="pagination-sm"></uib-pagination>
+      <style>
+         @media screen{
+             .ioSection{
+                 display: none;					
+             }
+         }
+         @media print{		
+             .ioSection{
+                 visibility:visible;
+                 margin-bottom: 8px;
+             }
+         }
+      </style>
+   </div>
+</div>
+<script type="text/ng-template" id="barcode.html">
+   <div class="modal-header"><h3 class="modal-title">Codigo de Barra de {{ctrl.persona.nombre}}</h3></div><div class="modal-body"><div ng-show="ctrl.errMsg" class="alert alert-danger">{{ctrl.errMsg}}</div><div class="row"><div print-section="print-section" class="col-md-12"><span class="codeBar"> 
+   *{{ctrl.persona.hash_codigo_barra}}*</span><div ng-repeat="n in [0,1,2,3,4,5]" class="ioSection"><span class="codeBar"> 
+   *{{ctrl.persona.hash_codigo_barra}}*</span></div></div></div></div><div class="modal-footer"><button type="button" print-btn="print-btn" class="btn btn-info"><i class="fa fa-print"></i> Imprimir</button><button type="button" ng-click="ctrl.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button></div>
+</script>

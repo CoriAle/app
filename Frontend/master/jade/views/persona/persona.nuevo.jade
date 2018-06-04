@@ -1,0 +1,280 @@
+div(ng-controller='PersonaNuevoController as person')
+    .panel.panel-success
+        .panel-heading
+            .panel-title Nueva Persona
+        .panel-body
+            form.form-validate.form-horizontal(name='person.formValidate', ng-submit='person.submitPerson()', novalidate='', autocomplete="off")
+                toaster-container(toaster-options="{'position-class': 'toast-bottom-right', 'close-button':true}")
+                .form-group
+                    label.col-sm-1.control-label Nombre
+                    .col-sm-5(ng-class="{'has-error': person.formValidate.nombre.$invalid && !person.formValidate.nombre.$pristine}")
+                        input.form-control(id='nombre',placeholder='Nombre', type='text', name='nombre', ng-model='person.model.nombre', value='', required='')
+                        .text-danger(ng-messages='person.formValidate.nombre.$error', ng-show='person.formValidate.nombre.$invalid && !person.formValidate.nombre.$pristine')
+                            div(ng-message='required') Campo requerido
+
+                    label.col-sm-2.control-label Tipo de Persona
+                    .col-sm-4(ng-class="{'has-error': person.formValidate.tipo_persona.$invalid && !person.formValidate.tipo_persona.$pristine}")
+                        .input-group
+                            select.input-md(name='tipo_persona', required='', ng-model='person.model.tipo_persona', ng-options='item.nombre for item in person.listaTipopersona', class="form-control")
+                            .text-danger(ng-messages="person.formValidate.tipo_persona.$error", ng-show="person.formValidate.tipo_persona.$dirty" role="alert")
+                                div(ng-message="required") Tipo de Persona es obligatorio
+                        span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingTipo")
+                        .text-danger(ng-show="noResults")
+                            i.fa.fa-times No se encontraron resultados
+
+                .form-group
+                    label.col-sm-2.control-label Es Usuario
+                    .col-sm-1
+                        .checkbox.c-checkbox
+                            label
+                                input(type='checkbox', ng-model='person.isUsuario2', ng-change='person.esUsuario()')
+                                span.fa.fa-check
+                                |  Si
+
+                    label.col-sm-2.control-label Codigo de Barra
+                    .col-sm-1
+                        .checkbox.c-checkbox
+                            label
+                                input(type='checkbox', ng-model='person.model.codigo_barra', ng-change='person.esChica()')
+                                span.fa.fa-check
+                                |  Si
+
+                    label.col-sm-1.control-label Direccion
+                    .col-sm-4
+                        input.form-control(id='direccion', placeholder='Direccion', type='text', name='direccion', ng-model='person.model.direccion', value='')
+
+                .form-group(ng-if='person.verifica_empleado()')
+                    label.col-sm-1.control-label Telefono
+                    .col-sm-4
+                        input.form-control(placeholder='Telefono', type='text', name='telefono', ng-model='person.model.telefono', value='')
+
+                    label.col-sm-2.control-label Nit
+                    .col-sm-4
+                        input.form-control(placeholder='Nit', type='text', name='nit', ng-model='person.model.nit', value='', ng-maxlength='10')
+
+                .form-group(ng-if='person.verifica_empleado()')
+                    label.col-sm-1.control-label Identificacion
+                    .col-sm-4(ng-class="{'has-error': person.formValidate.identificacion.$invalid && !person.formValidate.identificacion.$pristine}")
+                        input.form-control(placeholder='Identificacion', name='identificacion', type='text', ng-model='person.model.identificacion',
+                        value='', ng-maxlength='45')
+                        .text-danger(ng-messages='person.formValidate.identificacion.$error', ng-show='person.formValidate.identificacion.$invalid && !person.formValidate.identificacion.$pristine')
+                            div(ng-message='maxlength') Identificacion muy largo
+
+                    label.col-sm-2.control-label Clasificación
+                    .col-sm-4(ng-class="{'has-error': person.formValidate.clasificacion.$invalid && !person.formValidate.clasificacion.$pristine}")
+                        select.form-control(name="clasificacion" placeholder='Seleccione...', ng-required='person.isEmpleado', ng-model='person.model.clasificacion_empleado')
+                            option(value='') Seleccione una opcion
+                            option(value=1) Bajo Rendimiento
+                            option(value=2) Rendimiento Promedio
+                            option(value=3) Alto Rendimiento
+
+                .form-group(ng-if='person.verifica_empleado()')
+                    label.col-sm-1.control-label Sueldo Base
+                    .col-sm-4(ng-class="{'has-error': person.formValidate.sueldo_cuenta.$invalid && !person.formValidate.sueldo_cuenta.$pristine}")
+                        input.form-control(placeholder='Sueldo', name='sueldo_cuenta', type="number", min="0", ng-model='person.model.sueldo_cuenta')
+                        .text-danger(ng-messages='person.formValidate.sueldo_cuenta.$error', ng-show='person.formValidate.sueldo_cuenta.$invalid && !person.formValidate.sueldo_cuenta.$pristine')
+                            div(ng-message='required') Campo requerido
+
+                    label.col-sm-2.control-label Inicio de Labores
+                    .col-sm-4
+                        .input-group
+                            input.form-control(uib-datepicker-popup="dd/MM/yyyy", name="fecha", required, type="text",
+                            ng-model="person.model.fecha_labores", is-open='person.dateOpened2', close-text="Cerrar", clear-text="Limpiar", current-text="Hoy")
+                            span.input-group-btn
+                                button.btn.btn-default(type='button', ng-click='person.openDate2($event)')
+                                    em.fa.fa-calendar
+                            .text-danger(ng-messages="person.formValidate.fecha_labores.$error", ng-show="person.formValidate.fecha_labores.$dirty" role="alert")
+                                div(ng-message="date") Debe de ser una fecha
+                                div(ng-message="required") Fecha es obligatoria
+
+
+
+                .form-group(ng-if='!person.verifica_empleado()')
+                    label.col-sm-1.control-label Telefono
+                    .col-sm-4
+                        input.form-control(placeholder='Telefono', type='text', name='telefono', ng-model='person.model.telefono', value='')
+
+                    label.col-sm-2.control-label Nit
+                    .col-sm-4
+                        input.form-control(placeholder='Nit', type='text', name='nit', ng-model='person.model.nit', value='', ng-maxlength='10')
+                hr(ng-if='person.isUsuario')
+                .form-group(ng-if='person.isUsuario')
+                    label.col-sm-1.control-label Nick
+                    .col-sm-4(ng-class="{'has-error': person.formValidate.username.$invalid && !person.formValidate.username.$pristine}")
+                        input.form-control(id='username', placeholder='Nick', type='text', name='username', ng-model='person.usuario.username', value='', ng-required='person.isUsuario')
+                        .text-danger(ng-messages='person.formValidate.username.$error', ng-show='person.formValidate.username.$invalid && !person.formValidate.username.$pristine')
+                            div(ng-message='required') Campo requerido
+                            div(ng-message='maxlength') Nick es muy largo
+
+                    label.col-sm-2.control-label Contraseña
+                    .col-sm-4(ng-class="{'has-error': person.formValidate.password.$invalid && !person.formValidate.password.$pristine}")
+                        input.form-control(id='password', placeholder='Contraseña', type='password', name='password', ng-model='person.usuario.password', value='', ng-required='person.isUsuario')
+                        .text-danger(ng-messages='person.formValidate.password.$error', ng-show='person.formValidate.password.$invalid && !person.formValidate.password.$pristine')
+                            div(ng-message='required') Campo requerido
+
+                .form-group(ng-if='person.isUsuario')
+                    label.col-sm-1.control-label Tipo de Usuario
+                    .col-sm-4(ng-class="{'has-error': person.formValidate.clasificacion.$invalid && !person.formValidate.clasificacion.$pristine}")
+                        select.form-control(name="grupo" placeholder='Seleccione...', ng-required='person.isEmpleado', ng-model='person.model.grupo')
+                            option(value='') Seleccione una opcion
+                            option(value=1) Bodeguero
+                            option(value=2) Mesero
+                            option(value=3) Cajero
+                            option(value=4) Administrador
+                            option(value=5) Cocina
+                    label.col-sm-2.control-label Impresora Designada
+                    .col-sm-4(ng-class="{'has-error': person.formValidate.clasificacion.$invalid && !person.formValidate.clasificacion.$pristine}")
+                        select.form-control(name="grupo" placeholder='Seleccione...', ng-required='person.isEmpleado', ng-model='person.model.impresora')
+                            option(value='') Seleccione una opcion
+                            option(ng-repeat="impresora in person.impresoras" value='{{impresora.printer}}') {{impresora.printer}}
+
+                .form-group(ng-if='person.isUsuario && person.verifica_empleado()')
+                    label.col-sm-3.control-label Es Encargado de Cortesías
+                    .col-sm-3
+                        .checkbox.c-checkbox
+                            label
+                                input(type='checkbox', ng-model='person.model.cortesias')
+                                span.fa.fa-check
+                                |  Si
+
+                    label.col-sm-2.control-label Puede Anular Ordenes
+                    .col-sm-1
+                        .checkbox.c-checkbox
+                            label
+                                input(type='checkbox', ng-model='person.model.anulaciones')
+                                span.fa.fa-check
+                                |  Si
+                hr(ng-if='person.verifica_empleado()')
+                .form-group(ng-show='person.isChica')
+                    label.col-sm-1.control-label Porcentaje servicios
+                    .col-sm-4(ng-class="{'has-error': person.formValidate.porcentaje_chica.$invalid && !person.formValidate.porcentaje_chica.$pristine}")
+                        input.form-control(placeholder='Porcentaje', type='number', name='porcentaje_chica', min="0", ng-model='person.model.porcentaje_chica', ng-required='person.isChica')
+                        .text-danger(ng-messages='person.formValidate.porcentaje_chica.$error', ng-show='person.formValidate.porcentaje_chica.$invalid && !person.formValidate.porcentaje_chica.$pristine')
+                            div(ng-message='required') Campo requerido
+
+                .form-group(ng-if="person.isEmpleado")
+                    .col-sm-1
+                    .col-sm-2.text-left
+                        label.control-label Fecha
+                    .col-sm-2.text-left
+                        label.control-label Tipo
+                    .col-sm-5.text-left
+                        label.control-label Observación
+
+            form.form-validate.form-horizontal(name='person.formHistorial', ng-submit='person.agrega_historial()', novalidate='')
+                .form-group(ng-if="person.isEmpleado")
+                    .col-sm-1
+                    .col-sm-2
+                        .input-group
+                            input.form-control(uib-datepicker-popup="dd/MM/yyyy", name="fecha", required, type="text",
+                            ng-model="person.historial.fecha", is-open='person.dateOpened', close-text="Cerrar", clear-text="Limpiar", current-text="Hoy")
+                            span.input-group-btn
+                                button.btn.btn-default(type='button', ng-click='person.openDate($event)')
+                                    em.fa.fa-calendar
+                            .text-danger(ng-messages="person.formHistorial.fecha.$error", ng-show="person.formHistorial.fecha.$dirty" role="alert")
+                                div(ng-message="date") Debe de ser una fecha
+                                div(ng-message="required") Fecha es obligatoria
+                    .col-sm-2
+                        select.form-control(name="tipo" placeholder='Seleccione...', required='', ng-model='person.historial.tipo')
+                            option(value='')
+                            option(value=1) Contratado
+                            option(value=2) Re-Contradato
+                            option(value=3) Despido
+                            option(value=4) Renuncia
+                    .col-sm-5
+                        input.form-control(name="observacion", required, ng-model="person.historial.observacion")
+                    .col-sm-2
+                        span.input-group-btn
+                            button.btn.btn-info(type="button", style="border-radius: 3px;", ng-click="person.agregar_historial()", ng-disabled='person.formHistorial.$invalid')
+                                strong
+                                    i.fa.fa-search  Agregar
+
+                .col-sm-12(ng-if="person.isEmpleado")
+                    .panel.panel-info
+                        .panel-heading
+                            strong Historial de Contratación
+                        // START table-responsive
+                        .table-responsive
+                            table.table.table-striped.table-hover
+                                thead
+                                    tr
+                                        th(width="15%") Fecha
+                                        th(width="15%") Tipo
+                                        th(width="60%") Observación
+                                        th(width="10%") Acciones
+                                tbody
+                                    tr(ng-repeat="item in person.model.historial_contratacion")
+                                        td {{ item.fecha | date:'dd/MM/yyyy' }}
+                                        td(ng-if="item.tipo == 1")
+                                            | Contratado
+                                        td(ng-if="item.tipo == 2")
+                                            | Re-Contratado
+                                        td(ng-if="item.tipo == 3")
+                                            | Despido
+                                        td(ng-if="item.tipo == 4")
+                                            | Renuncia
+                                        td {{ item.observacion }}
+                                        td
+                                            .btn-group.btn-group-sm
+                                                button.btn.btn-danger(type="button",  ng-click="person.retirar(item)", title="Eliminar")
+                                                    i.fa.fa-ban
+
+        .panel-footer.text-right
+            button.btn.btn-default(type="button", ui-sref='app.persona.lista()')
+                i.fa.fa-times-circle
+                |  Cancelar
+            button.btn.btn-info(type='submit', ng-disabled='person.formValidate.$invalid', ng-click="person.submitPerson()") Agregar
+style.
+    @media screen{
+        .ioSection{
+            display: none;
+        }
+    }
+    @media print{
+        .ioSection{
+            visibility:visible;
+            margin-bottom: 8px;
+        }
+    }
+
+script(type="text/ng-template", id="addTipo.html")
+    .modal-header
+        h3.modal-title Ingresar Nuevo Tipo de Persona
+    .modal-body
+        .alert.alert-danger(ng-show='tipos.errMsg') {{tipos.errMsg}}
+        .row
+            .col-md-12
+                form.form-validate.form-horizontal(name='tipos.formValidate', ng-submit='tipos.ok()', novalidate='')
+                    .form-group
+                        label.col-sm-2.control-label Nombre
+                        .col-sm-10
+                            input.form-control(placeholder='Nombre', type='text', name='nombre', required='', ng-model='tipos.model.nombre')
+                            .text-danger(ng-messages='tipos.formValidate.nombre.$error', ng-show='tipos.formValidate.nombre.$invalid && !tipos.formValidate.nombre.$pristine')
+                                div(ng-message='required') Campo requerido
+    .modal-footer
+        button.btn.btn-default(type="button", ng-click="tipos.cancel()")
+            i.fa.fa-times-circle
+            |  Cancelar
+        button.btn.btn-primary(type="button", ng-disabled="tipos.formValidate.$invalid", ng-click="tipos.ok()")
+            i.fa.fa-floppy-o
+            |  Guardar
+
+script(type="text/ng-template", id="barcode.html")
+    .modal-header
+        h3.modal-title Codigo de Barra de {{ctrl.persona.nombre}}
+    .modal-body
+        .alert.alert-danger(ng-show='ctrl.errMsg') {{ctrl.errMsg}}
+        .row
+            .col-md-12(print-section)
+                span.codeBar 
+                    | *{{ctrl.persona.hash_codigo_barra}}*
+                .ioSection(ng-repeat="n in [0,1,2,3,4,5]")
+                    span.codeBar 
+                        | *{{ctrl.persona.hash_codigo_barra}}*
+    .modal-footer
+        button.btn.btn-default(type="button", ng-click="ctrl.cancel()")
+            i.fa.fa-times-circle
+            |  Cancelar
+        button.btn.btn-info(type="button" print-btn)
+            i.fa.fa-print
+            |  Imprimir

@@ -1,0 +1,99 @@
+// START panel
+h3 Administración de Bailes  
+.row(ng-controller="BaileController as ctrl")
+    .col-sm-6.col-xs-12
+        button.btn.btn-primary(type="button", ng-click="ctrl.showAdd(true)")
+            strong
+                i.fa.fa-plus-circle  Nuevo Tipos de Baile
+    .col-sm-6.col-xs-12
+        form.form-inline.text-right(ng-submit="ctrl.load()", role="form")
+            .form-group
+                .input-group
+                    input.form-control(type="text", ng-model="ctrl.pagingInfo.search", placeholder="Buscar...")
+                    span.input-group-btn
+                        button.btn(type="submit")
+                            strong
+                                i.fa.fa-search
+    br
+    br
+    .col-sm-12
+        form.form-horizontal(name="ctrl.baileForm", ng-submit='ctrl.addBaile()', ng-show="ctrl.show", autocomplete="off", novalidate="")
+            .panel(ng-class="ctrl.baile.id ==0?'panel-success':'panel-warning'")
+                .panel-heading
+                    strong Datos de Tipos de Bailes
+                .panel-body
+                    input(name="id", type="hidden", ng-model="ctrl.baile.id")
+                    .col-sm-6
+                        .form-group(ng-class="{ 'has-error' : ctrl.baileForm.nombre.$invalid && ctrl.baileForm.nombre.$dirty }")
+                            label.control-label.col-sm-2 Nombre
+                            .col-sm-10
+                                input.form-control(name="nombre", type="text", ng-model="ctrl.baile.nombre_baile", required,
+                                ng-minlength="2", ng-maxlength="50")
+                                .text-danger(ng-messages="ctrl.baileForm.nombre_baile.$error", ng-show="ctrl.baileForm.nombre_baile.$dirty" role="alert")
+                                    div(ng-message="required") Nombre es obligatorio
+                                    div(ng-message="minlength") Nombre debe tener por lo menos 1 carácter
+                                    div(ng-message="maxlength") Nombre debe tener maximo 50 caracteres
+                    .col-sm-6
+                        .form-group(ng-class="{ 'has-error' : ctrl.baileForm.costo.$invalid && ctrl.baileForm.costo.$dirty }")
+                            label.control-label.col-sm-2 Costo
+                            .col-sm-10
+                                input.form-control(name="costo", type="number", ng-model="ctrl.baile.costo", required, min="0.01", step="0.01")
+                                .text-danger(ng-messages="ctrl.baileForm.costo.$error", ng-show="ctrl.baileForm.costo.$dirty" role="alert")
+                                    div(ng-message="required") Costo es obligatorio
+                                    div(ng-message="min") Debe ser mayor a 0
+
+                .panel-footer
+                    .row
+                        .col-sm-6.text-left(ng-if="ctrl.baile.id>0")
+                            button.btn.btn-danger(type="button",  ng-click='ctrl.disable(ctrl.baile)', title="Eliminar")
+                                i.fa.fa-trash-o  Eliminar Baile
+                        .col-sm-6.text-right(ng-if="ctrl.baile.id>0")
+                            button.btn(ng-class="ctrl.baile.id == 0?'btn-success':'btn-warning'" type="submit", ng-disabled="ctrl.baileForm.$invalid")
+                                i.fa.fa-floppy-o  Guardar
+                            button.btn.btn-default(type="button", ng-click="ctrl.showAdd(false)")
+                                i.fa.fa-times  Cancelar
+                        .col-sm-12.text-right(ng-if="ctrl.baile.id<1")
+                            button.btn(ng-class="ctrl.baile.id == 0?'btn-success':'btn-warning'" type="submit", ng-disabled="ctrl.baileForm.$invalid")
+                                i.fa.fa-floppy-o  Guardar
+                            button.btn.btn-default(type="button", ng-click="ctrl.showAdd(false)")
+                                i.fa.fa-times  Cancelar
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de Tipos de Bailes
+                // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th
+                                a(href="", ng-click="ctrl.sort('id')") Id
+                            th
+                                a(href="", ng-click="ctrl.sort('nombre_baile')") Nombre
+                            th
+                                a(href="", ng-click="ctrl.sort('costo')") Costo
+                            th
+                                a(href="", ng-click="ctrl.sort('creado')") Creacion
+                            th Acciones
+                    tbody
+                        tr(ng-repeat="item in ctrl.lista")
+                            td
+                                | {{ item.id}}
+                            td
+                                | {{ item.nombre_baile}}
+                            td
+                                | {{ item.costo}}
+                            td
+                                | {{ item.creado | date:'dd/MM/yyyy'}}
+                            td
+                                .btn-group.btn-group-sm
+                                    button.btn.btn-warning(type="button", ng-click="ctrl.edit(item)", title="Editar")
+                                        i.fa.fa-pencil
+                                    button.btn.btn-danger(type="button",  ng-click="ctrl.disable(item)", title="Eliminar")
+                                        i.fa.fa-ban
+            // END table-responsive
+            // END panel
+        uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero",
+        last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage",
+        ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)",
+        boundary-links="true")
+            

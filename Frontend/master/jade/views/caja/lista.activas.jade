@@ -1,0 +1,39 @@
+h3 Cuentas Activas
+.row(ng-controller="CajaActivaController as ctrl")
+    .col-sm-6.col-xs-12
+    .col-sm-6.col-xs-12
+        form.form-inline.text-right(ng-submit="ctrl.loadPedidos()", role="form")
+            .form-group
+                .input-group
+                    input.form-control(type="text", ng-model="ctrl.query", placeholder="Buscar")
+                    span.input-group-btn
+                        button.btn.btn-info(type="submit")
+                            strong
+                                i.fa.fa-search  Buscar
+    br
+    br
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de Pedidos
+            // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th(width="50%") Mesa
+                            th(width="20%") Total Costo
+                            th(width="20%") Total
+                            th Acciones
+                    tbody
+                        tr(ng-repeat="item in ctrl.pedidos")
+                            td {{ item.mesa.nombre}}
+                            td {{ item.total_costo }}
+                            td {{ item.total }}
+                            td
+                                .btn-group.btn-group-sm                                    
+                                    button.btn.btn-danger(type="button",  ng-click='ctrl.destroy(item)', title="Eliminar")
+                                        i.fa.fa-ban
+            // END table-responsive
+            // END panel
+        uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")

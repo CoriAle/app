@@ -1,0 +1,56 @@
+<!-- START panel-->
+<h3>Configuración del Sistema</h3>
+<div ng-controller="ConfiguracionController as ctrl" class="row">
+   <div class="col-sm-12">
+      <form name="ctrl.form" ng-submit="ctrl.add()" autocomplete="off" novalidate="" class="form-horizontal">
+         <div ng-class="ctrl.configuracion.id != 0 ? 'panel-warning':''" class="panel panel-success">
+            <div class="panel-heading">
+               <strong>Datos de configuración</strong>
+            </div>
+            <div class="panel-body">
+               <input name="id" type="hidden" ng-model="ctrl.configuracion.id" />
+               <div ng-class="{ 'has-error' : ctrl.form.nombre.$invalid &amp;&amp; ctrl.form.nombre.$dirty }" class="form-group">
+                  <label class="control-label col-sm-2">Nombre de la empresa</label>
+                  <div class="col-sm-10">
+                     <input name="nombre" type="text" ng-model="ctrl.configuracion.nombre_empresa" required="required" ng-minlength="2" class="form-control" />
+                     <div ng-messages="ctrl.form.nombre.$error" ng-show="ctrl.form.nombre.$dirty" role="alert" class="text-danger">
+                        <div ng-message="required">Nombre es obligatorio</div>
+                        <div ng-message="minlength">Nombre debe tener por lo menos 2 carácteres</div>
+                     </div>
+                  </div>
+               </div>
+               <div ng-class="{ 'has-error' : ctrl.form.nombre.$invalid &amp;&amp; ctrl.form.nombre.$dirty }" class="form-group">
+                  <label class="control-label col-sm-2">Inicio de jornada</label>
+                  <div class="col-sm-10">
+                     <uib-timepicker name="inicio-jornada" ng-model="ctrl.configuracion.inicio_jornada" hour-step="1" minute-step="1" show-meridian="false"></uib-timepicker>
+                     <div ng-messages="ctrl.form.inicio-jornada.$error" ng-show="ctrl.form.inicio.$dirty" role="alert" class="text-danger">
+                        <div ng-message="required">Inicio de jornada es obligatorio</div>
+                        <div ng-message="minlength">Inicio de jornada debe tene por lo menos 2 carácteres</div>
+                     </div>
+                  </div>
+               </div>
+               <div ng-class="{ 'has-error' : ctrl.form.fin.$invalid &amp;&amp; ctrl.form.fin.$dirty }" class="form-group">
+                  <label class="control-label col-sm-2">Fin de la jornada</label>
+                  <div class="col-sm-10">
+                     <uib-timepicker name="fin-jornada" ng-model="ctrl.configuracion.finalizacion_jornada" hour-step="1" minute-step="1" show-meridian="false"></uib-timepicker>
+                     <div ng-messages="ctrl.form.fin-jornada.$error" ng-show="ctrl.form.fin.$dirty" role="alert" class="text-danger">
+                        <div ng-message="required">Finalizacion de jornada es obligatorio</div>
+                        <div ng-message="minlength">Finalizacion de jornada debe tener por lo menos 2 carácteres</div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="panel-footer text-right">
+               <div class="row">
+                  <div class="col-sm-6 text-left"></div>
+                  <div class="col-sm-6 text-right">
+                     <button type="submit" ng-disabled="ctrl.form.$invalid" class="btn btn-primary"><i class="fa fa-floppy-o"> Guardar</i>
+                     </button>
+                  </div>
+               </div>
+            </div>
+         </div>
+      </form>
+      <div class="div"></div>
+   </div>
+</div>

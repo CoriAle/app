@@ -1,0 +1,83 @@
+.modal-header
+    h3.modal-title Realización de Pago
+    .row
+        label.col-sm-12.control-label Descripción de pago
+    .row
+        label.col-sm-12.control-label Del {{ctrl.dateini | date:'dd/MM/yy hh:mm a'}} Al {{ctrl.datefin | date:'dd/MM/yy hh:mm a'}}
+    .row
+        label.col-sm-12.control-label Al empleado: {{ctrl.model.nombre}}
+    .modal-body    Detalle del Pago
+    .row
+        .col-md-12
+            form.form-validate.form-horizontal(name='ctrl.formAdd', ng-submit='ctrl.create()', novalidate='')
+                .form-group
+                    .col-sm-6
+                        .row
+                            label.col-sm-6.control-label Comisión Ventas
+                            .col-sm-6
+                                .input-group
+                                    input.form-control(disabled, name='comisionventas', ng-model='ctrl.model.total_comisiones', ng-required="true", type="number", min="0.01")
+                        br
+                        .row
+                            label.col-sm-6.control-label Comisión Botellas
+                            .col-sm-6
+                                .input-group
+                                    input.form-control(disabled, name='servicios', ng-model='ctrl.model.total_servicios', ng-required="true", type="number", min="0.01")
+                        br
+                        .row
+                            label.col-sm-6.control-label Bailes
+                            .col-sm-6
+                                .input-group
+                                    input.form-control(disabled, name='bailes', ng-model='ctrl.model.total_bailes', ng-required="true", type="number", min="0.01")
+                        br
+                        .row
+                            label.col-sm-6.control-label Adelanto
+                            .col-sm-6
+                                .input-group
+                                    input.form-control(disabled, name='adelanto', ng-model='ctrl.model.total_adelantos', ng-required="true", type="number", min="0.01")
+                        br
+                        .row
+                            label.col-sm-6.control-label Gastos con el Personal
+                            .col-sm-6
+                                .input-group
+                                    input.form-control(disabled, name='gastopersonal', ng-model='ctrl.model.total_gastos', ng-required="true", type="number", min="0.01")
+                        br
+                        .row
+                            label.col-sm-6.control-label Total por
+                            .col-sm-6
+                                .input-group
+                                    input.form-control(disabled, name='total', ng-model='ctrl.total', type="number", min="0.01")
+                        br
+                    .col-sm-6
+                        .row
+                            label.col-sm-6.control-label En Cuenta:
+                            .col-sm-6
+                                .input-group
+                                    input.form-control(disabled, name='saldo', ng-model='ctrl.saldo', type="number", min="0.01")
+                        br
+                        .row
+                            label.col-sm-6.control-label Monto a Pagar:
+                            .col-sm-6
+                                .input-group
+                                    //- input.form-control(disabled, name='cheque', ng-model='ctrl.model.sueldo_cuenta', type="number", min="0.01")
+                                    input.form-control(name='pago', ng-model='ctrl.pago', type="number", min="0.01", ng-change='ctrl.saldar()')
+                        br
+                        .row
+                            label.col-sm-6.control-label Saldo Actual:
+                            .col-sm-6
+                                .input-group
+                                    input.form-control(disabled, name='newsaldo', ng-model='ctrl.new_saldo', type="number", min="0.01")
+
+.modal-footer
+    button.btn.btn-default(type="button", ng-click="ctrl.cancel()", ng-if="!ctrl.pagado")
+        i.fa.fa-times-circle
+        |  Cancelar
+    button.btn.btn-default(type="button", ng-click="ctrl.cancel()", ng-if="ctrl.pagado")
+        i.fa.fa-times-circle
+        |  Cerrar
+    button.btn.btn-warning(type="button", ng-disabled="ctrl.valida()", ng-click="ctrl.pagar()", ng-if="!ctrl.pagado" )
+        i.fa.fa-floppy-o
+        |  Pagar
+    button.btn.btn-success(type="button", ng-click="ctrl.vista_impresion()")
+        i.fa.fa-print
+        |  Vista de Impresión

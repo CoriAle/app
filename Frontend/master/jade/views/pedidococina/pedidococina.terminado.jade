@@ -1,0 +1,58 @@
+// START panel
+h4 Pedidos Servidos
+.row(ng-controller="PedidoCocinaServicoController as ctrl")
+    .col-sm-12.col-xs-12
+        .form-group
+            .row
+                .col-sm-4
+                    label.control-label Fecha Inicial
+                .col-sm-4
+                    label.control-label Fecha Final
+            .row
+                .col-sm-4
+                    p.input-group
+                        input.form-control(uib-datepicker-popup="dd/MM/yyyy", name="desde", required, type="text",
+                        ng-model="ctrl.busqueda.desde", is-open='ctrl.desdeOpened', close-text="Cerrar", clear-text="Limpiar", current-text="Hoy")
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='ctrl.desdeDP($event)')
+                                em.fa.fa-calendar
+                    .text-danger(ng-messages="ctrl.searchForm.desde.$error", ng-show="ctrl.searchForm.desde.$dirty" role="alert")
+                        div(ng-message="date") Desde debe ser una fecha
+                        div(ng-message="required") Desde es obligatorio
+                .col-sm-4
+                    p.input-group
+                        input.form-control(uib-datepicker-popup="dd/MM/yyyy", name="hasta", required, type="text",
+                        ng-model="ctrl.busqueda.hasta", is-open='ctrl.hastaOpened', close-text="Cerrar", clear-text="Limpiar", current-text="Hoy")
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='ctrl.hastaDP($event)')
+                                em.fa.fa-calendar
+                    .text-danger(ng-messages="ctrl.searchForm.hasta.$error", ng-show="ctrl.searchForm.hasta.$dirty" role="alert")
+                        div(ng-message="date") Hasta debe ser una fecha
+                        div(ng-message="required") Hasta es obligatorio
+                .col-sm-2
+                    span.input-group-btn
+                        button.btn.btn-info(type="button" ng-click="ctrl.load()")
+                            strong
+                                i.fa.fa-search
+    br
+    br
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de gastos
+            // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th(width="20%") Fecha y Hora
+                            th(width="50%") Producto
+                            th(width="15%") Mesa
+                    tbody
+                        tr(ng-repeat="item in ctrl.lista")
+                            td {{ item.creado | date:'dd/MM/yyyy' }}
+                                strong {{ item.creado | date:'HH:mm:ss'}}
+                            td {{ item.producto.nombre }}
+                            td {{ item.movimiento.mesa.id }}
+
+        uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")

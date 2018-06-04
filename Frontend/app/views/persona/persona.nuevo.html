@@ -1,0 +1,296 @@
+<div ng-controller="PersonaNuevoController as person">
+   <div class="panel panel-success">
+      <div class="panel-heading">
+         <div class="panel-title">Nueva Persona</div>
+      </div>
+      <div class="panel-body">
+         <form name="person.formValidate" ng-submit="person.submitPerson()" novalidate="" autocomplete="off" class="form-validate form-horizontal">
+            <toaster-container toaster-options="{'position-class': 'toast-bottom-right', 'close-button':true}"></toaster-container>
+            <div class="form-group">
+               <label class="col-sm-1 control-label">Nombre</label>
+               <div ng-class="{'has-error': person.formValidate.nombre.$invalid &amp;&amp; !person.formValidate.nombre.$pristine}" class="col-sm-5">
+                  <input id="nombre" placeholder="Nombre" type="text" name="nombre" ng-model="person.model.nombre" value="" required="" class="form-control" />
+                  <div ng-messages="person.formValidate.nombre.$error" ng-show="person.formValidate.nombre.$invalid &amp;&amp; !person.formValidate.nombre.$pristine" class="text-danger">
+                     <div ng-message="required">Campo requerido</div>
+                  </div>
+               </div>
+               <label class="col-sm-2 control-label">Tipo de Persona</label>
+               <div ng-class="{'has-error': person.formValidate.tipo_persona.$invalid &amp;&amp; !person.formValidate.tipo_persona.$pristine}" class="col-sm-4">
+                  <div class="input-group">
+                     <select name="tipo_persona" required="" ng-model="person.model.tipo_persona" ng-options="item.nombre for item in person.listaTipopersona" class="input-md form-control"></select>
+                     <div ng-messages="person.formValidate.tipo_persona.$error" ng-show="person.formValidate.tipo_persona.$dirty" role="alert" class="text-danger">
+                        <div ng-message="required">Tipo de Persona es obligatorio</div>
+                     </div>
+                  </div>
+                  <span auto-close="disabled" ng-show="loadingTipo" class="i fa fa-circle-o-notch fa-spin"></span>
+                  <div ng-show="noResults" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                  </div>
+               </div>
+            </div>
+            <div class="form-group">
+               <label class="col-sm-2 control-label">Es Usuario</label>
+               <div class="col-sm-1">
+                  <div class="checkbox c-checkbox">
+                     <label>
+                        <input type="checkbox" ng-model="person.isUsuario2" ng-change="person.esUsuario()" />
+                        <span class="fa fa-check"></span>Si</label>
+                  </div>
+               </div>
+               <label class="col-sm-2 control-label">Codigo de Barra</label>
+               <div class="col-sm-1">
+                  <div class="checkbox c-checkbox">
+                     <label>
+                        <input type="checkbox" ng-model="person.model.codigo_barra" ng-change="person.esChica()" />
+                        <span class="fa fa-check"></span>Si</label>
+                  </div>
+               </div>
+               <label class="col-sm-1 control-label">Direccion</label>
+               <div class="col-sm-4">
+                  <input id="direccion" placeholder="Direccion" type="text" name="direccion" ng-model="person.model.direccion" value="" class="form-control" />
+               </div>
+            </div>
+            <div ng-if="person.verifica_empleado()" class="form-group">
+               <label class="col-sm-1 control-label">Telefono</label>
+               <div class="col-sm-4">
+                  <input placeholder="Telefono" type="text" name="telefono" ng-model="person.model.telefono" value="" class="form-control" />
+               </div>
+               <label class="col-sm-2 control-label">Nit</label>
+               <div class="col-sm-4">
+                  <input placeholder="Nit" type="text" name="nit" ng-model="person.model.nit" value="" ng-maxlength="10" class="form-control" />
+               </div>
+            </div>
+            <div ng-if="person.verifica_empleado()" class="form-group">
+               <label class="col-sm-1 control-label">Identificacion</label>
+               <div ng-class="{'has-error': person.formValidate.identificacion.$invalid &amp;&amp; !person.formValidate.identificacion.$pristine}" class="col-sm-4">
+                  <input placeholder="Identificacion" name="identificacion" type="text" ng-model="person.model.identificacion" value="" ng-maxlength="45" class="form-control" />
+                  <div ng-messages="person.formValidate.identificacion.$error" ng-show="person.formValidate.identificacion.$invalid &amp;&amp; !person.formValidate.identificacion.$pristine" class="text-danger">
+                     <div ng-message="maxlength">Identificacion muy largo</div>
+                  </div>
+               </div>
+               <label class="col-sm-2 control-label">Clasificación</label>
+               <div ng-class="{'has-error': person.formValidate.clasificacion.$invalid &amp;&amp; !person.formValidate.clasificacion.$pristine}" class="col-sm-4">
+                  <select name="clasificacion" placeholder="Seleccione..." ng-required="person.isEmpleado" ng-model="person.model.clasificacion_empleado" class="form-control">
+                     <option value="">Seleccione una opcion</option>
+                     <option value="1">Bajo Rendimiento</option>
+                     <option value="2">Rendimiento Promedio</option>
+                     <option value="3">Alto Rendimiento</option>
+                  </select>
+               </div>
+            </div>
+            <div ng-if="person.verifica_empleado()" class="form-group">
+               <label class="col-sm-1 control-label">Sueldo Base</label>
+               <div ng-class="{'has-error': person.formValidate.sueldo_cuenta.$invalid &amp;&amp; !person.formValidate.sueldo_cuenta.$pristine}" class="col-sm-4">
+                  <input placeholder="Sueldo" name="sueldo_cuenta" type="number" min="0" ng-model="person.model.sueldo_cuenta" class="form-control" />
+                  <div ng-messages="person.formValidate.sueldo_cuenta.$error" ng-show="person.formValidate.sueldo_cuenta.$invalid &amp;&amp; !person.formValidate.sueldo_cuenta.$pristine" class="text-danger">
+                     <div ng-message="required">Campo requerido</div>
+                  </div>
+               </div>
+               <label class="col-sm-2 control-label">Inicio de Labores</label>
+               <div class="col-sm-4">
+                  <div class="input-group">
+                     <input uib-datepicker-popup="dd/MM/yyyy" name="fecha" required="required" type="text" ng-model="person.model.fecha_labores" is-open="person.dateOpened2" close-text="Cerrar" clear-text="Limpiar" current-text="Hoy" class="form-control"
+                     />
+                     <span class="input-group-btn">
+                        <button type="button" ng-click="person.openDate2($event)" class="btn btn-default">
+                           <em class="fa fa-calendar"></em>
+                        </button>
+                     </span>
+                     <div ng-messages="person.formValidate.fecha_labores.$error" ng-show="person.formValidate.fecha_labores.$dirty" role="alert" class="text-danger">
+                        <div ng-message="date">Debe de ser una fecha</div>
+                        <div ng-message="required">Fecha es obligatoria</div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div ng-if="!person.verifica_empleado()" class="form-group">
+               <label class="col-sm-1 control-label">Telefono</label>
+               <div class="col-sm-4">
+                  <input placeholder="Telefono" type="text" name="telefono" ng-model="person.model.telefono" value="" class="form-control" />
+               </div>
+               <label class="col-sm-2 control-label">Nit</label>
+               <div class="col-sm-4">
+                  <input placeholder="Nit" type="text" name="nit" ng-model="person.model.nit" value="" ng-maxlength="10" class="form-control" />
+               </div>
+            </div>
+            <hr ng-if="person.isUsuario" />
+            <div ng-if="person.isUsuario" class="form-group">
+               <label class="col-sm-1 control-label">Nick</label>
+               <div ng-class="{'has-error': person.formValidate.username.$invalid &amp;&amp; !person.formValidate.username.$pristine}" class="col-sm-4">
+                  <input id="username" placeholder="Nick" type="text" name="username" ng-model="person.usuario.username" value="" ng-required="person.isUsuario" class="form-control" />
+                  <div ng-messages="person.formValidate.username.$error" ng-show="person.formValidate.username.$invalid &amp;&amp; !person.formValidate.username.$pristine" class="text-danger">
+                     <div ng-message="required">Campo requerido</div>
+                     <div ng-message="maxlength">Nick es muy largo</div>
+                  </div>
+               </div>
+               <label class="col-sm-2 control-label">Contraseña</label>
+               <div ng-class="{'has-error': person.formValidate.password.$invalid &amp;&amp; !person.formValidate.password.$pristine}" class="col-sm-4">
+                  <input id="password" placeholder="Contraseña" type="password" name="password" ng-model="person.usuario.password" value="" ng-required="person.isUsuario" class="form-control" />
+                  <div ng-messages="person.formValidate.password.$error" ng-show="person.formValidate.password.$invalid &amp;&amp; !person.formValidate.password.$pristine" class="text-danger">
+                     <div ng-message="required">Campo requerido</div>
+                  </div>
+               </div>
+            </div>
+            <div ng-if="person.isUsuario" class="form-group">
+               <label class="col-sm-1 control-label">Tipo de Usuario</label>
+               <div ng-class="{'has-error': person.formValidate.clasificacion.$invalid &amp;&amp; !person.formValidate.clasificacion.$pristine}" class="col-sm-4">
+                  <select name="grupo" placeholder="Seleccione..." ng-required="person.isEmpleado" ng-model="person.model.grupo" class="form-control">
+                     <option value="">Seleccione una opcion</option>
+                     <option value="1">Bodeguero</option>
+                     <option value="2">Mesero</option>
+                     <option value="3">Cajero</option>
+                     <option value="4">Administrador</option>
+                     <option value="5">Cocina</option>
+                  </select>
+               </div>
+               <label class="col-sm-2 control-label">Impresora Designada</label>
+               <div ng-class="{'has-error': person.formValidate.clasificacion.$invalid &amp;&amp; !person.formValidate.clasificacion.$pristine}" class="col-sm-4">
+                  <select name="grupo" placeholder="Seleccione..." ng-required="person.isEmpleado" ng-model="person.model.impresora" class="form-control">
+                     <option value="">Seleccione una opcion</option>
+                     <option ng-repeat="impresora in person.impresoras" value="{{impresora.printer}}">{{impresora.printer}}</option>
+                  </select>
+               </div>
+            </div>
+            <div ng-if="person.isUsuario &amp;&amp; person.verifica_empleado()" class="form-group">
+               <label class="col-sm-3 control-label">Es Encargado de Cortesías</label>
+               <div class="col-sm-3">
+                  <div class="checkbox c-checkbox">
+                     <label>
+                        <input type="checkbox" ng-model="person.model.cortesias" />
+                        <span class="fa fa-check"></span>Si</label>
+                  </div>
+               </div>
+               <label class="col-sm-2 control-label">Puede Anular Ordenes</label>
+               <div class="col-sm-1">
+                  <div class="checkbox c-checkbox">
+                     <label>
+                        <input type="checkbox" ng-model="person.model.anulaciones" />
+                        <span class="fa fa-check"></span>Si</label>
+                  </div>
+               </div>
+            </div>
+            <hr ng-if="person.verifica_empleado()" />
+            <div ng-show="person.isChica" class="form-group">
+               <label class="col-sm-1 control-label">Porcentaje servicios</label>
+               <div ng-class="{'has-error': person.formValidate.porcentaje_chica.$invalid &amp;&amp; !person.formValidate.porcentaje_chica.$pristine}" class="col-sm-4">
+                  <input placeholder="Porcentaje" type="number" name="porcentaje_chica" min="0" ng-model="person.model.porcentaje_chica" ng-required="person.isChica" class="form-control" />
+                  <div ng-messages="person.formValidate.porcentaje_chica.$error" ng-show="person.formValidate.porcentaje_chica.$invalid &amp;&amp; !person.formValidate.porcentaje_chica.$pristine" class="text-danger">
+                     <div ng-message="required">Campo requerido</div>
+                  </div>
+               </div>
+            </div>
+            <div ng-if="person.isEmpleado" class="form-group">
+               <div class="col-sm-1"></div>
+               <div class="col-sm-2 text-left">
+                  <label class="control-label">Fecha</label>
+               </div>
+               <div class="col-sm-2 text-left">
+                  <label class="control-label">Tipo</label>
+               </div>
+               <div class="col-sm-5 text-left">
+                  <label class="control-label">Observación</label>
+               </div>
+            </div>
+         </form>
+         <form name="person.formHistorial" ng-submit="person.agrega_historial()" novalidate="" class="form-validate form-horizontal">
+            <div ng-if="person.isEmpleado" class="form-group">
+               <div class="col-sm-1"></div>
+               <div class="col-sm-2">
+                  <div class="input-group">
+                     <input uib-datepicker-popup="dd/MM/yyyy" name="fecha" required="required" type="text" ng-model="person.historial.fecha" is-open="person.dateOpened" close-text="Cerrar" clear-text="Limpiar" current-text="Hoy" class="form-control" />
+                     <span class="input-group-btn">
+                        <button type="button" ng-click="person.openDate($event)" class="btn btn-default">
+                           <em class="fa fa-calendar"></em>
+                        </button>
+                     </span>
+                     <div ng-messages="person.formHistorial.fecha.$error" ng-show="person.formHistorial.fecha.$dirty" role="alert" class="text-danger">
+                        <div ng-message="date">Debe de ser una fecha</div>
+                        <div ng-message="required">Fecha es obligatoria</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-sm-2">
+                  <select name="tipo" placeholder="Seleccione..." required="" ng-model="person.historial.tipo" class="form-control">
+                     <option value=""></option>
+                     <option value="1">Contratado</option>
+                     <option value="2">Re-Contradato</option>
+                     <option value="3">Despido</option>
+                     <option value="4">Renuncia</option>
+                  </select>
+               </div>
+               <div class="col-sm-5">
+                  <input name="observacion" required="required" ng-model="person.historial.observacion" class="form-control" />
+               </div>
+               <div class="col-sm-2">
+                  <span class="input-group-btn">
+                     <button type="button" style="border-radius: 3px;" ng-click="person.agregar_historial()" ng-disabled="person.formHistorial.$invalid" class="btn btn-info">
+                        <strong><i class="fa fa-search"> Agregar</i>
+                        </strong>
+                     </button>
+                  </span>
+               </div>
+            </div>
+            <div ng-if="person.isEmpleado" class="col-sm-12">
+               <div class="panel panel-info">
+                  <div class="panel-heading">
+                     <strong>Historial de Contratación</strong>
+                  </div>
+                  <!-- START table-responsive-->
+                  <div class="table-responsive">
+                     <table class="table table-striped table-hover">
+                        <thead>
+                           <tr>
+                              <th width="15%">Fecha</th>
+                              <th width="15%">Tipo</th>
+                              <th width="60%">Observación</th>
+                              <th width="10%">Acciones</th>
+                           </tr>
+                        </thead>
+                        <tbody>
+                           <tr ng-repeat="item in person.model.historial_contratacion">
+                              <td>{{ item.fecha | date:'dd/MM/yyyy' }}</td>
+                              <td ng-if="item.tipo == 1">Contratado</td>
+                              <td ng-if="item.tipo == 2">Re-Contratado</td>
+                              <td ng-if="item.tipo == 3">Despido</td>
+                              <td ng-if="item.tipo == 4">Renuncia</td>
+                              <td>{{ item.observacion }}</td>
+                              <td>
+                                 <div class="btn-group btn-group-sm">
+                                    <button type="button" ng-click="person.retirar(item)" title="Eliminar" class="btn btn-danger"><i class="fa fa-ban"></i>
+                                    </button>
+                                 </div>
+                              </td>
+                           </tr>
+                        </tbody>
+                     </table>
+                  </div>
+               </div>
+            </div>
+         </form>
+      </div>
+      <div class="panel-footer text-right">
+         <button type="button" ui-sref="app.persona.lista()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button>
+         <button type="submit" ng-disabled="person.formValidate.$invalid" ng-click="person.submitPerson()" class="btn btn-info">Agregar</button>
+      </div>
+   </div>
+</div>
+<style>
+   @media screen{
+       .ioSection{
+           display: none;
+       }
+   }
+   @media print{
+       .ioSection{
+           visibility:visible;
+           margin-bottom: 8px;
+       }
+   }
+</style>
+<script type="text/ng-template" id="addTipo.html">
+   <div class="modal-header"><h3 class="modal-title">Ingresar Nuevo Tipo de Persona</h3></div><div class="modal-body"><div ng-show="tipos.errMsg" class="alert alert-danger">{{tipos.errMsg}}</div><div class="row"><div class="col-md-12"><form name="tipos.formValidate" ng-submit="tipos.ok()" novalidate="" class="form-validate form-horizontal"><div class="form-group"><label class="col-sm-2 control-label">Nombre</label><div class="col-sm-10"><input placeholder="Nombre" type="text" name="nombre" required="" ng-model="tipos.model.nombre" class="form-control"/><div ng-messages="tipos.formValidate.nombre.$error" ng-show="tipos.formValidate.nombre.$invalid &amp;&amp; !tipos.formValidate.nombre.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div></div></form></div></div></div><div class="modal-footer"><button type="button" ng-click="tipos.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button><button type="button" ng-disabled="tipos.formValidate.$invalid" ng-click="tipos.ok()" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button></div>
+</script>
+<script type="text/ng-template" id="barcode.html">
+   <div class="modal-header"><h3 class="modal-title">Codigo de Barra de {{ctrl.persona.nombre}}</h3></div><div class="modal-body"><div ng-show="ctrl.errMsg" class="alert alert-danger">{{ctrl.errMsg}}</div><div class="row"><div print-section="print-section" class="col-md-12"><span class="codeBar"> 
+   *{{ctrl.persona.hash_codigo_barra}}*</span><div ng-repeat="n in [0,1,2,3,4,5]" class="ioSection"><span class="codeBar"> 
+   *{{ctrl.persona.hash_codigo_barra}}*</span></div></div></div></div><div class="modal-footer"><button type="button" ng-click="ctrl.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button><button type="button" print-btn="print-btn" class="btn btn-info"><i class="fa fa-print"></i> Imprimir</button></div>
+</script>

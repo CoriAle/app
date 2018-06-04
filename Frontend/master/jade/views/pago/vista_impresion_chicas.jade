@@ -1,0 +1,172 @@
+div(ng-controller="ChicaImpresionController as ctrl")
+    .modal-footer
+        button.btn.btn-default(type="button", ng-click="ctrl.cancel()", ng-if="!ctrl.pagado")
+            i.fa.fa-times-circle
+            |  Cancelar
+        button.btn.btn-default(type="button", ng-click="ctrl.cerrar()", ng-if="ctrl.pagado")
+            i.fa.fa-times-circle
+            |  Cerrar
+        button.btn.btn-warning(type="button", ng-disabled="ctrl.valida()", ng-click="ctrl.pagar()", ng-if="!ctrl.pagado" )
+            i.fa.fa-floppy-o
+            |  Pagar
+        button.btn.btn-success(type="button", print-btn)
+            i.fa.fa-print
+            |  Imprimir
+    div(print-section)
+        page(size="A4")
+            .row
+                .col-lg-12.col-sm-12.col-md-12.col-xs-12
+                    h2 Pago Personal
+            .row
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    p
+                        strong Pago &nbsp;
+                        | Del {{ctrl.dateini | date:'dd/MM/yy hh:mm a'}}
+                        strong Al &nbsp;
+                        | {{ctrl.datefin | date:'dd/MM/yy hh:mm a'}}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    p Quetzaltenango {{ctrl.hoy | date:'dd/MM/yy hh:mm a'}}
+            .row
+                .col-lg-12
+                    p
+                        | Al empleado:
+                        strong {{ctrl.model.nombre}}
+            .row
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    h2 Comisión Ventas
+                    .row
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Valor Ficha
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Cantidad
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Monto
+                    .row
+                        div(ng-repeat="item in ctrl.total_comisiones")
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.precio_ficha | currency:'Q ' }}
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.conteo }}
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.precio_ficha * item.conteo | currency:'Q ' }}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    h2 Comisión Botellas
+                    .row
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Valor Ficha
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Cantidad
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Monto
+                    .row
+                        div(ng-repeat="item in ctrl.total_servicios")
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.precio_ficha | currency:'Q ' }}
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.conteo }}
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.precio_ficha * item.conteo | currency:'Q ' }}
+            .row
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    h2 Bailes
+                    .row
+                        .col-lg-3.col-sm-3.col-md-3.col-xs-3
+                            span Tipo Baile
+                        .col-lg-3.col-sm-3.col-md-3.col-xs-3
+                            span Cantidad
+                        .col-lg-3.col-sm-3.col-md-3.col-xs-3
+                            span Precio
+                        .col-lg-3.col-sm-3.col-md-3.col-xs-3
+                            span Monto
+                    .row
+                        div(ng-repeat="item in ctrl.total_bailes")
+                            .col-lg-3.col-sm-3.col-md-3.col-xs-3
+                                span {{ item.baile__nombre_baile }}
+                            .col-lg-3.col-sm-3.col-md-3.col-xs-3
+                                span {{ item.cantidad }}
+                            .col-lg-3.col-sm-3.col-md-3.col-xs-3
+                                span {{ item.precio | currency:'Q ' }}
+                            .col-lg-3.col-sm-3.col-md-3.col-xs-3
+                                span {{ item.cantidad * item.precio | currency:'Q ' }}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    h2 Gastos con el Personal
+                    .row
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Fecha
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Monto
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Descripcion
+                    .row
+                        div(ng-repeat="item in ctrl.total_gastos")
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.creado | date:'dd/MM/yy' }}
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.monto | currency:'Q ' }}
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.descripcion }}
+            .row
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    h2 Adelantos
+                    .row
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Fecha
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Monto
+                        .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                            span Descripcion
+                    .row
+                        div(ng-repeat="item in ctrl.total_adelantos")
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.creado | date:'dd/MM/yy' }}
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.monto | currency:'Q ' }}
+                            .col-lg-4.col-sm-4.col-md-4.col-xs-4
+                                span {{ item.descripcion }}
+            .row
+                .col-lg-12.col-sm-12.col-md-12.col-xs-12
+                    h2 Resumen de Sueldo
+            .row
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6.pull-rigth
+                    p En cuenta: {{ctrl.saldo | currency: "Q ": 2}}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    p Adelanto: {{ctrl.model.total_adelantos | currency: "Q ": 2}}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6.pull-rigth
+                    p Comisión Ventas: {{ctrl.model.total_comisiones | currency: "Q ": 2}}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    p Gastos con el Personal: {{ctrl.model.total_gastos | currency: "Q ": 2}}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6.pull-rigth
+                    p Comisión Botellas: {{ctrl.model.total_servicios | currency: "Q ": 2}}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    | &nbsp;
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6.pull-rigth
+                    p Bailes: {{ctrl.model.total_bailes | currency: "Q ": 2}}
+            .row
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6.pull-rigth
+                    p Total por: {{ctrl.total | currency: "Q ": 2}}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    p Monto a Pagar:
+                        strong {{ctrl.pago | currency: "Q ": 2}}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6.pull-rigth
+                    p Saldo Actual: {{ctrl.new_saldo | currency: "Q ": 2}}
+            br
+            .row
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    p Recibí de Prestige la cantidad de
+                        strong {{ctrl.pago | currency: "Q ": 2}}
+                .col-lg-6.col-sm-6.col-md-6.col-xs-6
+                    label Firma Recibido
+
+    .modal-footer
+        button.btn.btn-default(type="button", ng-click="ctrl.cancel()", ng-if="!ctrl.pagado")
+            i.fa.fa-times-circle
+            |  Cancelar
+        button.btn.btn-default(type="button", ng-click="ctrl.cerrar()", ng-if="ctrl.pagado")
+            i.fa.fa-times-circle
+            |  Cerrar
+        button.btn.btn-warning(type="button", ng-disabled="ctrl.valida()", ng-click="ctrl.pagar()", ng-if="!ctrl.pagado" )
+            i.fa.fa-floppy-o
+            |  Pagar
+        button.btn.btn-success(type="button", print-btn)
+            i.fa.fa-print
+            |  Imprimir

@@ -1,0 +1,111 @@
+<div class="modal-header">
+   <h3 class="modal-title">Realización de Pago</h3>
+   <div class="row">
+      <label class="col-sm-12 control-label">Descripción de pago</label>
+   </div>
+   <div class="row">
+      <label class="col-sm-12 control-label">Del {{ctrl.dateini | date:'dd/MM/yy hh:mm a'}} Al {{ctrl.datefin | date:'dd/MM/yy hh:mm a'}}</label>
+   </div>
+   <div class="row">
+      <label class="col-sm-12 control-label">Al empleado: {{ctrl.model.nombre}}</label>
+   </div>
+   <div class="modal-body">Detalle del Pago</div>
+   <div class="row">
+      <div class="col-md-12">
+         <form name="ctrl.formAdd" ng-submit="ctrl.create()" novalidate="" class="form-validate form-horizontal">
+            <div class="form-group">
+               <div class="col-sm-6">
+                  <div class="row">
+                     <label class="col-sm-6 control-label">Comisión Ventas</label>
+                     <div class="col-sm-6">
+                        <div class="input-group">
+                           <input disabled="disabled" name="comisionventas" ng-model="ctrl.model.total_comisiones" ng-required="true" type="number" min="0.01" class="form-control" />
+                        </div>
+                     </div>
+                  </div>
+                  <br/>
+                  <div class="row">
+                     <label class="col-sm-6 control-label">Comisión Botellas</label>
+                     <div class="col-sm-6">
+                        <div class="input-group">
+                           <input disabled="disabled" name="servicios" ng-model="ctrl.model.total_servicios" ng-required="true" type="number" min="0.01" class="form-control" />
+                        </div>
+                     </div>
+                  </div>
+                  <br/>
+                  <div class="row">
+                     <label class="col-sm-6 control-label">Bailes</label>
+                     <div class="col-sm-6">
+                        <div class="input-group">
+                           <input disabled="disabled" name="bailes" ng-model="ctrl.model.total_bailes" ng-required="true" type="number" min="0.01" class="form-control" />
+                        </div>
+                     </div>
+                  </div>
+                  <br/>
+                  <div class="row">
+                     <label class="col-sm-6 control-label">Adelanto</label>
+                     <div class="col-sm-6">
+                        <div class="input-group">
+                           <input disabled="disabled" name="adelanto" ng-model="ctrl.model.total_adelantos" ng-required="true" type="number" min="0.01" class="form-control" />
+                        </div>
+                     </div>
+                  </div>
+                  <br/>
+                  <div class="row">
+                     <label class="col-sm-6 control-label">Gastos con el Personal</label>
+                     <div class="col-sm-6">
+                        <div class="input-group">
+                           <input disabled="disabled" name="gastopersonal" ng-model="ctrl.model.total_gastos" ng-required="true" type="number" min="0.01" class="form-control" />
+                        </div>
+                     </div>
+                  </div>
+                  <br/>
+                  <div class="row">
+                     <label class="col-sm-6 control-label">Total por</label>
+                     <div class="col-sm-6">
+                        <div class="input-group">
+                           <input disabled="disabled" name="total" ng-model="ctrl.total" type="number" min="0.01" class="form-control" />
+                        </div>
+                     </div>
+                  </div>
+                  <br/>
+               </div>
+               <div class="col-sm-6">
+                  <div class="row">
+                     <label class="col-sm-6 control-label">En Cuenta:</label>
+                     <div class="col-sm-6">
+                        <div class="input-group">
+                           <input disabled="disabled" name="saldo" ng-model="ctrl.saldo" type="number" min="0.01" class="form-control" />
+                        </div>
+                     </div>
+                  </div>
+                  <br/>
+                  <div class="row">
+                     <label class="col-sm-6 control-label">Monto a Pagar:</label>
+                     <div class="col-sm-6">
+                        <div class="input-group">
+                           <input name="pago" ng-model="ctrl.pago" type="number" min="0.01" ng-change="ctrl.saldar()" class="form-control" />
+                        </div>
+                     </div>
+                  </div>
+                  <br/>
+                  <div class="row">
+                     <label class="col-sm-6 control-label">Saldo Actual:</label>
+                     <div class="col-sm-6">
+                        <div class="input-group">
+                           <input disabled="disabled" name="newsaldo" ng-model="ctrl.new_saldo" type="number" min="0.01" class="form-control" />
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<div class="modal-footer">
+   <button type="button" ng-click="ctrl.cancel()" ng-if="!ctrl.pagado" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button>
+   <button type="button" ng-click="ctrl.cancel()" ng-if="ctrl.pagado" class="btn btn-default"><i class="fa fa-times-circle"></i> Cerrar</button>
+   <button type="button" ng-disabled="ctrl.valida()" ng-click="ctrl.pagar()" ng-if="!ctrl.pagado" class="btn btn-warning"><i class="fa fa-floppy-o"></i> Pagar</button>
+   <button type="button" ng-click="ctrl.vista_impresion()" class="btn btn-success"><i class="fa fa-print"></i> Vista de Impresión</button>
+</div>

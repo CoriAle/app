@@ -1,0 +1,106 @@
+// START panel
+h3 Administración de Persona
+.row(ng-controller="PersonaController as ctrl")
+    .col-sm-12.col-xs-12      
+        .form-group
+            .row
+                .col-sm-6.col-xs-12
+                    button.btn.btn-success(type="button", ui-sref='app.persona.nuevo')
+                        i.fa.fa-plus-circle
+                        |  Nueva Persona
+                .col-sm-6.col-xs-12
+                    form.form-inline.text-right(ng-submit="ctrl.search()", role="form")
+                        .form-group
+                            .input-group
+                                input.form-control(type="text", ng-model="ctrl.query", placeholder="Buscar")
+                                span.input-group-btn
+                                    button.btn.btn-info(type="submit")
+                                        strong
+                                            i.fa.fa-search
+                                            |  Buscar
+
+        .form-group
+            .row
+                label.col-sm-2.control-label Tipo Persona:
+                .col-sm-3
+                    //- Lista Personas
+                    select.input-md(name='tipopersona', ng-model='ctrl.tipopersonaSelect', ng-options='item.nombre for item in ctrl.listaTipopersona', class="form-control")
+                .col-sm-2.col-sm-offset-1
+                    span.input-group-btn
+                        button.btn.btn-info(type="button" ng-click="ctrl.filtro_tipo_persona()")
+                            strong
+                                i.fa.fa-search
+
+
+    br
+    br
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de Personas
+            // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th.text-center(width="25%") Nombre
+                            th.text-center(width="25%") Direccion
+                            th.text-center(width="15%") Telefono
+                            th.text-center(width="15%") Nit
+                            th.text-center Acciones
+                    tbody
+                        tr(ng-repeat="item in ctrl.persona")
+                            td {{ item.nombre}}
+                            td {{ item.direccion}}
+                            td {{ item.telefono}}
+                            td {{ item.nit}}
+                            td.text-right
+                                .btn-group.btn-group-sm(ng-hide="item.codigo_barra")
+                                    button.btn.btn-warning(type="button", ui-sref='app.persona.editar({id: item.id})', title="Editar")
+                                        i.fa.fa-pencil
+                                    button.btn.btn-danger(type="button",  ng-click='ctrl.removePersona(item.id)', title="Eliminar")
+                                        i.fa.fa-ban
+                                .btn-group.btn-group-sm(ng-show="item.codigo_barra")
+                                    button.btn.btn-info(type="button", ng-click='ctrl.openBarcode(item.id)', title="Generar Codigo de Barras")
+                                        i.fa.fa-barcode
+                                    button.btn.btn-warning(type="button", ui-sref='app.persona.editar({id: item.id})', title="Editar")
+                                        i.fa.fa-pencil
+                                    button.btn.btn-danger(type="button",  ng-click='ctrl.removePersona(item.id)', title="Eliminar")
+                                        i.fa.fa-ban
+            // END table-responsive
+            // END panel
+
+        uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")
+        style.
+            @media screen{
+                .ioSection{
+                    display: none;					
+                }
+            }
+            @media print{		
+                .ioSection{
+                    visibility:visible;
+                    margin-bottom: 8px;
+                }
+            }
+
+script(type="text/ng-template", id="barcode.html")
+    .modal-header
+        h3.modal-title Codigo de Barra de {{ctrl.persona.nombre}}
+    .modal-body
+        .alert.alert-danger(ng-show='ctrl.errMsg') {{ctrl.errMsg}}
+        .row
+            .col-md-12(print-section)
+                span.codeBar 
+                    | *{{ctrl.persona.hash_codigo_barra}}*
+                .ioSection(ng-repeat="n in [0,1,2,3,4,5]")
+                    span.codeBar 
+                        | *{{ctrl.persona.hash_codigo_barra}}*
+
+    .modal-footer
+        button.btn.btn-info(type="button" print-btn)
+            i.fa.fa-print
+            |  Imprimir
+        button.btn.btn-default(type="button", ng-click="ctrl.cancel()")
+            i.fa.fa-times-circle
+            |  Cancelar

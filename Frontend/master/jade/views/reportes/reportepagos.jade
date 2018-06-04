@@ -1,0 +1,99 @@
+h3 Listado de Pagos
+.row(ng-controller="ListaPagosController as ctrl")
+    .col-sm-12.col-xs-12
+        .form-group
+            .row
+                .col-sm-4
+                    label.control-label Fecha Hora Inicial
+                .col-sm-4
+                    label.control-label Fecha Hora Final
+                .col-sm-4
+                    label.control-label Nombre de Persona
+                        span
+                            small (En blanco para todos)
+            .row
+                .col-sm-4
+                    p.input-group
+                        input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.iniDate', is-open='ctrl.opened', uib-datepicker-options='ctrl.dateOptions', close-text='Cerrar')
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='ctrl.open($event)')
+                                em.fa.fa-calendar
+
+                .col-sm-4
+                    p.input-group
+                        input.form-control(type='text', name="date", min-date="ctrl.iniDate", max-date="ctrl.hoy", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.finDate', is-open='ctrl.openend', uib-datepicker-options='ctrl.finDate', close-text='Cerrar')
+                        span.input-group-btn
+                            button.btn.btn-default(type='button', ng-click='ctrl.openfin($event)')
+                                em.fa.fa-calendar
+
+                .col-sm-4
+                    input.form-control(type='text' ng-model='ctrl.nombre')
+
+        .form-group(ng-init="ctrl.selectTipo(1)")
+            .col-sm-3
+                .radio-inline.c-radio.c-radio-nofont
+                    label
+                        input(type='radio', ng-model="TipoFiltro", name='TipoFiltro', value='1', ng-change='ctrl.selectTipo(1)')
+                        span
+                        |  Todos
+            .col-sm-3
+                .radio-inline.c-radio.c-radio-nofont
+                    label
+                        input(type='radio', ng-model="TipoFiltro", name='TipoFiltro', value='2', ng-change='ctrl.selectTipo(2)')
+                        span
+                        |  Chicas
+            .col-sm-3
+                .radio-inline.c-radio.c-radio-nofont
+                    label
+                        input(type='radio', ng-model="TipoFiltro", name='TipoFiltro', value='3', ng-change='ctrl.selectTipo(3)')
+                        span
+                        |  Empleados
+            .col-sm-3
+                button.btn.btn-info(type="button" ng-click="ctrl.filtro_pagos()")
+                    strong
+                        i.fa.fa-search
+    br
+    hr
+    br
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de Empleados
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th(width="10%") Nombre
+                            th(width="10%") Fecha Último Pago
+                            th(width="10%") Fecha Transacción
+                            th(width="9%") Comisión Venta
+                            th(width="9%") Comisión Botella
+                            th(width="8%") Bailes
+                            th(width="8%") Adelanto
+                            th(width="10%") Gastos Personales
+                            th(width="10%") Total del Pago
+                            th(width="10%") Saldo en Cuenta
+                            th(width="4%") Imprimir
+                    tbody
+                        tr(ng-repeat="item in ctrl.items")
+                            td {{ item.persona.nombre }}
+                            td {{ item.persona.fecha_pago | date:'dd/MM/yy hh:mm a' }}
+                            td {{ item.creado | date:'dd/MM/yy hh:mm a' }}
+                            td {{ item.comision_venta | currency:'Q ' }}
+                            td {{ item.comision_servicio | currency:'Q ' }}
+                            td {{ item.bailes | currency:'Q ' }}
+                            td {{ item.adelanto | currency:'Q ' }}
+                            td {{ item.gastos_personal | currency:'Q ' }}
+                            td {{ item.a_pagar | currency:'Q ' }}
+                            td {{ item.saldo_actual | currency:'Q ' }}
+                            td
+                                button.btn.btn-info(type="button", ng-click="ctrl.imprimir(item)", ng-if="!ctrl.pagado")
+                                    i.fa.fa-print
+        .panel-footer
+            .row
+                .col-sm-6
+                    uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente",
+                    first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems",
+                    items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page",
+                    max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)",
+                    boundary-links="true")

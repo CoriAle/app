@@ -1,0 +1,154 @@
+<div class="modal-header">
+   <!--Seccion de Impresión-->
+   <div print-section="print-section">
+      <div ng-if="ctrl.eschica">
+         <div class="row">
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+               <h2>Pago Personal</h2>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>
+                  <strong>Pago &nbsp;</strong>Del {{ctrl.model.fecha_inicio | date:'dd/MM/yy hh:mm a'}}
+                  <strong>Al &nbsp;</strong>{{ctrl.model.fecha_fin | date:'dd/MM/yy hh:mm a'}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Quetzaltenango {{ctrl.hoy | date:'dd/MM/yy hh:mm a'}}</p>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-12">
+               <p>Al empleado:
+                  <strong>{{ctrl.model.persona.nombre}}</strong>
+               </p>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+               <h2>Resumen de Sueldo</h2>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pull-rigth">
+               <p>En cuenta: {{ctrl.model.saldo_anterior | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Adelanto: {{ctrl.model.adelanto | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pull-rigth">
+               <p>Comisión Ventas: {{ctrl.model.comision_venta | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Gastos con el Personal: {{ctrl.model.gastos_personal | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pull-rigth">
+               <p>Comisión Botellas: {{ctrl.model.comision_servicio | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">&nbsp;</div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Bailes: {{ctrl.model.bailes | currency: "Q ": 2}}</p>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pull-rigth">
+               <p>Total por: {{ctrl.total | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Monto a Pagar:
+                  <strong>{{ctrl.model.a_pagar | currency: "Q ": 2}}</strong>
+               </p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pull-rigth">
+               <p>Saldo Actual: {{ctrl.model.saldo_actual | currency: "Q ": 2}}</p>
+            </div>
+         </div>
+         <br/>
+         <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Recibí de Prestige la cantidad de
+                  <strong>{{ctrl.model.a_pagar | currency: "Q ": 2}}</strong>
+               </p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <label>Firma Recibido</label>
+            </div>
+         </div>
+      </div>
+      <div ng-if="!ctrl.eschica">
+         <div class="row">
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+               <h2>Pago Personal</h2>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>
+                  <strong>Pago &nbsp;</strong>Del {{ctrl.model.fecha_inicio | date:'dd/MM/yy hh:mm a'}}
+                  <strong>Al &nbsp;</strong>{{ctrl.model.fecha_fin | date:'dd/MM/yy hh:mm a'}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Quetzaltenango {{ctrl.hoy | date:'dd/MM/yy hh:mm a'}}</p>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-12">
+               <p>Al empleado:
+                  <strong>{{ctrl.model.persona.nombre}}</strong>
+               </p>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-12 col-sm-12 col-md-12 col-xs-12">
+               <h2>Resumen de Sueldo</h2>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pull-rigth">
+               <p>En cuenta: {{ctrl.model.saldo_anterior | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Adelanto: {{ctrl.model.adelanto | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pull-rigth">
+               <p>Sueldo Base: {{ctrl.model.persona.sueldo_cuenta | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Gastos con el Personal: {{ctrl.model.gastos_personal | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pull-rigth">
+               <p>Comisión Ventas: {{ctrl.model.comision_venta | currency: "Q ": 2}}</p>
+            </div>
+         </div>
+         <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pull-rigth">
+               <p>Total por: {{ctrl.total | currency: "Q ": 2}}</p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Monto a Pagar:
+                  <strong>{{ctrl.model.a_pagar | currency: "Q ": 2}}</strong>
+               </p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6 pull-rigth">
+               <p>Saldo Actual: {{ctrl.model.saldo_actual | currency: "Q ": 2}}</p>
+            </div>
+         </div>
+         <br/>
+         <div class="row">
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <p>Recibí de Prestige la cantidad de
+                  <strong>{{ctrl.model.a_pagar | currency: "Q ": 2}}</strong>
+               </p>
+            </div>
+            <div class="col-lg-6 col-sm-6 col-md-6 col-xs-6">
+               <label>Firma Recibido</label>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="modal-footer">
+      <button type="button" ng-click="ctrl.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cerrar</button>
+      <button type="button" print-btn="print-btn" class="btn btn-success"><i class="fa fa-print"></i> Imprimir</button>
+   </div>
+   <!-- Fin sección de Impresión-->
+</div>

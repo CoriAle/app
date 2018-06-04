@@ -1,0 +1,60 @@
+<div ng-controller="PersonaController as person" class="container-fluid">
+   <div class="row">
+      <div class="col-md-12"></div>
+      <form name="person.formValidate" ng-submit="person.addPersonaDialog()" novalidate="" class="form-validate form-horizontal">
+         <div class="panel panel-success">
+            <div class="panel-heading">
+               <div class="panel-title">Nueva Persona</div>
+            </div>
+            <div class="panel-body">
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Nombre</label>
+                  <div ng-class="{'has-error': person.formValidate.nombre.$invalid &amp;&amp; !person.formValidate.nombre.$pristine}" class="col-sm-4">
+                     <input id="nombre" placeholder="Nombre" type="text" name="nombre" ng-model="person.model.nombre" value="" required="" class="form-control" />
+                     <div ng-messages="person.formValidate.nombre.$error" ng-show="person.formValidate.nombre.$invalid &amp;&amp; !person.formValidate.nombre.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                     </div>
+                  </div>
+                  <label class="col-sm-2 control-label">Tipo de Persona</label>
+                  <div ng-class="{'has-error': person.formValidate.tipo_persona.$invalid &amp;&amp; !person.formValidate.tipo_persona.$pristine}" class="col-sm-4">
+                     <select data-placeholder="Seleccione....." id="tipo_persona" chosen="" required="" ng-model="person.model.tipo_persona" ng-options="t.nombre for t in person.tipos" class="chosen-select input-md"></select>
+                     <div ng-messages="person.formValidate.tipo_persona.$error" ng-show="person.formValidate.tipo_persona.$dirty" class="text-danger">
+                        <div ng-message="required">Tipo de persona requerido</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Direccion</label>
+                  <div ng-class="{'has-error': person.formValidate.direccion.$invalid &amp;&amp; !person.formValidate.direccion.$pristine}" class="col-sm-4">
+                     <input id="direccion" placeholder="Direccion" type="text" name="direccion" ng-model="person.model.direccion" value="" required="" class="form-control" />
+                     <div ng-messages="person.formValidate.direccion.$error" ng-show="person.formValidate.direccion.$invalid &amp;&amp; !person.formValidate.direccion.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="minlength">Direccion requerida</div>
+                     </div>
+                  </div>
+                  <label class="col-sm-2 control-label">Telefono</label>
+                  <div ng-class="{'has-error': person.formValidate.telefono.$invalid &amp;&amp; !person.formValidate.telefono.$pristine}" class="col-sm-4">
+                     <input id="telefono" placeholder="Telefono" type="text" name="telefono" ng-model="person.model.telefono" value="" required="" class="form-control" />
+                     <div ng-messages="person.formValidate.telefono.$error" ng-show="person.formValidate.telefono.$invalid &amp;&amp; !person.formValidate.telefono.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Nit</label>
+                  <div ng-class="{'has-error': person.formValidate.nit.$invalid &amp;&amp; !person.formValidate.nit.$pristine}" class="col-sm-4">
+                     <input id="nit" placeholder="Nit" type="text" name="nit" ng-model="person.model.nit" value="" required="" ng-maxlength="10" class="form-control" />
+                     <div ng-messages="person.formValidate.nit.$error" ng-show="person.formValidate.nit.$invalid &amp;&amp; !person.formValidate.nit.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="maxlength">Nit es muy largo</div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div class="panel-footer text-center">
+               <button type="submit" ng-disabled="person.formValidate.$invalid" class="btn btn-info">Agregar</button>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>

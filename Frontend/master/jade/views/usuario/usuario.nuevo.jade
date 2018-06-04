@@ -1,0 +1,29 @@
+.container-fluid(ng-controller='UsuarioController as usuario')
+	.row
+		.col-md-12
+		form.form-validate.form-horizontal(name='usuario.formValidate', ng-submit='usuario.saveDialog()', novalidate='')
+			.panel.panel-primary
+				.panel-body
+					legend Agregar Nuevo Usuario
+					.form-group
+						label.col-sm-2.control-label Nombres 
+						.col-sm-10
+							input.form-control(placeholder='Nombres', type='text', name='first_name', ng-model='usuario.model.first_name', value='', required='')
+							span.text-danger(ng-show="form.validateInput('usuario.model.first_name', 'required')") Debe de ingresar los nombres 
+					.form-group
+						label.col-sm-2.control-label Apellidos 
+						.col-sm-10
+							input.form-control(placeholder='Apelldios', type='text', name='last_name', ng-model='usuario.model.last_name', value='', required='')
+							span.text-danger(ng-show="form.validateInput('usuario.model.last_name', 'required')") Debe de ingresar los apellidos
+					.form-group
+						label.col-sm-2.control-label Nick 
+						.col-sm-10
+							input.form-control(placeholder='Nick', type='text', name='username', ng-model='usuario.model.username', value='', required='')
+							span.text-danger(ng-show="form.validateInput('usuario.model.username', 'required')") Debe de ingresar el nick
+					.form-group
+						label.col-sm-2.control-label Contraseña 
+						.col-sm-10
+							input.form-control(placeholder='Contraseña', type='password', name='password', ng-model='usuario.model.password', value='', required='')
+							span.text-danger(ng-show="form.validateInput('usuario.model.password', 'required')") Debe de ingresar la password
+				.panel-footer.text-center
+					button.btn.btn-info(type='submit') Agregar

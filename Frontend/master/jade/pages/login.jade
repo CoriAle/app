@@ -1,0 +1,30 @@
+.block-center.mt-xl.wd-xl(ng-controller="LoginController as login")
+	// START panel
+	.panel.panel-dark.panel-flat
+		.panel-heading.text-center
+			a(href="#")
+				img.block-center.img-rounded(src='app/img/logo.png', alt='Image')
+		.panel-body
+			p.text-center.pv Inicia sesión para Ingresar
+			form.form-validate(role='form', ng-submit="login.login()", name='login.loginForm', novalidate='').mb-lg
+				.form-group.has-feedback
+					input#exampleInputEmail1.form-control(type='text', name="username" placeholder='Ingrese su Usuario', autocomplete="off", ng-model="login.account.username", required='')
+					span.fa.fa-user.form-control-feedback.text-muted
+					span.text-danger(ng-show="login.loginForm.username.$dirty && login.loginForm.username.$error.required") Campo Requerido
+				.form-group.has-feedback
+					input#exampleInputPassword1.form-control(type='password', name="account_password" placeholder='Password', ng-model="login.account.password", required='')
+					span.fa.fa-lock.form-control-feedback.text-muted
+					span.text-danger(ng-show="login.loginForm.account_password.$dirty && login.loginForm.account_password.$error.required") Campo Requerido
+				.clearfix
+					.pull-right
+
+				button.btn.btn-block.btn-primary.mt-lg(type='submit') Login
+
+			.alert.alert-danger.text-center(ng-show='login.authMsg') {{login.authMsg}}
+	// END panel
+	.p-lg.text-center
+		span &copy; 
+		span(ng-bind="app.year") 
+		span  - 
+		span(ng-bind="app.name")
+

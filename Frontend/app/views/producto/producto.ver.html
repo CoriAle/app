@@ -1,0 +1,270 @@
+<!-- START panel-->
+<script>
+   $("#formver :input").attr("disabled", true);
+</script>
+<div ng-controller="ProductoEditarController as editar" class="row">
+   <div class="col-sm-12">
+      <div class="panel panel-info">
+         <div class="panel-heading">
+            <strong>Información del producto</strong>
+         </div>
+         <div class="panel-body">
+            <form id="formver" ng-submit="editar.submit()" name="editar.formValidate" autocomplete="off" novalidate="" class="form-horizontal">
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Nombre</label>
+                  <div class="col-sm-10">
+                     <input placeholder="Nombre" type="text" name="nombre" required="required" ng-model="editar.producto.nombre" class="form-control" />
+                     <div ng-messages="editar.formValidate.nombre.$error" ng-show="editar.formValidate.nombre.$invalid &amp;&amp; !editar.formValidate.nombre.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Tipo Producto</label>
+                  <div class="col-sm-4">
+                     <div class="input-group">
+                        <input name="tipos" ng-model="editar.producto.tipo_producto" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="t as t.nombre for t in editar.tipos($viewValue)" typeahead-min-length="1" typeahead-loading="loadingTipo"
+                        typeahead-no-results="noResults" class="form-control" />
+                        <span auto-close="disabled" ng-show="loadingTipo" class="i fa fa-circle-o-notch fa-spin"></span>
+                        <div ng-show="noResults" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                        </div>
+                        <div ng-messages="editar.formValidate.tipos.$error" ng-show="editar.formValidate.tipos.$invalid &amp;&amp; !editar.formValidate.tipos.$pristine" class="text-danger">
+                           <div ng-message="required">Campo requerido</div>
+                        </div>
+                     </div>
+                  </div>
+                  <label class="col-sm-2 control-label">Presentacion</label>
+                  <div class="col-sm-4">
+                     <div class="input-group">
+                        <input name="presentacion" ng-model="editar.producto.presentacion" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="t as t.nombre for t in editar.presentaciones($viewValue)" typeahead-min-length="1"
+                        typeahead-loading="loadingPresentacion" typeahead-no-results="noResults" class="form-control" />
+                        <span auto-close="disabled" ng-show="loadingPresentacion" class="i fa fa-circle-o-notch fa-spin"></span>
+                        <div ng-show="noResults" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                        </div>
+                        <div ng-messages="editar.formValidate.presentacion.$error" ng-show="editar.formValidate.presentacion.$invalid &amp;&amp; !editar.formValidate.presentacion.$pristine" class="text-danger">
+                           <div ng-message="required">Campo requerido</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Es Combo</label>
+                  <div class="col-sm-1">
+                     <div class="checkbox c-checkbox">
+                        <label>
+                           <input ng-change="editar.esCombo()" type="checkbox" ng-model="editar.producto.es_combo" />
+                           <span class="fa fa-check"></span>Si</label>
+                     </div>
+                  </div>
+                  <label ng-show="editar.producto.es_combo" class="col-sm-1 control-label">Combo Mixto</label>
+                  <div ng-show="editar.producto.es_combo" class="col-sm-1">
+                     <div class="checkbox c-checkbox">
+                        <label>
+                           <input ng-change="editar.esCombo()" type="checkbox" ng-model="editar.producto.combo_mixto" />
+                           <span class="fa fa-check"></span>Si</label>
+                     </div>
+                  </div>
+                  <label class="col-sm-1 control-label">Imprime Ticket</label>
+                  <div class="col-sm-1">
+                     <div class="checkbox c-checkbox">
+                        <label>
+                           <input type="checkbox" ng-model="editar.producto.se_imprime_ticket" />
+                           <span class="fa fa-check"></span>Si</label>
+                     </div>
+                  </div>
+                  <label class="col-sm-1 control-label">Se descuenta</label>
+                  <div class="col-sm-1">
+                     <div class="checkbox c-checkbox">
+                        <label>
+                           <input type="checkbox" ng-model="editar.producto.se_descuenta" />
+                           <span class="fa fa-check"></span>Si</label>
+                     </div>
+                  </div>
+                  <label class="col-sm-1 control-label">Se Carga a empleada</label>
+                  <div class="col-sm-1">
+                     <div class="checkbox c-checkbox">
+                        <label>
+                           <input type="checkbox" ng-model="editar.producto.se_carga_a_empleada" />
+                           <span class="fa fa-check"></span>Si</label>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Precio Costo</label>
+                  <div class="col-sm-4">
+                     <input placeholder="Precio Costo" type="number" step="0.01" name="costo" required="" ng-model="editar.producto.precio_costo" ng-min="0.01" class="form-control" />
+                     <div ng-messages="editar.formValidate.costo.$error" ng-show="editar.formValidate.costo.$invalid &amp;&amp; !editar.formValidate.costo.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="min">Debe ser mayor a 0</div>
+                     </div>
+                  </div>
+                  <label class="col-sm-2 control-label">Precio Venta</label>
+                  <div class="col-sm-4">
+                     <input placeholder="Precio Venta" type="number" step="0.01" name="venta" required="" ng-model="editar.producto.precio_venta" ng-min="0.01" class="form-control" />
+                     <div ng-messages="editar.formValidate.venta.$error" ng-show="editar.formValidate.venta.$invalid &amp;&amp; !editar.formValidate.venta.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="min">Debe de ser mayor a 0</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Cantidad de Fichas</label>
+                  <div class="col-sm-4">
+                     <input placeholder="Cantidad Fichas" type="number" name="cantidad_fichas" required="required" ng-model="editar.producto.cantidad_fichas" ng-min="0" class="form-control" />
+                     <div ng-messages="editar.formValidate.cantidad_fichas.$error" ng-show="editar.formValidate.cantidad_fichas.$invalid &amp;&amp; !editar.formValidate.cantidad_fichas.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="min">No pueden ser numeros negativos</div>
+                     </div>
+                  </div>
+                  <label class="col-sm-2 control-label">Precio de Fichas</label>
+                  <div class="col-sm-4">
+                     <input placeholder="Precio de Fichas" type="number" step="0.01" name="precio_fichas" required="" ng-model="editar.producto.precio_fichas" ng-min="0" class="form-control" />
+                     <div ng-messages="editar.formValidate.precio_fichas.$error" ng-show="editar.formValidate.precio_fichas.$invalid &amp;&amp; !editar.formValidate.precio_fichas.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="min">Debe de ser mayor a 0</div>
+                     </div>
+                  </div>
+               </div>
+               <div ng-show="editar.mixto" class="form-group">
+                  <label class="col-sm-2 control-label">Costo Minimo de Producto</label>
+                  <div class="col-sm-4">
+                     <input placeholder="Costo Minimo de Producto" type="number" step="0.01" name="costo_minimo_producto" ng-required="editar.mixto" ng-model="editar.producto.costo_minimo_producto" ng-min="0" class="form-control" />
+                     <div ng-messages="editar.formValidate.costo_minimo_producto.$error" ng-show="editar.formValidate.costo_minimo_producto.$invalid &amp;&amp; !editar.formValidate.costo_minimo_producto.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="min">Debe ser mayor a 0</div>
+                     </div>
+                  </div>
+                  <label class="col-sm-2 control-label">Cantidad de Productos</label>
+                  <div class="col-sm-4">
+                     <input placeholder="Catidad de Productos" type="number" name="cantidad_productos" ng-required="editar.mixto" ng-model="editar.producto.cantidad_productos" ng-min="0" class="form-control" />
+                     <div ng-messages="editar.formValidate.cantidad_productos.$error" ng-show="editar.formValidate.cantidad_productos.$invalid &amp;&amp; !editar.formValidate.cantidad_productos.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="min">Debe de ser mayor a 0</div>
+                     </div>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label ng-hide="editar.combo" class="col-sm-2 control-label">Existencia Minima</label>
+                  <div ng-hide="editar.combo" class="col-sm-4">
+                     <input placeholder="Existencia Minima" type="number" name="minima" ng-required="!editar.combo" ng-model="editar.producto.existencia_minima" ng-min="0" class="form-control" />
+                     <div ng-messages="editar.formValidate.minima.$error" ng-show="editar.formValidate.minima.$invalid &amp;&amp; !editar.formValidate.minima.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="min">No pueden ser numeros negativos</div>
+                     </div>
+                  </div>
+                  <label class="col-sm-2 control-label">Comision Mesero</label>
+                  <div class="col-sm-4">
+                     <input placeholder="Comision Mesero" type="number" step="0.01" name="comision_mesero" required="" ng-model="editar.producto.comision_mesero" ng-min="0" ng-max="editar.producto.precio_costo/2" class="form-control" />
+                     <div ng-messages="editar.formValidate.comision_mesero.$error" ng-show="editar.formValidate.comision_mesero.$invalid &amp;&amp; !editar.formValidate.comision_mesero.$pristine" class="text-danger">
+                        <div ng-message="required">Campo requerido</div>
+                        <div ng-message="min">Debe de ser mayor a 0</div>
+                        <div ng-message="max">Debe de ser menor al 50% del costo</div>
+                     </div>
+                  </div>
+               </div>
+            </form>
+            <form name="editar.comboForm" ng-submit="editar.addProdCombo()" autocomplete="off" novalidate="" class="form-horizontal">
+               <div ng-show="editar.combo" class="panel panel-primary">
+                  <div class="panel-heading">
+                     <strong>Productos De Combo</strong>
+                  </div>
+                  <div class="panel-body">
+                     <div class="row">
+                        <div class="form-group">
+                           <label class="col-sm-2 control-label">Producto</label>
+                           <div class="col-sm-4">
+                              <input name="producto_combo" ng-model="editar.producto_combo.producto_combo" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="t as (t.nombre +' - '+ t.precio_costo) for t in editar.query_producto($viewValue)"
+                              typeahead-min-length="3" typeahead-loading="loadingTipo" typeahead-no-results="noResults" class="form-control" />
+                              <span auto-close="disabled" ng-show="loadingTipo" class="i fa fa-circle-o-notch fa-spin"></span>
+                              <div ng-show="noResults" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                              </div>
+                              <div ng-messages="editar.comboForm.producto_combo.$error" ng-show="editar.comboForm.producto_combo.$invalid &amp;&amp; !editar.comboForm.producto_combo.$pristine" class="text-danger">
+                                 <div ng-message="required">Campo requerido</div>
+                              </div>
+                           </div>
+                           <label class="col-sm-2 control-label">Cantidad</label>
+                           <div class="col-sm-3">
+                              <input placeholder="Cantidad" required="" ng-show="editar.combo" type="number" name="cantidad" ng-model="editar.producto_combo.cantidad" ng-min="1" class="form-control" />
+                              <div ng-messages="editar.comboForm.cantidad.$error" ng-show="editar.comboForm.cantidad.$invalid &amp;&amp; !editar.formValidate.comboForm.$pristine" class="text-danger">
+                                 <div ng-message="required">Campo requerido</div>
+                                 <div ng-message="min">Debe de ser mayor a 0</div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="panel-footer text-right">
+                     <button type="submit" ng-disabled="editar.comboForm.$invalid" class="btn btn-primary"><i class="fa fa-floppy-o"> agregar</i>
+                     </button>
+                     <button type="button" ng-click="editar.cancelarCombo()" class="btn btn-default"><i class="fa fa-times"> Cancelar</i>
+                     </button>
+                  </div>
+               </div>
+            </form>
+            <div ng-show="editar.combo" class="panel panel-default">
+               <div class="panel-body">
+                  <div class="form-group">
+                     <div class="col-sm-7"></div>
+                     <div class="col-sm-5">
+                        <h2>Costo de Combo: {{editar.totalcostocombo | currency : 'Q '}}</h2>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <div class="col-sm-12">
+                        <table class="table table-bordered table-hover primary">
+                           <tr style="font-weight: bold">
+                              <td style="width:25%">Nombre</td>
+                              <td style="width:15%">Cantidad</td>
+                              <td style="width:15%">Precio Unidad</td>
+                              <td style="width:25%">Precio Total</td>
+                              <td style="width:15%">Acciones</td>
+                           </tr>
+                           <tr ng-repeat="my_combo in editar.producto.productos">
+                              <td>{{ my_combo.producto_combo.nombre }}</td>
+                              <td>{{ my_combo.cantidad}}</td>
+                              <td>{{ my_combo.producto_combo.precio_venta | currency : 'Q '}}</td>
+                              <td>{{ my_combo.producto_combo.precio_venta * my_combo.cantidad | currency : 'Q '}}</td>
+                              <td style="white-space: nowrap">
+                                 <div class="buttons">
+                                    <button type="button" ng-click="editar.removeProdCombo(my_combo)" class="btn btn-sm btn-danger">
+                                       <em class="fa fa-trash-o"></em>
+                                    </button>
+                                 </div>
+                              </td>
+                           </tr>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+            <div ng-show="editar.mixto" class="panel panel-info">
+               <div class="panel-heading">
+                  <strong>Tipos de combo mixto</strong>
+               </div>
+               <div class="panel-body">
+                  <div class="form-group">
+                     <div class="col-sm-12">
+                        <table class="table table-bordered table-hover primary">
+                           <tr style="font-weight: bold">
+                              <td style="width:75%">Nombre</td>
+                           </tr>
+                           <tr ng-repeat="my_combo in editar.producto.productos">
+                              <td>{{ my_combo.tipo_producto_combo.nombre }}</td>
+                           </tr>
+                        </table>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="panel-footer">
+            <div class="row">
+               <div class="col-sm-12 text-right">
+                  <button type="button" ui-sref="app.producto.lista" class="btn btn-default"><i class="fa fa-times"> Cerrar</i>
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

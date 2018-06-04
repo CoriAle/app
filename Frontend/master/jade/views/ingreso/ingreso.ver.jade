@@ -1,0 +1,77 @@
+script
+	$("#formver :input").attr("disabled", true);
+.row(ng-controller='IngresoVerController as ver')
+	.col-md-12				
+		.panel.panel-info
+			.panel-heading
+				.panel-title Información del ingreso
+			.panel-body
+				form.form-horizontal(id="formver" ng-submit='ver.submit()', name='ver.formValidate', autocomplete="off")
+					toaster-container(toaster-options="{'position-class': 'toast-bottom-right', 'close-button':true}")
+					.col-md-9
+						.form-group
+							label.col-sm-2.control-label Proveedor
+							.col-sm-4
+								.input-group
+									input.form-control(name="proveedor", ng-required="true", type="text", ng-model="ver.movimiento.persona", placeholder="Buscar por Nombre, Nit...",
+										uib-typeahead="t as t.nombre for t in ver.proveedores($viewValue)", typeahead-min-length="1", typeahead-loading="loadingPersona", typeahead-no-results="noResultsPer")
+								span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingPersona")
+								.text-danger(ng-show="noResultsPer")
+									i.fa.fa-times No se encontraron resultados
+								.text-danger(ng-messages='ver.formValidate.proveedor.$error', ng-show='ver.formValidate.proveedor.$invalid && !ver.formValidate.proveedor.$pristine')
+									div(ng-message='required') Campo requerido
+							label.col-sm-2.control-label Tipo de Compra
+							.col-sm-4
+								input.form-control(name="tipo", ng-required="true", type="text", ng-model="ver.movimiento.tipo", placeholder="Buscar",
+									uib-typeahead="t as t.nombre for t in ver.tipos | filter:$viewValue | limitTo:8", typeahead-min-length="0", typeahead-loading="loadingTipo", typeahead-no-results="noResults") 
+								span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingTipo")
+								.text-danger(ng-show="noResults")
+									i.fa.fa-times No se encontraron resultados
+								.text-danger(ng-messages='ver.formValidate.tipo.$error', ng-show='ver.formValidate.tipo.$invalid && !ver.formValidate.tipo.$pristine')
+									div(ng-message='required') Campo requerido
+						.form-group
+							label.col-sm-2.control-label Documento
+							.col-sm-4
+								input.form-control(name="documento", ng-required="true", type="text", ng-model="ver.movimiento.documento", placeholder="Buscar",
+									uib-typeahead="t as t.nombre for t in ver.documentos | filter:$viewValue | limitTo:8", typeahead-min-length="0", typeahead-loading="loadingDoc", typeahead-no-results="noResultsDoc") 
+								span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingDoc")
+								.text-danger(ng-show="noResultsDoc")
+									i.fa.fa-times No se encontraron resultados
+								.text-danger(ng-messages='ver.formValidate.documento.$error', ng-show='ver.formValidate.documento.$invalid && !ver.formValidate.documento.$pristine')
+									div(ng-message='required') Campo requerido
+							label.col-sm-2.control-label No. Documento
+							.col-sm-4
+								input.form-control(placeholder='No. de Documento', type='text' name='numero', required='', ng-model='ver.movimiento.no_documento')
+								.text-danger(ng-messages='ver.formValidate.numero.$error', ng-show='ver.formValidate.numero.$invalid && !ver.formValidate.numero.$pristine')
+									div(ng-message='required') Campo requerido
+					.col-md-3
+						.form-group
+							h1 Total: {{ver.movimiento.total_costo | currency : 'Q '}}
+					.col-md-12
+						.panel.panel-info
+							.panel-heading 
+								.panel-title Detalle
+							.panel-body
+								.form-group										
+									.col-md-12
+										table.table.table-bordered.table-hover.primary
+											tr(style='font-weight: bold')
+												td(style='width:25%') Producto
+												td(style='width:15%') Cantidad
+												td(style='width:15%') Precio compra
+												td(style='width:15%') Precio venta
+												td(style='width:15%') Subtotal													
+											tr(ng-repeat='deta in ver.movimiento.detalle')
+												td {{ deta.producto.nombre }} 
+													br
+													span(style="font-size: 0.8em;") {{ deta.observacion}}
+												td {{ deta.cantidad}}
+												td {{ deta.precio_costo | currency : 'Q '}}
+												td {{ deta.precio_venta | currency : 'Q '}}
+												td {{ deta.precio_costo * deta.cantidad | currency : 'Q '}}
+
+			.panel-footer
+				.row					
+					.col-sm-12.text-right
+						button.btn.btn-default(type="button", ui-sref='app.movimiento.listaingreso')
+							i.fa.fa-times  Cerrar

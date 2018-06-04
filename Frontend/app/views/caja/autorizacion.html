@@ -1,0 +1,48 @@
+<!-- START panel-->
+<div class="row"></div>
+<div class="modal-header">
+   <h3 style="text-align:center;" class="modal-title">Autorización</h3>
+   <div class="modal-body"></div>
+   <div class="row">
+      <div ng-controller="AutorizacionController as ctrl" class="col-sm-12">
+         <form role="form" ng-submit="ctrl.login()" name="ctrl.loginForm" novalidate="" class="form-validate mb-lg">
+            <div class="row">
+               <div class="col-sm-12">
+                  <div class="form-group has-feedback">
+                     <input id="exampleInputEmail1" type="text" name="username" placeholder="Ingrese su Usuario" autocomplete="off" ng-model="ctrl.account.username" required="" class="form-control" />
+                     <span class="fa fa-user form-control-feedback text-muted"></span>
+                     <span ng-show="ctrl.loginForm.username.$dirty &amp;&amp; ctrl.loginForm.username.$error.required" class="text-danger">Campo Requerido</span>
+                  </div>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-sm-12">
+                  <div class="form-group has-feedback">
+                     <input id="exampleInputPassword1" type="password" name="account_password" placeholder="Password" ng-model="ctrl.account.password" required="" class="form-control" />
+                     <span class="fa fa-lock form-control-feedback text-muted"></span>
+                     <span ng-show="ctrl.loginForm.account_password.$dirty &amp;&amp; ctrl.loginForm.account_password.$error.required" class="text-danger">Campo Requerido</span>
+                  </div>
+               </div>
+            </div>
+            <div class="clearfix">
+               <div class="pull-right"></div>
+            </div>
+            <div class="row">
+               <div class="col-sm-12">
+                  <button type="submit" class="btn btn-block btn-primary mt-lg">Login</button>
+               </div>
+            </div>
+            <div class="row">
+               <div class="col-sm-12">
+                  <button type="button" ng-click="ctrl.cancelogin()" class="btn btn-block btn-default mt-lg">Salir</button>
+               </div>
+            </div>
+         </form>
+         <div class="row">
+            <div class="col-sm-12">
+               <div ng-show="ctrl.authMsg" class="alert alert-danger text-center">{{ctrl.authMsg}}</div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

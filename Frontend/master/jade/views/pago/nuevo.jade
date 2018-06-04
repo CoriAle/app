@@ -1,0 +1,15 @@
+.container-fluid(ng-controller='TipoProductoController as tipos')
+	.row
+		.col-md-12
+		form.form-validate.form-horizontal(name='tipos.formValidate', ng-submit='tipos.addTipoDialog()', novalidate='')
+			.panel.panel-success
+				.panel-body
+					legend Agregar nuevo tipo de Producto
+					.form-group
+						label.col-sm-2.control-label Nombre
+						.col-sm-10
+							input.form-control(placeholder='Nombre', type='text', name='nombre', required='', ng-model='tipos.model.nombre')
+							.text-danger(ng-messages='tipos.formValidate.nombre.$error', ng-show='tipos.formValidate.nombre.$invalid && !tipos.formValidate.nombre.$pristine')
+								div(ng-message='required') Campo requerido
+				.panel-footer.text-center
+					button.btn.btn-info(type='submit', ng-disabled='tipos.formValidate.$invalid') Agregar

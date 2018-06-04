@@ -1,0 +1,210 @@
+.row(ng-controller="CajaModalController as ctrl")
+    .col-sm-7
+        button.btn.btn-success(ng-click="ctrl.openPagos()", ng-hide='ctrl.activaPago == false', ng-init="ctrl.activaPago==false")
+            i.fa.fa-credit-card
+            |  
+            strong  Pagos
+    .col-sm-5
+        label Caja:
+            select.chosen-select.input-md(name='baja', data-placeholder='Seleccione...', ng-options='item.nombre for item in ctrl.lista', ng-change='ctrl.compruebaCaja()', class="form-control", ng-model="ctrl.cajaSelect")
+            //- .text-danger(ng-messages='nuevo.formValidate.baja.$error', ng-show='nuevo.formValidate.baja.$invalid && !nuevo.formValidate.baja.$pristine')
+            //- div(ng-message='required') Campo requerido    
+        button.btn.btn-success(ng-click="ctrl.accionCaja()", ng-class="!ctrl.estadoCaja ? 'btn-danger':''", ng-show='ctrl.cajaSelect.activo == true')
+            i.fa.fa-money
+            |  
+            strong(ng-if="ctrl.estadoCaja") Aperturar
+            strong(ng-if="!ctrl.estadoCaja") Cerrar
+
+ul.nav.nav-tabs
+    li(role='presentation')
+        a(ng-href='#/app/caja/pendientes') Cuentas pendientes de pago
+    li(role='presentation')
+        a(ng-href='#/app/caja/pagadas') Cuentas pagadas
+    //- li(role='presentation')
+    //-     a(ng-href='#/app/caja/mesas') Mesas en Uso
+div(ui-view="")
+style.
+    @media print{
+        .ioSection{
+            display: none;
+        }
+        .oiSection{
+            visibility:visible;
+        }
+    }
+    @media screen{
+        .ioSection{
+            visibility:visible;
+        }
+        .oiSection{
+            display: none;
+        }
+    }
+script(type="text/ng-template", id="accionesCaja.html")
+    .modal-header
+        h3.modal-title
+            span(ng-if="accion.estadoCaja") Aperturar caja: {{accion.caja.nombre}}
+            span(ng-if="!accion.estadoCaja") Cerrar caja: {{accion.caja.nombre}}
+        .modal-body
+        .row(print-section)
+            .col-md-12
+                span Cajero: {{accion.cajero.nombre}}
+                br
+                span Fecha Apertura: {{accion.cierre[0].creado | date:'dd/MM/yyyy hh:mm:ss a'}}
+                br
+                span.oiSection Fecha Cierre: {{accion.cierre[0].modificado | date:'dd/MM/yyyy hh:mm:ss a'}}
+                br
+            .col-md-12
+                label.control-label Cierre de Caja
+                form.form-validate.form-horizontal(name='accion.formAdd', ng-submit='accion.addPago()', novalidate='')
+                    .col-sm-4.ioSection
+                        .form-group
+                            label.control-label Denominación
+                            select.form-control(name="forma", ng-model="accion.denominacion.denominacion", required="", ng-options="den.nombre for den in accion.denominaciones")
+                                option(value='') Seleccione una opcion
+                            .text-danger(ng-messages='accion.formAdd.forma.$error', ng-show='accion.formAdd.forma.$invalid && !accion.formAdd.forma.$pristine')
+                                div(ng-message='required') Campo requerido
+
+                    .col-sm-8.ioSection
+                        .form-group
+                            .col-sm-4
+                                label.control-label Cantidad
+                                input.form-control(placeholder='Cantidad', type='number', step='1', name="monto", ng-model="accion.denominacion.cantidad", required="", ng-min='0.01')
+                                .text-danger(ng-messages='accion.formAdd.monto.$error', ng-show='accion.formAdd.monto.$invalid && !accion.formAdd.monto.$pristine')
+                                    div(ng-message='required') Campo requerido
+                                    div(ng-message='min') Debe ser mayor a 0
+
+                            .col-sm-4(ng-if="accion.denominacion.denominacion.nombre == 'Voucher'")
+                                label.control-label Monto
+                                input.form-control(placeholder='Total', type='number', step='1', name="total", ng-model="accion.denominacion.monto", required="", ng-min='0.01')
+                                .text-danger(ng-messages='accion.formAdd.total.$error', ng-show='accion.formAdd.total.$invalid && !accion.formAdd.total.$pristine')
+                                    div(ng-message='required') Campo requerido
+                                    div(ng-message='min') Debe ser mayor a 0
+                            .col-sm-3(style="margin-top:25px;")
+                                button.btn.btn-primary(type="submit", ng-click="accion.addDetalle()", title="Agregar", ng-disabled="accion.formAdd.$invalid")
+                                    i.fa.fa-plus-circle
+                    .form-group.col-sm-12
+                        table.table.table-bordered.table-hover.primary
+                            tr(style='font-weight: bold')
+                                td(style='width:30%') Denominación
+                                td(style='width:30%') Cantidad
+                                td(style='width:30%') Subtotal
+                                td.ioSection(style='width:10%') Acciones
+                            tr(ng-repeat='item in accion.detalle')
+                                td
+                                    span(ng-if="item.denominacion != 'Voucher'") {{ item.denominacion | currency: 'Q '}}
+                                    span(ng-if="item.denominacion == 'Voucher'") {{ item.denominacion }}
+                                td {{ item.cantidad }}
+                                td {{ item.total | currency: 'Q '}}
+                                td.ioSection(style='white-space: nowrap')
+                                    .buttons
+                                        button.btn.btn-sm.btn-danger(type='button', ng-click='accion.remove(item)')
+                                            em.fa.fa-trash-o
+                    .form-group(style='font-size:large; font-weight:bold')
+                        p
+                            .col-sm-12(ng-if="!accion.estadoCaja")
+                                .col-sm-6
+                                    span Detalle del cierre
+                                    br
+                                    span Ventas Efectivo: {{accion.ventas.efectivo | currency : 'Q '}}
+                                    br
+                                    span Ventas Tarjeta: {{accion.ventas.tarjeta | currency : 'Q '}}
+                                    br
+                                    span Cortesias: {{accion.ventas.cortesias | currency : 'Q '}}
+                                    br
+                                    span Total ventas: {{accion.ventas.totales | currency : 'Q '}}
+                                    br
+                                .col-sm-6(style="text-align:right;")
+                                    span Total apertura: {{accion.cierre[0].apertura | currency : 'Q '}}
+                                    br
+                                    span(ng-class="'text-warning'") Total pagos: {{accion.ventas.pagos | currency : 'Q '}}
+                                    br
+                                    span(ng-class="accion.ventas.tdia < 0 ? 'text-danger':'text-success'") Total día: {{accion.ventas.tdia | currency: 'Q '}}
+                                    br
+                                    span Cierre: {{accion.total | currency : 'Q '}}
+                                    br
+                                    span(ng-class="accion.ventas.diferencia < 0 ? 'text-danger':'text-success'") Diferencia: {{accion.ventas.diferencia | currency: 'Q '}}
+                            .col-sm-12(ng-if="accion.estadoCaja" style="text-align:right;")
+                                span Total: {{accion.total | currency : 'Q '}}
+    .alert.alert-danger(ng-show='accion.errMsg') {{accion.errMsg}}
+    .alert.alert-info(ng-show='accion.agregarMsg') {{accion.agregarMsg}}
+    .modal-footer
+        .row
+            .col-sm-6(style="text-align:left;")
+                button.btn.bg-danger-light(type="button", ng-click="accion.cancel()")
+                    i.fa.fa-times-circle
+                    |  Cancelar
+            .col-sm-6(style="text-align:right;")
+                button.btn.btn-primary(type="button" print-btn ng-disabled="!accion.imprimir")
+                    i.fa.fa-print
+                    |  Imprimir
+                button.btn.btn-success(type="button", ng-disabled="accion.valida()", ng-click="accion.submit()")
+                    i.fa.fa-floppy-o
+                    |  Guardar
+
+script(type="text/ng-template", id="accionesPago.html")
+    .modal-header
+        h3.modal-title Ingreso Pago
+        .modal-body	Detalle de Gasto
+        .row
+            .col-md-12
+                form.form-validate.form-horizontal(name='accion.formAdd', ng-submit='accion.createFromCaja()', novalidate='')
+                    .form-group
+                        label.control-label.col-sm-2 Motivo
+                        .col-sm-9
+                            //- Lista Motivos de Egreso
+                            select.input-md(name='motivo', ng-model='accion.motivoSelect', ng-required="true",
+                            ng-options='item as item.nombre for item in accion.listaTipoegreso', value="{{accion.listaTipoegreso.id}}", class="form-control")
+
+                    .form-group
+                        label.col-sm-2.control-label Tipo Persona
+                        .col-sm-4
+                            //- Lista Tipos de Personas
+                            select.input-md(name='tipopersona', ng-model='accion.tipopersonaSelect', ng-required="true",
+                            ng-options='item.nombre for item in accion.listaTipopersona', class="form-control")
+                        label.control-label.col-sm-2 Monto
+                        .col-sm-2
+                            //- Monto
+                            input.form-control(type="number", ng-model="accion.monto" placeholder="Monto", name="monto", ng-required="true", min="0.01")
+                            .text-danger(ng-messages='accion.formAdd.monto.$error', ng-show='accion.formAdd.monto.$invalid && !accion.formAdd.monto.$pristine')
+                                div(ng-message='required') Campo requerido
+                                div(ng-message='min') No negativos o 0
+
+                    .form-group
+                        label.control-label.col-sm-2 Persona
+                        .col-sm-4
+                            //- Lista de Personas con Cuenta
+                            .input-group
+                                input.form-control(name='persona', ng-model='accion.personaSelect', ng-required="true", type="text", placeholder="Buscar por Nombre...", 
+                                uib-typeahead="cuentas as cuentas.nombre for cuentas in accion.personacuenta($viewValue) | limitTo:7", 
+                                typeahead-min-length="1", typeahead-loading="loadingTipo", typeahead-no-results="noResultsTipo", ng-show="accion.tipopersonaSelect",
+                                value="{{accion.personaSelect.cuenta.id}}")
+                            
+                            .text-danger(ng-show="noResultsTipo")
+                                i.fa.fa-times No se encontraron resultados y/o seleccione Tipo Persona
+                            .text-danger(ng-messages='accion.formAdd.persona.$error', ng-show='accion.formAdd.persona.$invalid && !accion.formAdd.persona.$pristine')
+                                div(ng-message='required') Campo requerido
+                            span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingTipo")
+                        //- label.col-sm-2.control-label Semanal
+                        //- .col-sm-2
+                        //-     .checkbox.c-checkbox
+                        //-         label
+                        //-             input(type='checkbox', ng-model='accion.semanal')
+                        //-             span.fa.fa-check
+                        //-             | Si
+
+                    hr
+                    .form-group
+                        label.col-sm-2.control-label Descripcion
+                        .col-sm-10
+                            textarea.form-control(placeholder="Descripcion", name="descripcion", ng-required="true", ng-model="accion.descripcion")
+
+    .alert.alert-danger(ng-show='accion.errMsg') {{accion.errMsg}}
+    .alert.alert-info(ng-show='accion.agregarMsg') {{accion.agregarMsg}}
+    .modal-footer
+        button.btn.btn-default(type="button", ng-click="accion.cancel()")
+            i.fa.fa-times-circle
+            |  Cancelar
+        button.btn.btn-success(type="button", ng-disabled="nuevo.formAdd.$invalid", ng-click="accion.createFromCaja()" ng-class="accion.personaSelect.id > 0 ? 'btn-success':'btn-warning'")
+            i.fa.fa-floppy-o
+            |  Guardar

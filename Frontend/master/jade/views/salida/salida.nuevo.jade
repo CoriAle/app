@@ -1,0 +1,61 @@
+.row
+	.col-md-12
+		div(ng-controller='SalidaController as nuevo')
+			form.form-horizontal(ng-submit='nuevo.submit()', name='nuevo.formValidate', autocomplete="off")
+				.panel.panel-success
+					.panel-heading
+						.panel-title Nueva Baja de Producto
+					.panel-body
+						.col-md-9
+							.form-group
+								label.col-sm-2.control-label Baja Por:
+								.col-sm-5
+									select.chosen-select.input-md(name='baja', data-placeholder='Seleccione.....', required='', chosen='', ng-model='nuevo.movimiento.tipo_baja', ng-options='p.nombre for p in nuevo.tipos_baja')
+									.text-danger(ng-messages='nuevo.formValidate.baja.$error', ng-show='nuevo.formValidate.baja.$invalid && !nuevo.formValidate.baja.$pristine')
+										div(ng-message='required') Campo requerido
+							.form-group
+								label.col-sm-2.control-label Descripcion:
+								.col-sm-10
+									textarea.form-control(placeholder='Descripcion', name='motivo', required='required' ng-model='nuevo.movimiento.motivo')
+									.text-danger(ng-messages='nuevo.formValidate.motivo.$error', ng-show='nuevo.formValidate.motivo.$invalid && !nuevo.formValidate.motivo.$pristine')
+										div(ng-message='required') Campo requerido
+						.col-md-3
+							.form-group
+								h1 Total: {{nuevo.movimiento.total_costo | currency : 'Q '}}
+						.col-md-12
+							.panel.panel-default
+								.panel-heading 
+									.panel-title Detalle
+								.panel-body
+									.form-group
+										label.col-sm-1.control-label Productos
+										.col-sm-6
+											input.form-control(name="producto", type="text", ng-change='nuevo.cargaProducto()', ng-model='nuevo.detalle.producto', placeholder="Buscar",
+												uib-typeahead="t as t.nombre for t in nuevo.productos($viewValue)", typeahead-min-length="0", typeahead-loading="loadingProd", typeahead-no-results="noResultsProd") 
+											span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingProd")
+											.text-danger(ng-show="noResultsProd")
+												i.fa.fa-times No se encontraron resultados
+										label.col-sm-1.control-label Cantidad
+										.col-sm-3
+											input.form-control(placeholder='Cantidad', type='number', name='cantidad', ng-model='nuevo.detalle.cantidad')
+										.col-sm-1
+											button.btn.btn-success.fa.fa-plus-circle(type='button', ng-click='nuevo.addProd()')
+									.form-group
+										.col-md-1
+										.col-md-10
+											table.table.table-bordered.table-hover.primary
+												tr(style='font-weight: bold')
+													td(style='width:25%') Producto
+													td(style='width:15%') Cantidad
+													td(style='width:15%') Precio
+													td(style='width:15%') Acciones
+												tr(ng-repeat='deta in nuevo.movimiento.detalle')
+													td {{ deta.producto.nombre }}
+													td {{ deta.cantidad}}
+													td {{ deta.producto.precio_costo | currency : 'Q '}}
+													td(style='white-space: nowrap')
+														.buttons
+															button.btn.btn-sm.btn-danger(type='button', ng-click='nuevo.removeProd(deta)')
+																em.fa.fa-trash-o
+					.panel-footer.text-right
+						button.btn.btn-success(type='submit', ng-disabled='nuevo.formValidate.$invalid') Guardar

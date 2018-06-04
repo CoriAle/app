@@ -1,0 +1,73 @@
+h3 Mesas en Uso
+.row(ng-controller="MesasController as ctrl")
+    .col-sm-3.col-xs-3
+        span.input-group-btn
+            button.btn.btn-purple(type="submit" ng-click="ctrl.refrescar()" style="border-radius: 4px;")
+                strong
+                    i.fa.fa-refresh  Refrescar
+    .col-sm-3
+        form.form-inline.text-right(ng-submit="ctrl.buscar()", role="form")
+            .form-group
+                .input-group
+                    input.form-control(type="text", ng-model="ctrl.query", placeholder="Buscar")
+                    span.input-group-btn
+                        button.btn.btn-info(type="submit")
+                            strong
+                                i.fa.fa-search  Buscar Mesa
+    .col-sm-6
+        .form-group(ng-init="ctrl.selectTipo(1)")
+            .col-sm-3
+                .radio-inline.c-radio.c-radio-nofont
+                    label
+                        input(type='radio', ng-model="TipoFiltro", name='TipoFiltro', value='1', ng-change='ctrl.selectTipo(1)')
+                        span
+                        |  Todos
+            .col-sm-3
+                .radio-inline.c-radio.c-radio-nofont
+                    label
+                        input(type='radio', ng-model="TipoFiltro", name='TipoFiltro', value='2', ng-change='ctrl.selectTipo(2)')
+                        span
+                        |  Caja
+            .col-sm-3
+                .radio-inline.c-radio.c-radio-nofont
+                    label
+                        input(type='radio', ng-model="TipoFiltro", name='TipoFiltro', value='3', ng-change='ctrl.selectTipo(3)')
+                        span
+                        |  Tablet
+            .col-sm-3
+                button.btn.btn-info(type="button" ng-click="ctrl.filtrar(ctrl.tipo, 1)")
+                    strong
+                        i.fa.fa-search
+    br
+    br
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de Mesas
+            // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th(width="15%") Fecha
+                            th(width="10%") Mesa
+                            th(width="40%") Detalle
+                            th(width="15%") Mesero
+                            th(width="10%") Total
+                            th(width="10%") Estado
+                    tbody
+                        tr(ng-repeat="item in ctrl.mesas")
+                            td {{ item.fecha | date: "dd/MM/yyyy hh:mm a"}}
+                            td {{ item.mesa}}
+                            td {{ item.detalle}}
+                            td {{ item.mesero}}
+                            td {{ item.total | currency: 'Q '}}
+                            td {{ item.estado}}
+        .panel-footer
+            .row
+                .col-sm-6
+                    uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente",
+                    first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems",
+                    items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page",
+                    max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)",
+                    boundary-links="true")

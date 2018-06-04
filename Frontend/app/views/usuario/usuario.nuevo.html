@@ -1,0 +1,43 @@
+<div ng-controller="UsuarioController as usuario" class="container-fluid">
+   <div class="row">
+      <div class="col-md-12"></div>
+      <form name="usuario.formValidate" ng-submit="usuario.saveDialog()" novalidate="" class="form-validate form-horizontal">
+         <div class="panel panel-primary">
+            <div class="panel-body">
+               <legend>Agregar Nuevo Usuario</legend>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Nombres</label>
+                  <div class="col-sm-10">
+                     <input placeholder="Nombres" type="text" name="first_name" ng-model="usuario.model.first_name" value="" required="" class="form-control" />
+                     <span ng-show="form.validateInput('usuario.model.first_name', 'required')" class="text-danger">Debe de ingresar los nombres</span>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Apellidos</label>
+                  <div class="col-sm-10">
+                     <input placeholder="Apelldios" type="text" name="last_name" ng-model="usuario.model.last_name" value="" required="" class="form-control" />
+                     <span ng-show="form.validateInput('usuario.model.last_name', 'required')" class="text-danger">Debe de ingresar los apellidos</span>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Nick</label>
+                  <div class="col-sm-10">
+                     <input placeholder="Nick" type="text" name="username" ng-model="usuario.model.username" value="" required="" class="form-control" />
+                     <span ng-show="form.validateInput('usuario.model.username', 'required')" class="text-danger">Debe de ingresar el nick</span>
+                  </div>
+               </div>
+               <div class="form-group">
+                  <label class="col-sm-2 control-label">Contraseña</label>
+                  <div class="col-sm-10">
+                     <input placeholder="Contraseña" type="password" name="password" ng-model="usuario.model.password" value="" required="" class="form-control" />
+                     <span ng-show="form.validateInput('usuario.model.password', 'required')" class="text-danger">Debe de ingresar la password</span>
+                  </div>
+               </div>
+            </div>
+            <div class="panel-footer text-center">
+               <button type="submit" class="btn btn-info">Agregar</button>
+            </div>
+         </div>
+      </form>
+   </div>
+</div>

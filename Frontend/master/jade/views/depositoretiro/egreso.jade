@@ -1,0 +1,77 @@
+// START panel
+h3 Egreso
+.row(ng-controller="RetiroController as ctrl")
+    .col-sm-12
+        form.form-validate.form-horizontal(name="ctrl.formRetiro", ng-submit='ctrl.create()', utocomplete="off", novalidate="")
+            .panel.panel-success
+                .panel-heading
+                    strong Detalle de Gasto
+                .panel-body          
+                    .form-group(ng-class="{ 'has-error' : ctrl.formRetiro.nombre.$invalid && ctrl.formRetiro.nombre.$dirty }")
+                        label.control-label.col-sm-2 Motivo
+                        .col-sm-9
+                            //- Lista Motivos de Egreso
+                            select.input-md(name='motivo', ng-model='ctrl.motivoSelect', 
+                            ng-options='item as item.nombre for item in ctrl.listaTipoegreso', value="{{ctrl.listaTipoegreso.id}}", class="form-control")
+
+                    .form-group
+                        label.col-sm-2.control-label Tipo Persona
+                        .col-sm-4
+                            //- Lista Tipos de Personas
+                            select.input-md(name='tipopersona', ng-model='ctrl.tipopersonaSelect', 
+                            ng-options='item.nombre for item in ctrl.listaTipopersona', class="form-control")
+                        label.control-label.col-sm-2 Monto
+                        .col-sm-2
+                            //- Monto
+                            input.form-control(type="number", ng-model="ctrl.monto" placeholder="Monto", name="monto", required="", min="0.01")
+                                
+                    .form-group
+                        label.control-label.col-sm-2 Persona
+                        .col-sm-4
+                            //- Lista de Personas con Cuenta
+                            .input-group
+                                input.form-control(name='persona', ng-model='ctrl.personaSelect', ng-required="true", type="text", placeholder="Buscar por Nombre...", 
+                                uib-typeahead="cuentas as cuentas.nombre for cuentas in ctrl.personacuenta($viewValue) | limitTo:7", 
+                                typeahead-min-length="1", typeahead-loading="loadingTipo", typeahead-no-results="noResultsTipo", , ng-show="ctrl.tipopersonaSelect")
+                            
+                            .text-danger(ng-show="noResultsTipo")
+                                i.fa.fa-times No se encontraron resultados
+                            .text-danger(ng-messages='ctrl.formRetiro.persona.$error', ng-show='ctrl.formRetiro.persona.$invalid && !ctrl.formRetiro.persona.$pristine')
+                                div(ng-message='required') Campo requerido
+                            span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingTipo")
+
+                    hr
+                    .form-group
+                        label.col-sm-2.control-label Cuenta
+                        .col-sm-4
+                            //- Lista de Empresas con cuenta
+                            .input-group
+                                input.form-control(name='empresa', ng-model='ctrl.empresaSelect', ng-required="true", type="text", placeholder="Buscar por Nombre...", 
+                                uib-typeahead="cuenta as cuenta.nombre_empresa for cuenta in ctrl.empresacuenta($viewValue) | limitTo:7", typeahead-min-length="1", typeahead-loading="loadingEmpresa", typeahead-no-results="noResults")
+                            
+                            .text-danger(ng-show="noResults")
+                                i.fa.fa-times No se encontraron resultados
+                            .text-danger(ng-messages='ctrl.formRetiro.empresa.$error', ng-show='ctrl.formRetiro.empresa.$invalid && !ctrl.formRetiro.empresa.$pristine')
+                                div(ng-message='required') Campo requerido
+                            span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingEmpresa")
+                        label.col-sm-2.control-label Forma Pago
+                        .col-sm-4
+                            //- Lista Formas de Pago
+                            select.input-md(name='formapago', ng-model='ctrl.tipopagoSelect', 
+                            ng-options='item as item.tipo for item in ctrl.listaFormaPago', value="{{ctrl.listaFormaPago.id}}", class="form-control")
+                    
+                    .form-group
+                        label.col-sm-2.control-label Descripcion
+                        .col-sm-10
+                            textarea.form-control(placeholder="Descripcion", name="descripcion", ng-minlength='2', ng-required="true", ng-model="ctrl.descripcion")
+
+
+
+                .panel-footer.text-right
+                    .row
+                        .col-sm-6.text-left              
+                        .col-sm-6.text-right
+                            button.btn.btn-default(type="button", ng-click="ctrl.close()")
+                                i.fa.fa-times-circle  Cancelar
+                            button.btn.btn-primary(type="submit", ng-disabled="ctrl.form.$invalid")
+                                i.fa.fa-floppy-o  Guardar

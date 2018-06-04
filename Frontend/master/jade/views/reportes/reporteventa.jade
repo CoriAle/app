@@ -1,0 +1,87 @@
+// START panel
+h3 Reporte de Ventas por Empleado
+.row(ng-controller="ReporteVentaController as ctrl")
+	.col-sm-12.col-xs-12      
+		.form-group
+			.row
+				.col-sm-3
+					label.control-label Fecha Inicial
+				.col-sm-3
+					label.control-label Fecha Final
+			.row
+				.col-sm-3          
+					p.input-group
+						input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.iniDate', is-open='ctrl.opened', uib-datepicker-options='ctrl.dateOptions', close-text='Cerrar')
+						span.input-group-btn
+							button.btn.btn-default(type='button', ng-click='ctrl.open($event)')
+								em.fa.fa-calendar
+				.col-sm-3          
+					p.input-group
+						input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.finDate', is-open='ctrl.openend', uib-datepicker-options='ctrl.finDate', close-text='Cerrar')
+						span.input-group-btn
+							button.btn.btn-default(type='button', ng-click='ctrl.openfin($event)')
+								em.fa.fa-calendar
+					
+		.form-group
+			label.col-sm-2.control-label Reporte de:
+			.col-sm-3
+				.input-group
+						input.form-control(name='persona', ng-model='ctrl.personaNickname', type="text", placeholder="Buscar por Nickname...", 
+						uib-typeahead="cuentas as cuentas.username for cuentas in ctrl.personacuenta($viewValue) | limitTo:7", typeahead-min-length="1", 
+						typeahead-loading="loadingTipo", typeahead-no-results="noResultsTipo")
+				
+				.text-danger(ng-show="noResultsTipo")
+						i.fa.fa-times No se encontró empleado
+				.text-danger(ng-messages='ctrl.formRetiro.persona.$error', ng-show='ctrl.formRetiro.persona.$invalid && !ctrl.formRetiro.persona.$pristine')
+						div(ng-message='required') Campo requerido
+				span.i.fa.fa-circle-o-notch.fa-spin(auto-close="disabled", ng-show="loadingTipo")
+					
+			.col-sm-3
+
+				span.input-group-btn
+					button.btn.btn-info(type="button" ng-click="ctrl.filtro_reporte()")
+						strong
+							i.fa.fa-search
+		br
+		br
+	.col-sm-12
+		.panel.panel-primary
+			.panel-heading
+				strong Detalle de Ventas
+			// START table-responsive
+			.table-responsive
+				table.table.table-striped.table-hover
+					thead
+						tr
+							th(width="13%") Fecha Pedido
+							th(width="13%") Fecha Pago
+							th(width="5%") No.
+							th(width="8%", style="text-align:center") Tipo Documento
+							th(width="8%", style="text-align:center") Responsable	
+							th(width="23%") Observaciones
+							th(width="10%", style="text-align:center") Transaccion
+							th(width="5%", style="text-align:center") Cobrado por
+							th(width="5%", style="text-align:center") Anulado
+							th(width="10%", style="text-align:center") Valor
+					tbody
+						tr(ng-repeat="item in ctrl.lista" ng-if="item.transacciones[0].usuario.username == ctrl.personaUser || item.transacciones[1].usuario.username == ctrl.personaUser")
+							td {{ item.creado | date:'dd/MM/yy hh:mm a' }}
+							td {{ item.modificado | date:'dd/MM/yy hh:mm a' }}
+							td {{ item.id }}
+							td(align="center") {{ ctrl.lista.tipo_doc }}
+							td(ng-if="item.transacciones[0].usuario.username == ctrl.personaUser", align="center") {{ctrl.personaUser}} 
+							td(ng-if="item.transacciones[1].usuario.username == ctrl.personaUser", align="center") {{ctrl.personaUser}} 
+							td {{ item.motivo }}
+							td(ng-if="item.transacciones[0].usuario.username == ctrl.personaUser && item.transacciones[0].tipo_transaccion == 4", align="center") Envio a caja
+							td(ng-if="item.transacciones[0].usuario.username == ctrl.personaUser && item.transacciones[0].tipo_transaccion == 3", align="center") Cobrado
+							td(ng-if="item.transacciones[1].usuario.username == ctrl.personaUser && item.transacciones[1].tipo_transaccion == 4", align="center") Envio a caja
+							td(ng-if="item.transacciones[1].usuario.username == ctrl.personaUser && item.transacciones[1].tipo_transaccion == 3", align="center") Cobrado
+							td(align="center") {{ item.transacciones[1].usuario.username }}
+							td(ng-if="item.anulado", align="center") Si
+							td(ng-if="!item.anulado", align="center") No
+							td(align="center") {{ item.total | currency: 'Q ' }}
+										
+			// END table-responsive
+			// END panel
+
+		uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")

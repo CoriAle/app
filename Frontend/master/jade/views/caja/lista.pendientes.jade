@@ -1,0 +1,102 @@
+h3 Cuentas Pendientes de Pago
+.row(ng-controller="CajaPendienteController as ctrl")
+  .col-sm-12.col-xs-12      
+    .form-group
+      .row
+        .col-sm-3
+          label.control-label Fecha Inicial
+        .col-sm-3
+          label.control-label Fecha Final
+      .row
+        .col-sm-3          
+          p.input-group
+            input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.iniDate', is-open='ctrl.opened', uib-datepicker-options='ctrl.dateOptions', close-text='Cerrar')
+            span.input-group-btn
+              button.btn.btn-default(type='button', ng-click='ctrl.open($event)')
+                em.fa.fa-calendar
+        .col-sm-3          
+          p.input-group
+            input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.finDate', is-open='ctrl.openend', uib-datepicker-options='ctrl.finDate', close-text='Cerrar')
+            span.input-group-btn
+              button.btn.btn-default(type='button', ng-click='ctrl.openfin($event)')
+                em.fa.fa-calendar
+        .col-sm-3
+          span.input-group-btn
+            button.btn.btn-info(type="button" ng-click="ctrl.filtro_pendientes()")
+              strong
+                i.fa.fa-search
+        .col-sm-3
+          
+    .col-sm-6.col-xs-12
+      span.input-group-btn      
+        button.btn.btn-purple(type="submit" ng-click="ctrl.filtro_pendientes()" style="border-radius: 4px;")
+          strong
+            i.fa.fa-refresh  Refrescar
+    .col-sm-6.col-xs-12
+        form.form-inline.text-right(ng-submit="ctrl.filtro_pendientes()", role="form")
+            .form-group
+                .input-group
+                    input.form-control(type="text", ng-model="ctrl.query", placeholder="Buscar")
+                    span.input-group-btn
+                        button.btn.btn-info(type="submit")
+                            strong
+                                i.fa.fa-search  Buscar
+    br
+    br
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de Pedidos
+            // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                            th(width="15%") Fecha
+                            th(width="10%") Mesa
+                            th(width="35%") Detalle
+                            th(width="15%") Mesero
+                            th(width="10%") Total
+                            th(width="10%") Acciones
+                    tbody
+                        tr(ng-repeat="item in ctrl.pedidospendientes")
+                            td {{ item.creado | date: "dd/MM/yyyy hh:mm a" }}
+                            td {{ item.mesa.nombre}}
+                            td
+                              span(ng-repeat="objeto in item.detalle") - {{ objeto.producto.nombre }} Q{{ objeto.precio_venta }}&nbsp;
+                                span(ng-show="objeto.persona") de {{ objeto.persona.nombre }},&nbsp;
+                            td {{ item.transacciones[0].usuario.username}} 
+                            td {{ item.total | currency: 'Q ' }}
+                            td
+                                .btn-group.btn-group-sm
+                                    button.btn.bg-danger-light(type="button", ng-click="ctrl.ingresoUsuario(item)", title="Cancelar")
+                                        i.fa.fa-ban
+                                .btn-group.btn-group
+                                    button.btn.bg-green-light(type="button", ui-sref='app.venta.pago({id: item.id})', title="Cobrar")
+                                        i.fa.fa-money
+            // END table-responsive
+            // END panel
+        uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")
+
+script(type="text/ng-template", id="Usuario.html")
+    .modal-header
+        h3.modal-title(style="text-align:center;") Autorización
+        .modal-body
+        .row
+          .col-md-12
+            form.form-validate(role='form', ng-submit="ctrl.login()", name='ctrl.loginForm', novalidate='').mb-lg
+              .form-group.has-feedback
+                input#exampleInputEmail1.form-control(type='text', name="username" placeholder='Ingrese su Usuario', autocomplete="off", ng-model="ctrl.account.username", required='')
+                span.fa.fa-user.form-control-feedback.text-muted
+                span.text-danger(ng-show="ctrl.loginForm.username.$dirty && ctrl.loginForm.username.$error.required") Campo Requerido
+              .form-group.has-feedback
+                input#exampleInputPassword1.form-control(type='password', name="account_password" placeholder='Password', ng-model="ctrl.account.password", required='')
+                span.fa.fa-lock.form-control-feedback.text-muted
+                span.text-danger(ng-show="ctrl.loginForm.account_password.$dirty && ctrl.loginForm.account_password.$error.required") Campo Requerido
+              .clearfix
+                .pull-right
+
+              button.btn.btn-block.btn-primary.mt-lg(type='submit') Login
+              button.btn.btn-block.btn-default.mt-lg(type='button', ng-click='ctrl.cancel()') Salir
+
+            .alert.alert-danger.text-center(ng-show='ctrl.authMsg') {{ctrl.authMsg}}

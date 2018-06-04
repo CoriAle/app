@@ -1,0 +1,15 @@
+.container-fluid(ng-controller="PresentacionController as presentacion")
+	.row
+		.col-md-12
+			form.form-validate.form-horizontal(ng-submit="presentacion.addPresentacionDialog()", name='presentacion.formValidate')
+				.panel.panel-success
+					.panel-body
+						legend Agregar nuevo tipo de Presentacion
+						.form-group
+							label.col-sm-2.control-label Nombre
+							.col-sm-10
+								input.form-control(placeholder="Nombre", type='text', name='nombre', required='', ng-model="presentacion.model.nombre")
+								.text-danger(ng-messages='presentacion.formValidate.nombre.$error', ng-show='presentacion.formValidate.nombre.$invalid && !presentacion.formValidate.nombre.$pristine')
+									div(ng-message='required') Campo requerido
+					.panel-footer.text-center
+						button.btn.btn-info(type='submit') Agregar

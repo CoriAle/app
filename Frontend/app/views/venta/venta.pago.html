@@ -1,0 +1,73 @@
+<div ng-controller="PedidoPagoController as ctrl" class="row">
+   <div class="col-sm-12">
+      <div class="panel panel-primary">
+         <div class="panel-heading">
+            <strong>Datos de Orden</strong>
+         </div>
+         <div class="panel-body">
+            <div class="row col-sm-8">
+               <div class="form-group col-sm-6">
+                  <label class="control-label col-sm-4">Nit</label>
+                  <div class="col-sm-8">
+                     <input name="nit" type="text" value="{{ ctrl.pedido.persona.nit }}" readonly="" class="form-control" />
+                  </div>
+               </div>
+               <div class="form-group col-sm-6">
+                  <label class="control-label col-sm-4">Mesa</label>
+                  <div class="col-sm-8">
+                     <input name="mesa" type="text" value="{{ ctrl.pedido.mesa.nombre }}" readonly="" class="form-control" />
+                  </div>
+               </div>
+               <div class="form-group col-sm-6">
+                  <label class="control-label col-sm-4">Cliente</label>
+                  <div class="col-sm-8">
+                     <input name="cliente" type="text" readonly="" value="{{ ctrl.pedido.persona.nombre}}" class="form-control" />
+                  </div>
+               </div>
+            </div>
+            <div class="row col-sm-4">
+               <h1>Total: {{ctrl.pedido.total | currency : 'Q '}}</h1>
+            </div>
+            <div class="row col-sm-12">
+               <div class="form-group col-sm-12">
+                  <div class="panel panel-primary">
+                     <div class="panel-heading">
+                        <strong>Detalle de Orden</strong>
+                     </div>
+                     <div class="panel-body">
+                        <div class="row"></div>
+                        <div class="table-responsive">
+                           <table class="table table-striped table-hover">
+                              <thead>
+                                 <tr>
+                                    <th>Producto</th>
+                                    <th>Cantidad</th>
+                                    <th>Precio</th>
+                                    <th>Sub-total</th>
+                                 </tr>
+                              </thead>
+                              <tbody>
+                                 <tr ng-repeat="item in ctrl.pedido.detalle">
+                                    <td>{{item.producto.nombre}}</td>
+                                    <td>{{item.cantidad}}</td>
+                                    <td>{{item.precio_venta | currency : 'Q '}}</td>
+                                    <td>{{item.precio_venta*item.cantidad | currency : 'Q '}}</td>
+                                 </tr>
+                              </tbody>
+                           </table>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </div>
+         </div>
+         <div class="panel-footer text-right">
+            <button ng-click="ctrl.openPagos()" class="btn btn-success"><i class="fa fa-money"></i> Realizar Pago</button>
+            <button ui-sref="app.caja.pendientes" class="btn btn-primary"><i class="fa fa-arrow-left"></i> Volver</button>
+         </div>
+      </div>
+   </div>
+</div>
+<script type="text/ng-template" id="addPago.html">
+   <div class="modal-header"><h3 class="modal-title">Agregar Pagos</h3></div><div class="modal-body"><div ng-show="nuevo.errMsg" class="alert alert-danger">{{nuevo.errMsg}}</div><div ng-show="nuevo.tipoMsg" class="alert alert-warning">{{nuevo.tipoMsg}}</div><div ng-show="nuevo.agregarMsg" class="alert alert-info">{{nuevo.agregarMsg}}</div><div class="row"><div class="col-md-12"><form name="nuevo.formAdd" ng-submit="nuevo.addPago()" novalidate="" class="form-validate form-horizontal"><div class="form-group"><div class="col-sm-10"><h1>Total: {{nuevo.total | currency : 'Q '}}</h1></div></div><div class="form-group"><label class="control-label col-sm-2">Monto</label><div class="col-sm-8"><input placeholder="Monto" type="number" step="0.01" name="monto" ng-model="nuevo.pago.monto" required="" ng-min="0.01" class="form-control"/><div ng-messages="nuevo.formAdd.monto.$error" ng-show="nuevo.formAdd.monto.$invalid &amp;&amp; !nuevo.formAdd.monto.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="min">Debe ser mayor a 0</div></div></div></div><div class="form-group"><label class="control-label col-sm-2">Forma de Pago</label><div class="col-sm-8"><select name="forma" ng-model="nuevo.pago.tipo" required="" ng-options="tipo.nombre for tipo in nuevo.tipos" class="form-control"><option value="tipo">Seleccione una opcion</option></select><div ng-messages="nuevo.formAdd.forma.$error" ng-show="nuevo.formAdd.forma.$invalid &amp;&amp; !nuevo.formAdd.forma.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div><div class="col-sm-2"><button type="submit" ng-click="nuevo.addPago()" title="Agregar Pago" ng-disabled="nuevo.formAdd.$invalid" class="btn btn-primary"><i class="fa fa-plus-circle"></i></button></div></div><div ng-if="nuevo.pago.tipo.id==4" class="form-group"><label class="control-label col-sm-2">Motivo</label><div class="col-sm-8"><input placeholder="Motivo de la cortesia" type="text" name="motivo" ng-model="nuevo.pago.motivo" required="" class="form-control"/><div ng-messages="nuevo.formAdd.motivo.$error" ng-show="nuevo.formAdd.motivo.$invalid &amp;&amp; !nuevo.formAdd.motivo.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div></div><div class="form-group col-sm-12"><table class="table table-bordered table-hover primary"><tr style="font-weight: bold"><td style="width:20%">Forma de Pago</td><td style="width:35%">Motivo</td><td style="width:15%">Monto</td><td style="width:10%">Acciones</td></tr><tr ng-repeat="item in nuevo.pagos"><td>{{ item.tipo.nombre }}</td><td ng-if="item.tipo.id==4">{{ item.motivo }}</td><td ng-if="item.tipo.id!=4">{{  }}</td><td>{{ item.monto | currency: 'Q '}}</td><td style="white-space: nowrap"><div class="buttons"><button type="button" ng-click="nuevo.remove(item)" class="btn btn-sm btn-danger"><em class="fa fa-trash-o"></em></button></div></td></tr></table></div></form></div></div></div><div class="modal-footer"><div class="row"><div style="text-align:left;" class="col-sm-6"><button type="button" ng-click="nuevo.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button></div><div style="text-align:right;" class="col-sm-6"><button type="button" ng-disabled="nuevo.valida()" ng-click="nuevo.submit()" class="btn btn-success"><i class="fa fa-floppy-o"></i> Guardar</button></div></div></div>
+</script>

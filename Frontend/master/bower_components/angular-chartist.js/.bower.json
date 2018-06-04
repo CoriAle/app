@@ -1,0 +1,13 @@
+{
+  "name": "angular-chartist.js",
+  "homepage": "https://github.com/paradox41/angular-chartist.js",
+  "_release": "0ce4d39b24",
+  "_resolution": {
+    "type": "branch",
+    "branch": "master",
+    "commit": "0ce4d39b24c29e28a3e54582cd1b5f9dfbaf838c"
+  },
+  "_source": "https://github.com/paradox41/angular-chartist.js.git",
+  "_target": "master",
+  "_originalSource": "angular-chartist.js"
+}

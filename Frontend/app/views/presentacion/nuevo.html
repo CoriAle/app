@@ -1,0 +1,25 @@
+<div ng-controller="PresentacionController as presentacion" class="container-fluid">
+   <div class="row">
+      <div class="col-md-12">
+         <form ng-submit="presentacion.addPresentacionDialog()" name="presentacion.formValidate" class="form-validate form-horizontal">
+            <div class="panel panel-success">
+               <div class="panel-body">
+                  <legend>Agregar nuevo tipo de Presentacion</legend>
+                  <div class="form-group">
+                     <label class="col-sm-2 control-label">Nombre</label>
+                     <div class="col-sm-10">
+                        <input placeholder="Nombre" type="text" name="nombre" required="" ng-model="presentacion.model.nombre" class="form-control" />
+                        <div ng-messages="presentacion.formValidate.nombre.$error" ng-show="presentacion.formValidate.nombre.$invalid &amp;&amp; !presentacion.formValidate.nombre.$pristine" class="text-danger">
+                           <div ng-message="required">Campo requerido</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="panel-footer text-center">
+                  <button type="submit" class="btn btn-info">Agregar</button>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>

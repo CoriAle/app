@@ -1,0 +1,126 @@
+[{
+    "icon": "icon-basket menu-icon",
+    "text": "Caja",
+    "sref": "app.caja.pendientes"
+},{
+    "icon": "icon-layers menu-icon",
+    "text": "Bodega",
+    "sref": "app.producto.lista"
+},{
+    "icon": "icon-folder-alt",
+    "text": "Reportes",
+    "sref": "#",
+    "submenu": [
+        {
+            "text": "Ventas",
+            "sref": "#",
+            "icon": "icon-book-open",
+            "submenu":[
+                {
+                    "text": "Ventas por Chica",
+                    "sref": "app.reporteventachica",
+                    "icon": "fa fa-file-text-o"
+                },
+                {
+                    "text": "Ventas por Mesero",
+                    "sref": "app.reporteventa",
+                    "icon": "fa fa-file-text-o"
+                },
+                {
+                    "text": "Productos Vendidos",
+                    "sref": "app.productos_vendidos",
+                    "icon": "fa fa-list-alt"
+                },
+                {
+                    "text": "Presentaciones Vendidas",
+                    "sref": "app.presentaciones_vendidas",
+                    "icon": "fa fa-list-alt"
+                }
+            ]
+        },
+        {
+            "text": "Pagos Realizados",
+            "sref": "app.reportepagos",
+            "icon": "icon-wallet"
+        },
+        {
+            "text": "Cierres de caja",
+            "sref": "app.cierre_cajas",
+            "icon": "icon-basket menu-icon"
+        },
+        {
+            "text": "Bailes",
+            "sref": "app.reportebailes",
+            "icon": "fa fa-female"
+        },
+        {
+            "text": "Producción Personal",
+            "sref": "app.produccion_personal",
+            "icon": "fa fa-users"
+        }
+
+    ]
+},{
+    "icon": "fa fa-money",
+    "text": "Finanzas",
+    "sref": "#",
+    "submenu": [
+            {
+            "icon": "icon-wallet menu-icon",
+            "text": "Pagos",
+            "sref": "#",
+            "submenu":    [
+                {
+                    "icon": "fa fa-usd",
+                    "text": "Administración Pagos",
+                    "sref": "app.pago"
+
+                },
+                {
+                    "icon": "fa fa-users",
+                    "text": "Empleados",
+                    "sref": "app.pagoempleado"
+                }
+            ]
+            }
+    ]
+},{
+    "icon": "fa fa-cogs",
+    "text": "Administración",
+    "sref": "#",
+    "submenu": [
+        {
+            "icon": "fa fa-female",
+            "text": "Bailes",
+            "sref": "app.baile"
+        },{
+            "icon": "fa fa-inbox",
+            "text": "Cajas",
+            "sref": "app.cajas"
+        },
+        {
+            "icon": "icon-settings menu-icon",
+            "text": "Configuración",
+            "sref": "app.configuracion"
+        },
+        {
+            "icon": "icon-user menu-icon",
+            "text": "Personas",
+            "sref": "app.persona.lista"
+        },
+        {
+            "icon": "icon-grid menu-icon",
+            "text": "Presentacion Producto",
+            "sref": "app.presentacion"
+        },
+        {
+            "icon": "icon-social-dropbox menu-icon",
+            "text": "Tipo de Producto",
+            "sref": "app.tipoproducto"
+        }
+    ]
+},{
+    "icon": "fa fa-cutlery",
+    "text": "Pedidos de Cocina",
+    "sref": "app.pedidococina.pendiente"
+}]

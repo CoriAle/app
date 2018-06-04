@@ -1,0 +1,280 @@
+// START panel
+.row(ng-controller="DetalleChicasController as ctrl")
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                .row
+                    .col-sm-6
+                        strong Reporte
+                    .col-sm-6.text-right
+                        button.btn.btn-default(type="button", ui-sref='app.produccion_personal')
+                            i.fa.fa-times  Cerrar
+            .panel-body
+                form.form-horizontal(id="formver" ng-submit='ctrl.submit()', name='ctrl.formValidate', autocomplete="off", novalidate="")
+                    .form-group
+                        .row
+                            label.col-sm-2.control-label Nombre
+                            .col-sm-6
+                                .input-group
+                                    input.form-control(disabled, style="width:300%;height:35px", name='nombre', ng-model='ctrl.model.nombre', ng-required="true", type="text")
+
+                            label.col-sm-2.control-label Total a ganar
+                            .col-sm-2
+                                h3.text(style="margin:0;") {{ ctrl.model.total_servicios - ctrl.model.total_adelantos - ctrl.model.total_gastos + ctrl.model.total_comisiones + ctrl.model.total_bailes | currency: 'Q '}}
+                    .form-group
+                        .row
+                            label.col-sm-2.control-label Fecha hora ultimo pago
+                            .col-sm-3
+                                p.input-group
+                                    input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.iniDate', is-open='ctrl.opened', uib-datepicker-options='ctrl.dateOptions', close-text='Cerrar')
+                                    span.input-group-btn
+                                        button.btn.btn-default(type='button', ng-click='ctrl.open($event)')
+                                            em.fa.fa-calendar
+
+                                table.uib-timepicker.ng-isolate-scope.ng-not-empty.ng-valid.ng-valid-time.ng-dirty.ng-valid-parse.ng-touched
+                                    tbody
+                                        tr.text-center
+                                            td.uib-increment.hours
+                                                a.btn.btn-link(ng-click='ctrl.incrementHours()', tabindex='0')
+                                                    span.glyphicon.glyphicon-chevron-up
+                                            td  
+                                            td.uib-increment.minutes
+                                                a.btn.btn-link(ng-click='ctrl.incrementMinutes()', tabindex='0')
+                                                    span.glyphicon.glyphicon-chevron-up
+                                            td.ng-hide
+                                        tr
+                                            td.form-group.uib-time.hours
+                                                input.form-control.text-center.ng-pristine.ng-valid.ng-not-empty.ng-valid-maxlength.ng-touched(style='width: 50px;', type='text', placeholder='HH', ng-model='ctrl.hoursini', maxlength='2', tabindex='0')
+                                            td.uib-separator :
+                                            td.form-group.uib-time.minutes
+                                                input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='width:50px;', type='text', placeholder='MM', ng-model='ctrl.minutesini', maxlength='2', tabindex='0')
+                                            td.uib-separator &nbsp;
+                                            td.form-group.uib-time.minutes(style="cursor: pointer;")
+                                                input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='cursor: pointer; width:60px;', type='text', ng-model='ctrl.meridianos', maxlength='2', tabindex='0', ng-click='ctrl.toggleMeridian()', readonly)
+                                        tr.text-center
+                                            td.uib-decrement.hours
+                                                a.btn.btn-link(ng-click='ctrl.decrementHours()', tabindex='0')
+                                                    span.glyphicon.glyphicon-chevron-down
+                                            td  
+                                            td.uib-decrement.minutes
+                                                a.btn.btn-link(ng-click='ctrl.decrementMinutes()', tabindex='0')
+                                                    span.glyphicon.glyphicon-chevron-down
+                                            td.ng-hide
+
+                            label.col-sm-1.control-label al
+                            .col-sm-3
+                                p.input-group
+                                    input.form-control(type='text', name="date", required='', min-date="ctrl.iniDate", max-date="ctrl.hoy", uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.finDate', is-open='ctrl.openend', uib-datepicker-options='ctrl.finDate', close-text='Cerrar')
+                                    span.input-group-btn
+                                        button.btn.btn-default(type='button', ng-click='ctrl.openfin($event)')
+                                            em.fa.fa-calendar
+
+                                table.uib-timepicker.ng-isolate-scope.ng-not-empty.ng-valid.ng-valid-time.ng-dirty.ng-valid-parse.ng-touched
+                                    tbody
+                                        tr.text-center
+                                            td.uib-increment.hours
+                                                a.btn.btn-link(ng-click='ctrl.incrementHoursF()', tabindex='0')
+                                                    span.glyphicon.glyphicon-chevron-up
+                                            td  
+                                            td.uib-increment.minutes
+                                                a.btn.btn-link(ng-click='ctrl.incrementMinutesF()', tabindex='0')
+                                                    span.glyphicon.glyphicon-chevron-up
+                                            td.ng-hide
+                                        tr
+                                            td.form-group.uib-time.hours
+                                                input.form-control.text-center.ng-pristine.ng-valid.ng-not-empty.ng-valid-maxlength.ng-touched(style='width: 50px;', type='text', placeholder='HH', ng-model='ctrl.hoursfin', maxlength='2', tabindex='0')
+                                            td.uib-separator :
+                                            td.form-group.uib-time.minutes
+                                                input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='width:50px;', type='text', placeholder='MM', ng-model='ctrl.minutesfin', maxlength='2', tabindex='0')
+                                            td.uib-separator &nbsp;
+                                                td.form-group.uib-time.minutes
+                                                    input.form-control.text-center.ng-pristine.ng-untouched.ng-valid.ng-not-empty.ng-valid-maxlength(style='cursor: pointer; width:60px;', type='text', ng-model='ctrl.meridiano', maxlength='2', tabindex='0', ng-click='ctrl.toggleMeridianF()', readonly)
+                                        tr.text-center
+                                            td.uib-decrement.hours
+                                                a.btn.btn-link(ng-click='ctrl.decrementHoursF()', tabindex='0')
+                                                    span.glyphicon.glyphicon-chevron-down
+                                            td  
+                                            td.uib-decrement.minutes
+                                                a.btn.btn-link(ng-click='ctrl.decrementMinutesF()', tabindex='0')
+                                                    span.glyphicon.glyphicon-chevron-down
+                                            td.ng-hide
+
+                            .col-sm-1
+                                button.btn.btn-primary(type="button" ng-click="ctrl.persona2()")
+                                    strong
+                                        i.fa.fa-search
+
+                    .form-group
+                        // Panel Comision Ventas
+                        .col-sm-6
+                            label.pull-right Ganacia en Ventas:&nbsp;
+                                span(ng-style="{color:ctrl.comisiones.total_ventas>=0 ? '#1e983b':'#ff3333'}") {{ctrl.comisiones.total_ventas | currency:'Q '}}
+                            .form-group
+                            // START table-responsive
+                            #panelPortlet2.panel.panel-info
+                                .panel-heading.portlet-handler
+                                    | Comisión Ventas
+                                .table-responsive
+                                    table.table.table-striped.table-hover
+                                        thead
+                                            tr
+                                                th(width="25%") Valor Ficha
+                                                th(width="25%") Cantidad
+                                                th(width="25%") Monto
+                                                th(width="25%" style="color:#1e983b;") Ganancia
+
+                                        tbody
+                                            tr(ng-repeat="item in ctrl.comi")
+                                                td
+                                                    | {{ item.precio_ficha | currency:'Q ' }}
+                                                td {{ item.conteo }}
+                                                td
+                                                    | {{ item.precio_ficha * item.conteo | currency:'Q ' }}
+                                                td(ng-style="{color:((item.pv - item.cc - item.cm - item.pc)>=0) ? '#1e983b': '#ff3333'}")
+                                                    | {{ item.pv - item.cc - item.cm - item.pc | currency:'Q ' }}
+
+                            // END table-responsive
+                            // END panel
+
+                            uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfoCV.totalItems", items-per-page="ctrl.pagingInfoCV.itemsPerPage", ng-model="ctrl.pagingInfoCV.page", max-size="5", rotate="false",ng-change="ctrl.selectPageCV(ctrl.pagingInfoCV.page)", boundary-links="true")
+
+                        .col-sm-6
+                            label.pull-right Ganancia en Botellas:&nbsp;
+                                span(ng-style="{color:ctrl.servicios.total_servicios>=0 ? '#1e983b':'#ff3333'}") {{ctrl.servicios.total_servicios | currency:'Q '}}
+                            .form-group
+                            // START table-responsive
+                            #panelPortlet2.panel.panel-info
+                                .panel-heading.portlet-handler
+                                    | Comisión Botellas
+                                .table-responsive
+                                    table.table.table-striped.table-hover
+                                        thead
+                                            tr
+                                                th(width="25%") Valor Ficha
+                                                th(width="25%") Cantidad
+                                                th(width="25%") Monto
+                                                th(width="25%" style="color:#1e983b;") Ganancia
+                                        tbody
+                                            tr(ng-repeat="item in ctrl.servi")
+                                                td
+                                                    | {{ item.precio_ficha | currency:'Q ' }}
+                                                td {{ item.conteo }}
+                                                td
+                                                    | {{ item.precio_ficha * item.conteo | currency:'Q ' }}
+                                                td(ng-style="{color:((item.pv - item.cc - item.cm - item.pc)>=0) ? '#1e983b': '#ff3333'}")
+                                                    | {{ item.pv - item.cc - item.cm - item.pc | currency:'Q ' }}
+
+                            // END table-responsive
+                            // END panel
+
+                            uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfoCS.totalItems", items-per-page="ctrl.pagingInfoCS.itemsPerPage", ng-model="ctrl.pagingInfoCS.page", max-size="2", rotate="false",ng-change="ctrl.selectPageCS(ctrl.pagingInfoCS.page)", boundary-links="true")
+
+
+                    .form-group
+                        // Panel Adelanto Sueldos
+                        .col-sm-6
+                            .form-group
+                            // START table-responsive
+                            #panelPortlet2.panel.panel-info
+                                .panel-heading.portlet-handler
+                                    | Adelanto de Sueldo
+                                .table-responsive
+                                    table.table.table-striped.table-hover
+                                        thead
+                                            tr
+                                                th(width="27%") Fecha
+                                                th(width="25%") Autorizo
+                                                th(width="18%") Monto
+                                                th(width="30%") Descripcion
+                                        tbody
+                                            tr(ng-repeat="item in ctrl.adelantos")
+                                                td
+                                                    | {{ item.creado | date:'dd/MM/yy hh:mm a' }}
+                                                td {{ item.usuario.username }}
+                                                td
+                                                    | {{ item.monto | currency:'Q ' }}
+                                                td
+                                                    | {{ item.descripcion }}
+
+                            // END table-responsive
+                            // END panel
+
+                            uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfoAS.totalItems", items-per-page="ctrl.pagingInfoAS.itemsPerPage", ng-model="ctrl.pagingInfoAS.page", max-size="5", rotate="false",ng-change="ctrl.selectPageAS(ctrl.pagingInfoAS.page)", boundary-links="true")
+
+                        .col-sm-6
+                            .row
+                                label.col-sm-6.control-label Comisión Ventas: {{ctrl.model.total_comisiones | currency:'Q':2}}
+                                label.col-sm-6.control-label Bailes {{ctrl.model.total_bailes | currency:'Q ':2}}
+                            .row
+                                label.col-sm-6.control-label Comisión Botellas {{ctrl.model.total_servicios | currency:'Q':2}}
+                                label.col-sm-6.control-label Adelanto {{ctrl.model.total_adelantos | currency:'Q':2}}
+                            .row
+                                label.col-sm-6.control-label.pull-right Gastos con el Personal {{ctrl.model.total_gastos | currency:'Q':2}}
+                            .row
+                                label.col-sm-6.control-label Cheque por: {{ctrl.model.total_servicios - ctrl.model.total_adelantos - ctrl.model.total_gastos + ctrl.model.total_comisiones + ctrl.model.total_bailes | currency:'Q':2 }}
+                            .row
+                                label.col-sm-6.control-label Ganancia Bruta: {{ctrl.servicios.total_servicios + ctrl.comisiones.total_ventas | currency:'Q':2}}
+                            .row
+                                label.col-sm-6.control-label(ng-style="{color: ((ctrl.servicios.total_servicios + ctrl.comisiones.total_ventas - ctrl.model.total_bailes - ctrl.model.total_adelantos - ctrl.model.total_gastos)>=0) ? '#1e983b': '#ff3333'}")
+                                    | Ganancia Neta: {{ctrl.servicios.total_servicios + ctrl.comisiones.total_ventas - ctrl.model.total_bailes - ctrl.model.total_adelantos - ctrl.model.total_gastos | currency:'Q':2}}
+
+
+                    .form-group
+                        // Panel Gastos con el Personal
+                        .col-sm-6
+                            .form-group
+                            // START table-responsive
+                            #panelPortlet2.panel.panel-info
+                                .panel-heading.portlet-handler
+                                    | Gastos con el Personal
+                                .table-responsive
+                                    table.table.table-striped.table-hover
+                                        thead
+                                            tr
+                                                th(width="27%") Fecha
+                                                th(width="25%") Autorizo
+                                                th(width="18%") Monto
+                                                th(width="30%") Descripcion
+                                        tbody
+                                            tr(ng-repeat="item in ctrl.gastos")
+                                                td
+                                                    | {{ item.creado | date:'dd/MM/yy hh:mm a' }}
+                                                td {{ item.usuario.username ? '' : 'Desde pagos' }}
+                                                td
+                                                    | {{ item.monto| currency:'Q ' }}
+                                                td
+                                                    | {{ item.descripcion }}
+
+                            // END table-responsive
+                            // END panel
+
+                            uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfoGP.totalItems", items-per-page="ctrl.pagingInfoGP.itemsPerPage", ng-model="ctrl.pagingInfoGP.page", max-size="5", rotate="false",ng-change="ctrl.selectPageGP(ctrl.pagingInfoGP.page)", boundary-links="true")
+
+                        .col-sm-6
+                            .form-group
+                            // START table-responsive
+                            #panelPortlet2.panel.panel-info
+                                .panel-heading.portlet-handler
+                                    | Bailes
+                                .table-responsive
+                                    table.table.table-striped.table-hover
+                                        thead
+                                            tr
+                                                th(width="25%") Tipo Baile
+                                                th(width="25%") Cantidad
+                                                th(width="25%") Precio
+                                                th(width="25%") Monto
+                                        tbody
+                                            tr(ng-repeat="item in ctrl.bai")
+                                                td
+                                                    | {{ item.baile__nombre_baile}}
+                                                td {{ item.cantidad }}
+                                                td
+                                                    | {{ item.precio | currency:'Q ' }}
+                                                td
+                                                    | {{ item.cantidad * item.precio | currency:'Q ' }}
+
+                            // END table-responsive
+                            // END panel
+
+                            uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfoBA.totalItems", items-per-page="ctrl.pagingInfoBA.itemsPerPage", ng-model="ctrl.pagingInfoBA.page", max-size="2", rotate="false",ng-change="ctrl.selectPageBA(ctrl.pagingInfoBA.page)", boundary-links="true")

@@ -1,0 +1,45 @@
+br
+.row(ng-controller="IngresoListaController as ctrl")    
+	.col-sm-6.col-xs-12
+	.col-sm-6.col-xs-12
+		form.form-inline.text-right(ng-submit="ctrl.loadIngresos()", role="form")
+			.form-group
+				.input-group
+					input.form-control(type="text", ng-model="ctrl.query", placeholder="Buscar")
+					span.input-group-btn
+						button.btn.btn-info(type="submit")
+							strong
+								i.fa.fa-search  Buscar
+	br
+	br
+	.col-sm-12
+		.panel.panel-primary
+			.panel-heading
+				strong Lista de Ingresos
+			// START table-responsive
+			.table-responsive
+				table.table.table-striped.table-hover
+					thead
+						tr
+							th(width="15%") No. de Documento
+							th(width="30%") Proveedor
+							th(width="20%") Total							
+							th(width="20%") Creado
+							th(style="text-align:center") Acciones
+					tbody
+						tr(ng-repeat="item in ctrl.ingresos")
+							td {{ item.no_documento }}
+							td {{ item.persona.nombre }}
+							td {{ item.total_costo | currency: 'Q '}}
+							td {{ item.creado | date:'dd-MM-yyyy HH:mm:ss'}}
+								td(align="center")
+									.btn-group.btn-group-sm
+										button.btn.bg-info-light(type="button", ui-sref='app.movimiento.ver({id: item.id})', title="Ver")
+											i.fa.fa-eye
+									//- .btn-group.btn-group-sm
+									//- 	button.btn.btn-danger(type="button",  ng-click='ctrl.destroy(item)', title="Eliminar")
+									//- 		i.fa.fa-ban
+			// END table-responsive
+			// END panel
+
+		uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")

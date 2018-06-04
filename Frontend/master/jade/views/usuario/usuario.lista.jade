@@ -1,0 +1,26 @@
+.panel.panel-primary
+	.panel-heading Agregar, Editar y Eliminar
+	.panel-body
+		toaster-container(toaster-options="{'position-class': 'toast-bottom-right', 'close-button':true}")
+		div(ng-controller='UsuarioController as usuario')
+			table.row-border.hover(datatable='ng', dt-options='usuario.dtOptions', dt-column-defs='usuario.dtColumnDefs')
+				thead
+					tr
+						th
+						th
+							.form-group
+								button.btn.btn-labeled.btn-success(ng-click='usuario.nuevo()')
+									span.btn-label
+										em.fa.fa-plus
+									| Agregar
+					tr
+						th Nombre
+						th
+				tbody
+					tr(ng-repeat='usuarios in usuario.usuario')
+						td {{ usuarios.username }}
+						td
+							button.btn.btn-sm.btn-warning(type='button', ui-sref='app.usuario.editar({id: usuarios.id})')
+								em.fa.fa-edit
+							button.btn.btn-sm.btn-danger(type='button', ng-click='usuario.removeUsuario(usuarios.id)')
+								em.fa.fa-trash-o

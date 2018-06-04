@@ -1,0 +1,176 @@
+<div class="row">
+   <div class="col-md-12">
+      <div ng-controller="IngresoController as nuevo">
+         <form ng-submit="nuevo.submit()" name="nuevo.formValidate" autocomplete="off" class="form-horizontal">
+            <toaster-container toaster-options="{'position-class': 'toast-bottom-right', 'close-button':true}"></toaster-container>
+            <div class="panel panel-success">
+               <div class="panel-heading">
+                  <div class="panel-title">Nuevo Ingreso</div>
+               </div>
+               <div class="panel-body">
+                  <div class="col-md-9">
+                     <div class="form-group">
+                        <label class="col-sm-2 control-label">Proveedor</label>
+                        <div class="col-sm-4">
+                           <div class="input-group">
+                              <input name="proveedor" ng-required="true" type="text" ng-model="nuevo.movimiento.persona" placeholder="Buscar por Nombre, Nit..." uib-typeahead="t as t.nombre for t in nuevo.proveedores($viewValue)" typeahead-min-length="1"
+                              typeahead-loading="loadingPersona" typeahead-no-results="noResultsPer" class="form-control" />
+                              <span class="input-group-btn">
+                                 <button type="button" ng-click="nuevo.openPersona()" class="btn btn-primary">
+                                    <small>
+                                       <em class="fa fa-plus icon-lg"></em>
+                                    </small>
+                                 </button>
+                              </span>
+                           </div>
+                           <span auto-close="disabled" ng-show="loadingPersona" class="i fa fa-circle-o-notch fa-spin"></span>
+                           <div ng-show="noResultsPer" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                           </div>
+                           <div ng-messages="nuevo.formValidate.proveedor.$error" ng-show="nuevo.formValidate.proveedor.$invalid &amp;&amp; !nuevo.formValidate.proveedor.$pristine" class="text-danger">
+                              <div ng-message="required">Campo requerido</div>
+                           </div>
+                        </div>
+                        <label class="col-sm-2 control-label">Tipo de Compra</label>
+                        <div class="col-sm-4">
+                           <input name="tipo" ng-required="true" type="text" ng-model="nuevo.movimiento.tipo" placeholder="Buscar" uib-typeahead="t as t.nombre for t in nuevo.tipos | filter:$viewValue | limitTo:8" typeahead-min-length="0" typeahead-loading="loadingTipo"
+                           typeahead-no-results="noResults" class="form-control" />
+                           <span auto-close="disabled" ng-show="loadingTipo" class="i fa fa-circle-o-notch fa-spin"></span>
+                           <div ng-show="noResults" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                           </div>
+                           <div ng-messages="nuevo.formValidate.tipo.$error" ng-show="nuevo.formValidate.tipo.$invalid &amp;&amp; !nuevo.formValidate.tipo.$pristine" class="text-danger">
+                              <div ng-message="required">Campo requerido</div>
+                           </div>
+                        </div>
+                     </div>
+                     <div class="form-group">
+                        <label class="col-sm-2 control-label">Documento</label>
+                        <div class="col-sm-4">
+                           <input name="documento" ng-required="true" type="text" ng-model="nuevo.movimiento.documento" placeholder="Buscar" uib-typeahead="t as t.nombre for t in nuevo.documentos | filter:$viewValue | limitTo:8" typeahead-min-length="0"
+                           typeahead-loading="loadingDoc" typeahead-no-results="noResultsDoc" class="form-control" />
+                           <span auto-close="disabled" ng-show="loadingDoc" class="i fa fa-circle-o-notch fa-spin"></span>
+                           <div ng-show="noResultsDoc" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                           </div>
+                           <div ng-messages="nuevo.formValidate.documento.$error" ng-show="nuevo.formValidate.documento.$invalid &amp;&amp; !nuevo.formValidate.documento.$pristine" class="text-danger">
+                              <div ng-message="required">Campo requerido</div>
+                           </div>
+                        </div>
+                        <label class="col-sm-2 control-label">No. Documento</label>
+                        <div class="col-sm-4">
+                           <input placeholder="No. de Documento" type="text" name="numero" required="" ng-model="nuevo.movimiento.no_documento" class="form-control" />
+                           <div ng-messages="nuevo.formValidate.numero.$error" ng-show="nuevo.formValidate.numero.$invalid &amp;&amp; !nuevo.formValidate.numero.$pristine" class="text-danger">
+                              <div ng-message="required">Campo requerido</div>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="col-md-3">
+                     <div class="form-group">
+                        <h1>Total: {{nuevo.movimiento.total_costo | currency : 'Q '}}</h1>
+                     </div>
+                  </div>
+                  <form name="detalle" autocomplete="off" class="form-validate form-horizontal">
+                     <div class="col-md-12">
+                        <div class="panel panel-default">
+                           <div class="panel-heading">
+                              <div class="panel-title">Detalle</div>
+                           </div>
+                           <div class="panel-body">
+                              <div class="form-group">
+                                 <label class="col-sm-1 control-label">Productos</label>
+                                 <div class="col-sm-10">
+                                    <div class="input-group">
+                                       <input ng-required="false" name="producto" type="text" ng-change="nuevo.cargaProducto()" ng-model="nuevo.detalle.producto" placeholder="Buscar" uib-typeahead="t as t.nombre for t in nuevo.productos($viewValue)" typeahead-min-length="0"
+                                       typeahead-loading="loadingProd" typeahead-no-results="noResultsProd" class="form-control" />
+                                       <span class="input-group-btn">
+                                          <button type="button" ng-click="nuevo.openProducto()" class="btn btn-primary">
+                                             <small>
+                                                <em class="fa fa-plus icon-lg"></em>
+                                             </small>
+                                          </button>
+                                       </span>
+                                    </div>
+                                    <span auto-close="disabled" ng-show="loadingProd" class="i fa fa-circle-o-notch fa-spin"></span>
+                                    <div ng-show="noResultsProd" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                                    </div>
+                                    <div ng-messages="detalle.producto.$error" ng-show="detalle.producto.$invalid &amp;&amp; !detalle.producto.$pristine" class="text-danger">
+                                       <div ng-message="required">Campo requerido</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label class="col-sm-1 control-label">Cantidad</label>
+                                 <div class="col-sm-2">
+                                    <input ng-required="false" placeholder="Cantidad" type="number" name="cantidad" ng-model="nuevo.detalle.cantidad" class="form-control" />
+                                    <div ng-messages="detalle.cantidad.$error" ng-show="detalle.cantidad.$invalid &amp;&amp; !detalle.cantidad.$pristine" class="text-danger">
+                                       <div ng-message="required">Campo requerido</div>
+                                    </div>
+                                 </div>
+                                 <label class="col-sm-2 control-label">Precio costo</label>
+                                 <div class="col-sm-2">
+                                    <input ng-required="false" placeholder="Precio costo" type="number" name="costo" ng-model="nuevo.detalle.precio_costo" step="0.01" class="form-control" />
+                                    <div ng-messages="detalle.costo.$error" ng-show="detalle.costo.$invalid &amp;&amp; !detalle.costo.$pristine" class="text-danger">
+                                       <div ng-message="required">Campo requerido</div>
+                                    </div>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <label class="col-sm-1 control-label">Observación</label>
+                                 <div class="col-md-10">
+                                    <input ng-required="false" placeholder="Observacion" type="text" name="observacion" ng-model="nuevo.detalle.observacion" ng-minlength="2" class="form-control" />
+                                    <div ng-messages="detalle.observacion.$error" ng-show="detalle.observacion.$invalid &amp;&amp; !detalle.observacion.$pristine" class="text-danger">
+                                       <div ng-message="required">Campo requerido</div>
+                                    </div>
+                                 </div>
+                                 <div class="col-sm-1">
+                                    <button type="button" ng-click="nuevo.addProd()" ng-disabled="detalle.$invalid" class="btn btn-success fa fa-plus-circle"></button>
+                                 </div>
+                              </div>
+                              <div class="form-group">
+                                 <div class="col-md-1"></div>
+                                 <div class="col-md-10">
+                                    <table class="table table-bordered table-hover primary">
+                                       <tr style="font-weight: bold">
+                                          <td style="width:25%">Producto</td>
+                                          <td style="width:15%">Cantidad</td>
+                                          <td style="width:15%">Precio compra</td>
+                                          <td style="width:15%">Subtotal</td>
+                                          <td style="width:15%">Acciones</td>
+                                       </tr>
+                                       <tr ng-repeat="deta in nuevo.movimiento.detalle">
+                                          <td>{{ deta.producto.nombre }}
+                                             <br/>
+                                             <span style="font-size: 0.8em;">{{ deta.observacion}}</span>
+                                          </td>
+                                          <td>{{ deta.cantidad}}</td>
+                                          <td>{{ deta.precio_costo | currency : 'Q '}}</td>
+                                          <td>{{ deta.precio_costo * deta.cantidad | currency : 'Q '}}</td>
+                                          <td style="white-space: nowrap">
+                                             <div class="buttons">
+                                                <button type="button" ng-click="nuevo.removeProd(deta)" class="btn btn-sm btn-danger">
+                                                   <em class="fa fa-trash-o"></em>
+                                                </button>
+                                             </div>
+                                          </td>
+                                       </tr>
+                                    </table>
+                                 </div>
+                              </div>
+                           </div>
+                        </div>
+                     </div>
+                  </form>
+               </div>
+               <div class="panel-footer text-right">
+                  <button type="submit" ng-disabled="" class="btn btn-success">Guardar</button>
+               </div>
+            </div>
+         </form>
+      </div>
+   </div>
+</div>
+<script type="text/ng-template" id="addPersona.html">
+   <div class="modal-header"><h3 class="modal-title">Ingresar Persona</h3></div><div class="modal-body"><div ng-show="tipos.errMsg" class="alert alert-danger">{{tipos.errMsg}}</div><div class="row"><div class="col-md-12"><form name="tipos.formValidate" ng-submit="tipos.ok()" novalidate="" class="form-validate form-horizontal"><div class="form-group"><label class="col-sm-2 control-label">Nombre</label><div ng-class="{'has-error': tipos.formValidate.nombre.$invalid &amp;&amp; !tipos.formValidate.nombre.$pristine}" class="col-sm-4"><input id="nombre" placeholder="Nombre" type="text" name="nombre" ng-model="tipos.model.nombre" value="" required="" class="form-control"/><div ng-messages="tipos.formValidate.nombre.$error" ng-show="tipos.formValidate.nombre.$invalid &amp;&amp; !tipos.formValidate.nombre.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div><label class="col-sm-2 control-label">Tipo de Persona</label><div ng-class="{'has-error': tipos.formValidate.tipo_persona.$invalid &amp;&amp; !tipos.formValidate.tipo_persona.$pristine}" class="col-sm-4"><input disabled="disabled" name="tipo_persona" ng-required="true" type="text" ng-model="tipos.proveedor.nombre" class="form-control"/><div ng-messages="tipos.formValidate.tipo_persona.$error" ng-show="tipos.formValidate.tipo_persona.$dirty" role="alert" class="text-danger"><div ng-message="required">Tipo de Persona es obligatorio</div></div></div></div><div class="form-group"><label class="col-sm-2 control-label">Direccion</label><div ng-class="{'has-error': tipos.formValidate.direccion.$invalid &amp;&amp; !tipos.formValidate.direccion.$pristine}" class="col-sm-4"><input id="direccion" placeholder="Direccion" type="text" name="direccion" ng-model="tipos.model.direccion" value="" required="" class="form-control"/><div ng-messages="tipos.formValidate.direccion.$error" ng-show="tipos.formValidate.direccion.$invalid &amp;&amp; !tipos.formValidate.direccion.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="minlength">Direccion requerida</div></div></div><label class="col-sm-2 control-label">Telefono</label><div ng-class="{'has-error': tipos.formValidate.telefono.$invalid &amp;&amp; !tipos.formValidate.telefono.$pristine}" class="col-sm-4"><input id="telefono" placeholder="Telefono" type="text" name="telefono" ng-model="tipos.model.telefono" value="" required="" class="form-control"/><div ng-messages="tipos.formValidate.telefono.$error" ng-show="tipos.formValidate.telefono.$invalid &amp;&amp; !tipos.formValidate.telefono.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div></div><div class="form-group"><label class="col-sm-2 control-label">Nit</label><div ng-class="{'has-error': tipos.formValidate.nit.$invalid &amp;&amp; !tipos.formValidate.nit.$pristine}" class="col-sm-4"><input id="nit" placeholder="Nit" type="text" name="nit" ng-model="tipos.model.nit" value="" required="" ng-maxlength="10" class="form-control"/><div ng-messages="tipos.formValidate.nit.$error" ng-show="tipos.formValidate.nit.$invalid &amp;&amp; !tipos.formValidate.nit.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="maxlength">Nit es muy largo</div></div></div></div></form></div></div></div><div class="modal-footer"><button type="button" ng-disabled="tipos.formValidate.$invalid" ng-click="tipos.ok()" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button><button type="button" ng-click="tipos.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button></div>
+</script>
+<script type="text/ng-template" id="addProducto.html">
+   <div class="modal-header"><h3 class="modal-title">Ingresar Nuevo Producto</h3></div><div class="modal-body"><div ng-show="nuevo.errMsg" class="alert alert-danger">{{nuevo.errMsg}}</div><div class="row"><div class="col-md-12"><form name="nuevo.formValidate" ng-submit="nuevo.ok()" novalidate="" class="form-validate form-horizontal"><div class="form-group"><label class="col-sm-2 control-label">Nombre</label><div class="col-sm-10"><input placeholder="Nombre" type="text" name="nombre" required="required" ng-model="nuevo.producto.nombre" class="form-control"/><div ng-messages="nuevo.formValidate.nombre.$error" ng-show="nuevo.formValidate.nombre.$invalid &amp;&amp; !nuevo.formValidate.nombre.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div></div><div class="form-group"><label class="col-sm-2 control-label">Tipo Producto</label><div class="col-sm-4"><input name="tipos" ng-model="nuevo.producto.tipo_producto" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="t as t.nombre for t in nuevo.tipos($viewValue)" typeahead-min-length="1" typeahead-loading="loadingTipo" typeahead-no-results="noResults" class="form-control"/><span auto-close="disabled" ng-show="loadingTipo" class="i fa fa-circle-o-notch fa-spin"></span><div ng-show="noResults" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i></div><div ng-messages="nuevo.formValidate.tipos.$error" ng-show="nuevo.formValidate.tipos.$invalid &amp;&amp; !nuevo.formValidate.tipos.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div><label class="col-sm-2 control-label">Presentacion</label><div class="col-sm-4"><input name="presentacion" ng-model="nuevo.producto.presentacion" ng-required="true" type="text" placeholder="Buscar por Nombre..." uib-typeahead="t as t.nombre for t in nuevo.presentaciones($viewValue)" typeahead-min-length="1" typeahead-loading="loadingPresentacion" typeahead-no-results="noResults" class="form-control"/><span auto-close="disabled" ng-show="loadingPresentacion" class="i fa fa-circle-o-notch fa-spin"></span><div ng-show="noResults" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i></div><div ng-messages="nuevo.formValidate.presentacion.$error" ng-show="nuevo.formValidate.presentacion.$invalid &amp;&amp; !nuevo.formValidate.presentacion.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div></div></div></div><div class="form-group"><label class="col-sm-2 control-label">Imprime Ticket</label><div class="col-sm-4"><div class="checkbox c-checkbox"><label><input type="checkbox" ng-model="nuevo.producto.se_imprime_ticket"/><span class="fa fa-check"></span> Si</label></div></div><label class="col-sm-2 control-label">Se descuenta</label><div class="col-sm-4"><div class="checkbox c-checkbox"><label><input type="checkbox" ng-model="nuevo.producto.se_descuenta"/><span class="fa fa-check"></span> Si				</label></div></div></div><div class="form-group"><label class="col-sm-2 control-label">Precio Costo</label><div class="col-sm-4"><input placeholder="Precio Costo" type="number" step="0.01" name="costo" required="" ng-model="nuevo.producto.precio_costo" ng-min="0.01" class="form-control"/><div ng-messages="nuevo.formValidate.costo.$error" ng-show="nuevo.formValidate.costo.$invalid &amp;&amp; !nuevo.formValidate.costo.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="min">Debe ser mayor a 0</div></div></div><label class="col-sm-2 control-label">Precio Venta</label><div class="col-sm-4"><input placeholder="Precio Venta" type="number" step="0.01" name="venta" required="" ng-model="nuevo.producto.precio_venta" ng-min="0.01" class="form-control"/><div ng-messages="nuevo.formValidate.venta.$error" ng-show="nuevo.formValidate.venta.$invalid &amp;&amp; !nuevo.formValidate.venta.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="min">Debe de ser mayor a 0</div></div></div></div><div class="form-group"><label class="col-sm-2 control-label">Cantidad de Fichas</label><div class="col-sm-4"><input placeholder="Cantidad Fichas" type="number" name="cantidad_fichas" required="required" ng-model="nuevo.producto.cantidad_fichas" ng-min="0" class="form-control"/><div ng-messages="nuevo.formValidate.cantidad_fichas.$error" ng-show="nuevo.formValidate.cantidad_fichas.$invalid &amp;&amp; !nuevo.formValidate.cantidad_fichas.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="min">No pueden ser numeros negativos</div></div></div><label class="col-sm-2 control-label">Precio de Fichas </label><div class="col-sm-4"><input placeholder="Precio de Fichas" type="number" step="0.01" name="precio_fichas" required="" ng-model="nuevo.producto.precio_fichas" ng-min="0.01" class="form-control"/><div ng-messages="nuevo.formValidate.precio_fichas.$error" ng-show="nuevo.formValidate.precio_fichas.$invalid &amp;&amp; !nuevo.formValidate.precio_fichas.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="min">Debe de ser mayor a 0					</div></div></div></div><div class="form-group"><label ng-hide="nuevo.combo" class="col-sm-2 control-label">Existencia Minima</label><div ng-hide="nuevo.combo" class="col-sm-4"><input placeholder="Existencia Minima" type="number" name="minima" ng-required="!nuevo.combo" ng-model="nuevo.producto.existencia_minima" ng-min="0" class="form-control"/><div ng-messages="nuevo.formValidate.minima.$error" ng-show="nuevo.formValidate.minima.$invalid &amp;&amp; !nuevo.formValidate.minima.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="min">No pueden ser numeros negativos</div></div></div><label class="col-sm-2 control-label">Comision Mesero</label><div class="col-sm-4"><input placeholder="Comision Mesero" type="number" step="0.01" name="comision_mesero" required="" ng-model="nuevo.producto.comision_mesero" ng-min="0.01" ng-max="nuevo.producto.precio_costo/2" class="form-control"/><div ng-messages="nuevo.formValidate.comision_mesero.$error" ng-show="nuevo.formValidate.comision_mesero.$invalid &amp;&amp; !nuevo.formValidate.comision_mesero.$pristine" class="text-danger"><div ng-message="required">Campo requerido</div><div ng-message="min">Debe de ser mayor a 0</div><div ng-message="max">Debe de ser menor al 50% del costo</div></div></div></div></form></div></div></div><div class="modal-footer"><button type="button" ng-disabled="nuevo.formValidate.$invalid" ng-click="nuevo.ok()" class="btn btn-primary"><i class="fa fa-floppy-o"></i> Guardar</button><button type="button" ng-click="nuevo.cancel()" class="btn btn-default"><i class="fa fa-times-circle"></i> Cancelar</button></div>
+</script>

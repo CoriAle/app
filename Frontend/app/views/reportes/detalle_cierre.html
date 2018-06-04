@@ -1,0 +1,43 @@
+<div class="modal-header">
+   <div class="modal-body">
+      <div style="font-size:large; font-weight:bold" class="form-group">
+         <p>
+            <div ng-if="!accion.estadoCaja" class="col-sm-12">
+               <div class="col-sm-6">
+                  <span>Detalle del cierre</span>
+                  <br/>
+                  <span>Ventas Efectivo: {{accion.ventas.efectivo | currency : 'Q '}}</span>
+                  <br/>
+                  <span>Ventas Tarjeta: {{accion.ventas.tarjeta | currency : 'Q '}}</span>
+                  <br/>
+                  <span>Cortesias: {{accion.ventas.cortesias | currency : 'Q '}}</span>
+                  <br/>
+                  <span>Total ventas: {{accion.ventas.totales | currency : 'Q '}}</span>
+                  <br/>
+               </div>
+               <div style="text-align:right;" class="col-sm-6">
+                  <span>Total apertura: {{accion.apertura | currency : 'Q '}}</span>
+                  <br/>
+                  <span ng-class="'text-warning'">Total pagos: {{accion.ventas.pagos | currency : 'Q '}}</span>
+                  <br/>
+                  <span ng-class="accion.ventas.tdia &lt; 0 ? 'text-danger':'text-success'">Total día: {{accion.ventas.tdia | currency: 'Q '}}</span>
+                  <br/>
+                  <span>Cierre: {{accion.total | currency : 'Q '}}</span>
+                  <br/>
+                  <span ng-class="accion.ventas.diferencia &lt; 0 ? 'text-danger':'text-success'">Diferencia: {{accion.ventas.diferencia | currency: 'Q '}}</span>
+               </div>
+            </div>
+            <div ng-if="accion.estadoCaja" style="text-align:right;" class="col-sm-12">
+               <span>Total: {{accion.total | currency : 'Q '}}</span>
+            </div>
+         </p>
+      </div>
+   </div>
+   <modal-footer>
+      <div class="row">
+         <div style="text-align:left;" class="col-sm-6">
+            <button type="button" ng-click="accion.cancel()" class="btn bg-primary"><i class="fa fa-times-circle"></i> Cerrar</button>
+         </div>
+      </div>
+   </modal-footer>
+</div>

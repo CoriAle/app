@@ -1,0 +1,40 @@
+.container-fluid(ng-controller='PersonaController as person')
+	.row
+		.col-md-12
+		form.form-validate.form-horizontal(name='person.formValidate', ng-submit='person.addPersonaDialog()', novalidate='')
+			.panel.panel-success
+				.panel-heading
+					.panel-title Nueva Persona
+				.panel-body
+					.form-group
+						label.col-sm-2.control-label Nombre
+						.col-sm-4(ng-class="{'has-error': person.formValidate.nombre.$invalid && !person.formValidate.nombre.$pristine}")
+							input.form-control(id='nombre',placeholder='Nombre', type='text', name='nombre', ng-model='person.model.nombre', value='', required='')
+							.text-danger(ng-messages='person.formValidate.nombre.$error', ng-show='person.formValidate.nombre.$invalid && !person.formValidate.nombre.$pristine')
+								div(ng-message='required') Campo requerido
+						label.col-sm-2.control-label Tipo de Persona
+						.col-sm-4(ng-class="{'has-error': person.formValidate.tipo_persona.$invalid && !person.formValidate.tipo_persona.$pristine}")
+								select.chosen-select.input-md(data-placeholder='Seleccione.....', id='tipo_persona', chosen='', required='', ng-model='person.model.tipo_persona', ng-options='t.nombre for t in person.tipos')
+								.text-danger(ng-messages='person.formValidate.tipo_persona.$error', ng-show='person.formValidate.tipo_persona.$dirty')
+									div(ng-message='required') Tipo de persona requerido
+					.form-group
+						label.col-sm-2.control-label Direccion
+						.col-sm-4(ng-class="{'has-error': person.formValidate.direccion.$invalid && !person.formValidate.direccion.$pristine}")
+							input.form-control(id='direccion', placeholder='Direccion', type='text', name='direccion', ng-model='person.model.direccion', value='', required='')
+							.text-danger(ng-messages='person.formValidate.direccion.$error', ng-show='person.formValidate.direccion.$invalid && !person.formValidate.direccion.$pristine')
+								div(ng-message='required') Campo requerido
+								div(ng-message='minlength') Direccion requerida
+						label.col-sm-2.control-label Telefono
+						.col-sm-4(ng-class="{'has-error': person.formValidate.telefono.$invalid && !person.formValidate.telefono.$pristine}")
+							input.form-control(id='telefono', placeholder='Telefono', type='text', name='telefono', ng-model='person.model.telefono', value='', required='')
+							.text-danger(ng-messages='person.formValidate.telefono.$error', ng-show='person.formValidate.telefono.$invalid && !person.formValidate.telefono.$pristine')
+								div(ng-message='required') Campo requerido
+					.form-group
+						label.col-sm-2.control-label Nit
+						.col-sm-4(ng-class="{'has-error': person.formValidate.nit.$invalid && !person.formValidate.nit.$pristine}")
+							input.form-control(id='nit', placeholder='Nit', type='text', name='nit', ng-model='person.model.nit', value='', required='', ng-maxlength='10')
+							.text-danger(ng-messages='person.formValidate.nit.$error', ng-show='person.formValidate.nit.$invalid && !person.formValidate.nit.$pristine')
+								div(ng-message='required') Campo requerido
+								div(ng-message='maxlength') Nit es muy largo
+				.panel-footer.text-center
+					button.btn.btn-info(type='submit', ng-disabled='person.formValidate.$invalid') Agregar

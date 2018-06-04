@@ -1,0 +1,110 @@
+<script>
+   $("#formver :input").attr("disabled", true);
+</script>
+<div ng-controller="IngresoVerController as ver" class="row">
+   <div class="col-md-12">
+      <div class="panel panel-info">
+         <div class="panel-heading">
+            <div class="panel-title">Información del ingreso</div>
+         </div>
+         <div class="panel-body">
+            <form id="formver" ng-submit="ver.submit()" name="ver.formValidate" autocomplete="off" class="form-horizontal">
+               <toaster-container toaster-options="{'position-class': 'toast-bottom-right', 'close-button':true}"></toaster-container>
+               <div class="col-md-9">
+                  <div class="form-group">
+                     <label class="col-sm-2 control-label">Proveedor</label>
+                     <div class="col-sm-4">
+                        <div class="input-group">
+                           <input name="proveedor" ng-required="true" type="text" ng-model="ver.movimiento.persona" placeholder="Buscar por Nombre, Nit..." uib-typeahead="t as t.nombre for t in ver.proveedores($viewValue)" typeahead-min-length="1" typeahead-loading="loadingPersona"
+                           typeahead-no-results="noResultsPer" class="form-control" />
+                        </div>
+                        <span auto-close="disabled" ng-show="loadingPersona" class="i fa fa-circle-o-notch fa-spin"></span>
+                        <div ng-show="noResultsPer" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                        </div>
+                        <div ng-messages="ver.formValidate.proveedor.$error" ng-show="ver.formValidate.proveedor.$invalid &amp;&amp; !ver.formValidate.proveedor.$pristine" class="text-danger">
+                           <div ng-message="required">Campo requerido</div>
+                        </div>
+                     </div>
+                     <label class="col-sm-2 control-label">Tipo de Compra</label>
+                     <div class="col-sm-4">
+                        <input name="tipo" ng-required="true" type="text" ng-model="ver.movimiento.tipo" placeholder="Buscar" uib-typeahead="t as t.nombre for t in ver.tipos | filter:$viewValue | limitTo:8" typeahead-min-length="0" typeahead-loading="loadingTipo"
+                        typeahead-no-results="noResults" class="form-control" />
+                        <span auto-close="disabled" ng-show="loadingTipo" class="i fa fa-circle-o-notch fa-spin"></span>
+                        <div ng-show="noResults" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                        </div>
+                        <div ng-messages="ver.formValidate.tipo.$error" ng-show="ver.formValidate.tipo.$invalid &amp;&amp; !ver.formValidate.tipo.$pristine" class="text-danger">
+                           <div ng-message="required">Campo requerido</div>
+                        </div>
+                     </div>
+                  </div>
+                  <div class="form-group">
+                     <label class="col-sm-2 control-label">Documento</label>
+                     <div class="col-sm-4">
+                        <input name="documento" ng-required="true" type="text" ng-model="ver.movimiento.documento" placeholder="Buscar" uib-typeahead="t as t.nombre for t in ver.documentos | filter:$viewValue | limitTo:8" typeahead-min-length="0" typeahead-loading="loadingDoc"
+                        typeahead-no-results="noResultsDoc" class="form-control" />
+                        <span auto-close="disabled" ng-show="loadingDoc" class="i fa fa-circle-o-notch fa-spin"></span>
+                        <div ng-show="noResultsDoc" class="text-danger"><i class="fa fa-times">No se encontraron resultados</i>
+                        </div>
+                        <div ng-messages="ver.formValidate.documento.$error" ng-show="ver.formValidate.documento.$invalid &amp;&amp; !ver.formValidate.documento.$pristine" class="text-danger">
+                           <div ng-message="required">Campo requerido</div>
+                        </div>
+                     </div>
+                     <label class="col-sm-2 control-label">No. Documento</label>
+                     <div class="col-sm-4">
+                        <input placeholder="No. de Documento" type="text" name="numero" required="" ng-model="ver.movimiento.no_documento" class="form-control" />
+                        <div ng-messages="ver.formValidate.numero.$error" ng-show="ver.formValidate.numero.$invalid &amp;&amp; !ver.formValidate.numero.$pristine" class="text-danger">
+                           <div ng-message="required">Campo requerido</div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+               <div class="col-md-3">
+                  <div class="form-group">
+                     <h1>Total: {{ver.movimiento.total_costo | currency : 'Q '}}</h1>
+                  </div>
+               </div>
+               <div class="col-md-12">
+                  <div class="panel panel-info">
+                     <div class="panel-heading">
+                        <div class="panel-title">Detalle</div>
+                     </div>
+                     <div class="panel-body">
+                        <div class="form-group">
+                           <div class="col-md-12">
+                              <table class="table table-bordered table-hover primary">
+                                 <tr style="font-weight: bold">
+                                    <td style="width:25%">Producto</td>
+                                    <td style="width:15%">Cantidad</td>
+                                    <td style="width:15%">Precio compra</td>
+                                    <td style="width:15%">Precio venta</td>
+                                    <td style="width:15%">Subtotal</td>
+                                 </tr>
+                                 <tr ng-repeat="deta in ver.movimiento.detalle">
+                                    <td>{{ deta.producto.nombre }}
+                                       <br/>
+                                       <span style="font-size: 0.8em;">{{ deta.observacion}}</span>
+                                    </td>
+                                    <td>{{ deta.cantidad}}</td>
+                                    <td>{{ deta.precio_costo | currency : 'Q '}}</td>
+                                    <td>{{ deta.precio_venta | currency : 'Q '}}</td>
+                                    <td>{{ deta.precio_costo * deta.cantidad | currency : 'Q '}}</td>
+                                 </tr>
+                              </table>
+                           </div>
+                        </div>
+                     </div>
+                  </div>
+               </div>
+            </form>
+         </div>
+         <div class="panel-footer">
+            <div class="row">
+               <div class="col-sm-12 text-right">
+                  <button type="button" ui-sref="app.movimiento.listaingreso" class="btn btn-default"><i class="fa fa-times"> Cerrar</i>
+                  </button>
+               </div>
+            </div>
+         </div>
+      </div>
+   </div>
+</div>

@@ -1,0 +1,254 @@
+h3 Cuentas Pagadas
+.row(ng-controller="CajaPagadaController as ctrl")
+    .col-sm-12.col-xs-12      
+      .form-group
+        .row
+          .col-sm-3
+            label.control-label Fecha Inicial
+          .col-sm-3
+            label.control-label Fecha Final
+        .row
+          .col-sm-3          
+            p.input-group
+              input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.iniDate', is-open='ctrl.opened', uib-datepicker-options='ctrl.dateOptions', close-text='Cerrar')
+              span.input-group-btn
+                button.btn.btn-default(type='button', ng-click='ctrl.open($event)')
+                  em.fa.fa-calendar
+          .col-sm-3          
+            p.input-group
+              input.form-control(type='text', name="date", required='', uib-datepicker-popup='{{ctrl.format}}', ng-model='ctrl.finDate', is-open='ctrl.openend', uib-datepicker-options='ctrl.finDate', close-text='Cerrar')
+              span.input-group-btn
+                button.btn.btn-default(type='button', ng-click='ctrl.openfin($event)')
+                  em.fa.fa-calendar
+          .col-sm-3
+            span.input-group-btn
+              button.btn.btn-info(type="button" ng-click="ctrl.filtro_pagadas()")
+                strong
+                  i.fa.fa-search
+          .col-sm-3
+            form.form-inline.text-right(ng-submit="ctrl.filtro_pagadas()", role="form")
+                .form-group
+                    .input-group
+                        input.form-control(type="text", ng-model="ctrl.query", placeholder="Buscar")
+                        span.input-group-btn
+                            button.btn.btn-info(type="submit")
+                                strong
+                                    i.fa.fa-search  Buscar
+    br
+    br
+    .col-sm-12
+        .panel.panel-primary
+            .panel-heading
+                strong Lista de Pedidos
+            // START table-responsive
+            .table-responsive
+                table.table.table-striped.table-hover
+                    thead
+                        tr
+                          th(width="15%") Fecha
+                          th(width="10%") Mesa
+                          th(width="35%") Detalle
+                          th(width="15%") Mesero
+                          th(width="10%") Total
+                          th(width="10%") Acciones
+                    tbody
+                        tr(ng-repeat="item in ctrl.pedidospagados")
+                            td {{ item.creado | date: "dd/MM/yyyy hh:mm a" }}
+                            td {{ item.mesa.nombre}}
+                            td
+                                span(ng-repeat="objeto in item.detalle") - {{ objeto.producto.nombre }} Q{{ objeto.precio_venta }}&nbsp;
+                                    span(ng-show="objeto.persona") de {{ objeto.persona.nombre }},&nbsp;
+                            td {{ item.transacciones[0].usuario.username}} 
+                            td {{ item.total | currency: 'Q '}}
+                            td
+                                .btn-group.btn-group-sm
+                                    button.btn.btn-primary(type="button", ng-click='ctrl.openOrder(item.id)', title="Comanda")
+                                        i.fa.fa-print
+                                    button.btn.bg-green(type="button", ng-click='ctrl.openFicha(item.id)', title="Ficha")
+                                        i.fa.fa-file-text-o
+
+            // END table-responsive
+            // END panel
+        uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")
+
+script(type="text/ng-template", id="order.html")
+    .modal-header
+        h3.modal-title Impresión de Comanda
+    .modal-body
+        .row(print-section ng-if="impr.bp")
+            .form-group
+                .col-xs-12
+                    label(style='font-size:larger;') Comanda
+            .form-group
+                .col-xs-6
+                    br
+                    label Detalle
+                .col-xs-6
+                    br
+                    label Orden # {{impr.orden.id}}
+            .form-group
+                .col-xs-12
+                    br
+                    .row
+                        .col-xs-4
+                            label Mesa:
+                        .col-xs-6
+                            | {{ impr.orden.mesa.nombre }}
+                    .row
+                        .col-xs-4
+                            label Fecha/Hora:
+                        .col-xs-6
+                            | {{ impr.orden.creado | date : "dd/MM/yy hh:mm a" }}
+                    .row
+                        .col-xs-4
+                            label Mesero:
+                        .col-xs-6
+                            | {{ impr.orden.transacciones[0].usuario.username }}
+                    .row
+                        .col-xs-4
+                            label Comisión:
+                        .col-xs-6
+                            | {{ impr.comisiones | currency : 'Q ' }}
+            .form-group
+                .col-xs-12
+                    .table-responsive
+                        table.table.table-striped.table-hover
+                            thead
+                                tr
+                                  th(width="25%") Producto
+                                  th(width="27%") Precio
+                                  th(width="27%") Ficha
+                                  th(width="20%") Chica
+                            tbody
+                                tr(ng-repeat="item in impr.productos")
+                                    td {{ item.producto_nombre }}
+                                    td {{ item.precio_venta | currency : 'Q'}}
+                                    td {{ item.precio_fichas | currency : 'Q'}}
+                                    td {{ item.persona.nombre }}
+        .row(print-section ng-if="impr.bcs")
+            .form-group
+                .col-xs-12
+                    label(style='font-size:larger;') Comanda - Botellas
+            .form-group
+                .col-xs-6
+                    br
+                    label Detalle
+                .col-xs-6
+                    br
+                    label Orden # {{impr.orden.id}}
+            .form-group
+                .col-xs-12
+                    br
+                    .row
+                        .col-xs-4
+                            label Mesa:
+                        .col-xs-6
+                            | {{ impr.orden.mesa.nombre }}
+                    .row
+                        .col-xs-4
+                            label Fecha/Hora:
+                        .col-xs-6
+                            | {{ impr.orden.creado | date : "dd/MM/yy hh:mm a" }}
+                    .row
+                        .col-xs-4
+                            label Mesero:
+                        .col-xs-6
+                            | {{ impr.orden.transacciones[0].usuario.username }}
+            .form-group
+                .col-xs-12
+                    .table-responsive
+                        table.table.table-striped.table-hover
+                            thead
+                                tr
+                                    th(width="25%") Chica
+                                    th(width="25%") Botella
+                                    th(width="25%") Precio
+                                    th(width="25%") Ficha
+                            tbody
+                                tr(ng-repeat="chica in impr.chicas_servicios")
+                                    td {{ chica.persona.nombre }}
+                                    td {{ chica.presentacion_nombre }}
+                                    td {{ chica.precio_venta | currency : 'Q'}}
+                                    td {{ chica.precio_fichas | currency : 'Q'}}
+    .modal-footer
+        .row
+            .col-sm-6(style="text-align:left;")
+                button.btn.btn-default(type="button", ng-click="impr.cancel()")
+                    i.fa.fa-times-circle
+                    |  Cancelar
+            .col-sm-6(style="text-align:right;")
+                button.btn.btn-info(type="button" print-btn)
+                    i.fa.fa-print
+                    |  Imprimir
+script(type="text/ng-template", id="ficha.html")
+    .modal-header
+        h3.modal-title Impresión de Ficha
+    .modal-body
+        .row(print-section ng-if="impr.bc" ng-repeat="persona in impr.chicas" ng-disabled="!impr.bc")
+            .form-group
+                .col-xs-12
+                    label(style='font-size:larger;') Fichas
+            .form-group
+                .col-xs-6
+                    br
+                    label Detalle
+                .col-xs-6
+                    br
+                    label Orden # {{impr.orden.id}}
+            .form-group
+                .col-xs-12
+                    br
+                    .row
+                        .col-xs-4
+                            label Fecha/Hora:
+                        .col-xs-6
+                            | {{ impr.orden.creado | date : "dd/MM/yy hh:mm a" }}
+                    .row
+                        .col-xs-4
+                            label Mesero:
+                        .col-xs-6
+                            | {{ impr.orden.transacciones[0].usuario.username }}
+                    .row
+                        .col-xs-4
+                            label Chica:
+                        .col-xs-6
+                            | {{ persona.nombre }}
+                    .row
+                        .col-xs-4
+                            label Total Ficha:
+                        .col-xs-6
+                            strong {{ persona.fichas | currency : 'Q' }}
+            .form-group
+                .col-xs-12
+                    .table-responsive
+                        table.table.table-striped.table-hover
+                            thead
+                                tr
+                                  th(width="40%") Item
+                                  th(width="25%") Cantidad Fichas
+                                  th(width="20%") Valor Ficha
+                                  th(width="15%") Total
+                            tbody
+                                tr(ng-repeat="detalle in persona.detalles")
+                                    td {{ detalle.nombre }}
+                                    td {{ detalle.cantidad_fichas }}
+                                    td {{ detalle.precio_fichas | currency : 'Q'}}
+                                    td {{ detalle.precio_fichas * detalle.cantidad_fichas | currency : 'Q'}}
+            .form-group
+                .col-xs-12(style="text-align:right;")
+                    h6 Cajero: {{ impr.usuario.nombre }} - Fecha: {{ impr.hoy }}
+                    
+        .row(ng-if="!impr.bc")
+            .form-group
+                .col-xs-12
+                    h4(ng-class="'text-danger'" style="text-align:center;") Esta comanda no posee fichas
+    .modal-footer
+        .row
+            .col-sm-6(style="text-align:left;")
+                button.btn.btn-default(type="button", ng-click="impr.cancel()")
+                    i.fa.fa-times-circle
+                    |  Cancelar
+            .col-sm-6(style="text-align:right;")
+                button.btn.btn-info(type="button" print-btn ng-if="impr.bc")
+                    i.fa.fa-print
+                    |  Imprimir

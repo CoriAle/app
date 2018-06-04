@@ -1,0 +1,40 @@
+br
+.row(ng-controller="SalidaListaController as ctrl")    
+	.col-sm-6.col-xs-12
+	.col-sm-6.col-xs-12
+		form.form-inline.text-right(ng-submit="ctrl.loadSalidas()", role="form")
+			.form-group
+				.input-group
+					input.form-control(type="text", ng-model="ctrl.query", placeholder="Buscar")
+					span.input-group-btn
+						button.btn.btn-info(type="submit")
+							strong
+								i.fa.fa-search  Buscar
+	br
+	br
+	.col-sm-12
+		.panel.panel-primary
+			.panel-heading
+				strong Lista de Salidas
+			// START table-responsive
+			.table-responsive
+				table.table.table-striped.table-hover
+					thead
+						tr
+							th(width="60%", style="text-align:center") Motivo
+							th(width="15%") Total
+							th(width="25%", style="text-align:center") Creado
+							//- th Acciones
+					tbody
+						tr(ng-repeat="item in ctrl.salidas")
+							td {{ item.motivo }}
+							td {{ item.total_costo | currency: 'Q '}}
+							td(align="center") {{ item.creado | date:'dd-MM-yyyy HH:mm:ss'}}
+								//- td
+								//- 	.btn-group.btn-group-sm
+								//- 		button.btn.btn-danger(type="button",  ng-click='ctrl.destroy(item)', title="Eliminar")
+								//- 			i.fa.fa-ban
+			// END table-responsive
+			// END panel
+
+		uib-pagination.pagination-sm(previous-text="Anterior", next-text="Siguiente", first-text="Primero", last-text="Ultimo", total-items="ctrl.pagingInfo.totalItems", items-per-page="ctrl.pagingInfo.itemsPerPage", ng-model="ctrl.pagingInfo.page", max-size="10", rotate="false",ng-change="ctrl.selectPage(ctrl.pagingInfo.page)", boundary-links="true")
