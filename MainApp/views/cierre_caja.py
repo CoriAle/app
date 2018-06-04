@@ -48,7 +48,6 @@ class CierreCajaViewSet(viewsets.ModelViewSet):
                 serializer.save()
                 # Retiramos los detalles que estan agregados al movimiento y los sustituimos por nuevos
                 for detalle in detalle_data:
-                    print detalle
                     DetalleCierre.objects.create(cierre=model, **detalle)
 
                 return Response(serializer.data, status=status.HTTP_201_CREATED)

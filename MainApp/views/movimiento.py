@@ -71,12 +71,9 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
         # try:
         with transaction.atomic():
             serializer = MovimientoUpdateSerializer(data=request.data)
-            print 'SERIALIZADOR'
             if serializer.is_valid():
-                print 'VALIDO'
                 # Buscamos el movimiento para setearles los nuevos valores que se nos han sido enviados.
                 movimiento = Movimiento.objects.get(id=request.data['id'])
-                print request.data['cuenta_separada']
                 # SE USA 'cuenta_separada' para VALIDACION Cancelar la Orden en curso, Si es verdadera se hace un pago
                 if request.data['cuenta_separada'] == True:
                     try:
@@ -90,21 +87,17 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                             status=status.HTTP_400_BAD_REQUEST)
                     except TransaccionVenta.DoesNotExist:
 
-                        print 'PAGO DE ORDEN'
                         # Retiramos los detalles que estan agregados al movimiento y los sustituimos por nuevos
                         for detalle_data in movimiento.detalle.all():
-                            print 'FOR DETALLE'
                             # modificamos los detalles del movimiento
                             producto = Producto.objects.get(id=detalle_data.producto.id)
                             detalle_data = DetalleMovimiento.objects.get(id=detalle_data.id)
                             # Verificamos si el producto es un combo
                             if producto.es_combo and not producto.combo_mixto:
-                                print 'ES COMBO'
                                 # Buscamos los combos que tiene el producto padre
                                 combos = Combo.objects.filter(producto_padre__id=detalle_data.producto.id)
                                 # existencia = combos.first().producto_combo.existencia
                                 if movimiento.tipo == 1:
-                                    print 'INGRESO'
                                     for item in combos:
                                         # verificamos que la cantidad del producto sea mayor
                                         # a la cantidad de combos por la cantidad del movimiento
@@ -116,7 +109,6 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                         item.producto_combo.existencia -= (detalle_data.cantidad*item.cantidad)
                                         item.producto_combo.save()
                                 elif movimiento.tipo == 2:
-                                    print 'VENTA'
                                     for transaccion_data in movimiento.transacciones.all():
                                         transaccion_data = TransaccionVenta.objects.get(id=transaccion_data.id)
                                         for item in combos:
@@ -136,13 +128,11 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                                 item.producto_combo.existencia -= (detalle_data.cantidad*item.cantidad)
                                                 item.producto_combo.save()
                                 else:
-                                    print 'BAJA'
                                     # Sumamos la cantidad de existencias del producto con
                                     # la cantidad del movimiento por la cantidad del combo
                                     item.producto_combo.existencia += (detalle_data.cantidad*item.cantidad)
                                     item.producto_combo.save()
                             else:
-                                print 'COMBO MIXTO'
                                 if movimiento.tipo == 1:
                                     if producto.existencia < detalle_data.cantidad:
                                         raise ValueError('El producto {} no tiene suficientes existencias'
@@ -337,7 +327,6 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                             status=status.HTTP_400_BAD_REQUEST)
                     except TransaccionVenta.DoesNotExist:
 
-                        print 'ORDEN ANULADA'
                         # Se obtienen los detalles para poder devolver cada existencia a su respectivo producto
                         # Try y Except para validar detalle
                         detalles_data = []
@@ -351,13 +340,11 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                             producto = Producto.objects.get(id=elemento['producto']['id'])
                             # Verificamos si el producto es un combo
                             if producto.es_combo:
-                                print 'ES COMBO'
                                 # Buscamos los combos que tiene el producto padre
                                 combos = Combo.objects.filter(producto_padre__id=elemento['producto']['id'])
                                 # existencia = combos.first().producto_combo.existencia
                                 # INGRESO
                                 if movimiento.tipo == 1:
-                                    print 'INGRESO COMBO'
                                     for item in combos:
                                         # verificamos que la cantidad del producto sea mayor
                                         # a la cantidad de combos por la cantidad del movimiento
@@ -370,16 +357,13 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                         item.producto_combo.save()
                                 # VENTA
                                 elif movimiento.tipo == 2:
-                                    print 'VENTA COMBO'
 
                                     if producto.combo_mixto==False:
-                                        print 'COMBO NORMAL'
                                         existencia = combos.first().producto_combo.existencia
                                         # Se busca dentro del movimiento el producto combo que viene en el detalle
                                         detalle = DetalleMovimiento.objects.get(movimiento_id=request.data['id'],producto_id=producto.id)
 
                                         for item in combos:
-                                            print 'ITEM EN COMBOS'
                                             # evaluamos si hay existencias
                                             item.producto_combo.existencia += (detalle.cantidad*item.cantidad)
                                             item.producto_combo.save()
@@ -389,43 +373,30 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                     if producto.se_descuenta == True:
                                         pedido = 0
                                         cancelado = 0
-                                        print 'VENTA COMBO DESCUENTA'
                                         for transaccion_data in movimiento.transacciones.all():
                                             transaccion_data = TransaccionVenta.objects.get(id=transaccion_data.id)
                                             # Pedido
                                             if transaccion_data.tipo_transaccion == 1:
                                                 pedido = 1
-                                                print 'PEDIDO'
                                             #Anulado
                                             if transaccion_data.tipo_transaccion == 2:
                                                 cancelado = 1
-                                                print 'ANULADO'
                                             # Cobrado
                                             if transaccion_data.tipo_transaccion == 3:
-                                                print 'COBRADO'
                                                 pass
                                             # Pendiente de Pago
                                             if transaccion_data.tipo_transaccion == 4:
                                                 pedido = 1
                                                 cancelado = 0
-                                                print 'PEDIENTE'
                                         if pedido == 1 and cancelado == 0:
-                                            print 'PEDIDO Y CANCELADO'
                                             for deta in detalles_data:
                                                 # if producto.se_descuenta == 'true':
                                                     # print 'NO ES COMBO Y SE DESCUENTA'
                                                 if deta['producto'] == producto.id:
-                                                    print producto.id
-                                                    print 'PRODUCTO COMPARADADO'
-                                                    print 'PEDIDO 1 CANCELADO 0 1'
-                                                    print
                                                     # Sumamos la cantidad de existencias del producto con
                                                     # la cantidad del movimiento por la cantidad del combo
-                                                    print producto.existencia
                                                     producto.existencia = producto.existencia + elemento['cantidad']
-                                                    print 'PEDIDO 1 CANCELADO 0 2'
                                                     producto.save()
-                                                    print 'PEDIDO 1 CANCELADO 0 3'
                                                 # if pedido == 0 and cancelado == 1:
                                                 #     print 'PEDIDO 0 CANCELADO 1'
                                                 #     # verificamos que la cantidad del producto sea mayor
@@ -445,7 +416,6 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                     item.producto_combo.save()
                             else:
                                 # Ingreso
-                                print 'PRODUCTO INDIVIDUAL'
                                 if movimiento.tipo == 1:
                                     if producto.existencia < elemento['cantidad']:
                                         raise ValueError('El producto {} no tiene suficientes existencias'.format(producto.nombre))
@@ -454,10 +424,7 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                 # Venta
                                 if movimiento.tipo == 2:
                                     #Se descuenta
-                                    print 'VENTA'
-                                    print producto.se_descuenta
                                     if producto.se_descuenta == True:
-                                        print 'SE DESCUENTA'
                                         pedido = 0
                                         cancelado = 0
                                         for transaccion_data in movimiento.transacciones.all():
@@ -475,12 +442,9 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                             if transaccion_data.tipo_transaccion == 4:
                                                 pedido = 1
                                                 cancelado = 0
-                                                print 'CANCELADO'
                                         if pedido == 1 and cancelado == 0:
-                                            print 'LISTO PARA DESCUENTO'
                                             producto.existencia = producto.existencia + elemento['cantidad']
                                             producto.save()
-                                            print 'SUMADO'
                                         if pedido == 0 and cancelado == 1:
                                             producto.existencia -= elemento['cantidad']
                                             producto.save()
@@ -658,7 +622,6 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
             anulado=False,
             tipo=2,
         ).order_by('-creado')
-        print movimientos
 
         serializer = PaginatedMovimientoSerializer(movimientos, request, 10)
         return Response(serializer.data)
@@ -711,7 +674,6 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
         ).order_by('-modificado')
 
         serializer = PaginatedMovimientoSerializer(movimientos, request, 10)
-        print movimientos
         return Response(serializer.data)
         # except Exception as e:
         #     return Response({'detail': e.__str__()}, status=status.HTTP_400_BAD_REQUEST)
@@ -808,7 +770,7 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
     def ventas_cierre(self, request):
 
         # Se obtiene el cierre de caja de la caja aparturada y el usuario en uso de la misma
-        print "CIERRE {}".format(request.GET.get('cierre'))
+        #print "CIERRE {}".format(request.GET.get('cierre'))
         cierre = CierreCaja.objects.get(pk=request.GET.get('cierre'))
 
         # Busqueda de Pagos desde caja por cada caja abierta con su usuario
