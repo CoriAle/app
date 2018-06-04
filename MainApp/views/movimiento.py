@@ -71,12 +71,12 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
         # try:
         with transaction.atomic():
             serializer = MovimientoUpdateSerializer(data=request.data)
-            print 'SERIALIZADOR'
+            #print 'SERIALIZADOR'
             if serializer.is_valid():
-                print 'VALIDO'
+                #print 'VALIDO'
                 # Buscamos el movimiento para setearles los nuevos valores que se nos han sido enviados.
                 movimiento = Movimiento.objects.get(id=request.data['id'])
-                print request.data['cuenta_separada']
+                #print request.data['cuenta_separada']
                 # SE USA 'cuenta_separada' para VALIDACION Cancelar la Orden en curso, Si es verdadera se hace un pago
                 if request.data['cuenta_separada'] == True:
                     try:
@@ -90,21 +90,21 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                             status=status.HTTP_400_BAD_REQUEST)
                     except TransaccionVenta.DoesNotExist:
 
-                        print 'PAGO DE ORDEN'
+                        #print 'PAGO DE ORDEN'
                         # Retiramos los detalles que estan agregados al movimiento y los sustituimos por nuevos
                         for detalle_data in movimiento.detalle.all():
-                            print 'FOR DETALLE'
+                            #print 'FOR DETALLE'
                             # modificamos los detalles del movimiento
                             producto = Producto.objects.get(id=detalle_data.producto.id)
                             detalle_data = DetalleMovimiento.objects.get(id=detalle_data.id)
                             # Verificamos si el producto es un combo
                             if producto.es_combo and not producto.combo_mixto:
-                                print 'ES COMBO'
+                                #print 'ES COMBO'
                                 # Buscamos los combos que tiene el producto padre
                                 combos = Combo.objects.filter(producto_padre__id=detalle_data.producto.id)
                                 # existencia = combos.first().producto_combo.existencia
                                 if movimiento.tipo == 1:
-                                    print 'INGRESO'
+                                    #print 'INGRESO'
                                     for item in combos:
                                         # verificamos que la cantidad del producto sea mayor
                                         # a la cantidad de combos por la cantidad del movimiento
@@ -116,7 +116,7 @@ class MovimientoViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                                         item.producto_combo.existencia -= (detalle_data.cantidad*item.cantidad)
                                         item.producto_combo.save()
                                 elif movimiento.tipo == 2:
-                                    print 'VENTA'
+                                    #print 'VENTA'
                                     for transaccion_data in movimiento.transacciones.all():
                                         transaccion_data = TransaccionVenta.objects.get(id=transaccion_data.id)
                                         for item in combos:
