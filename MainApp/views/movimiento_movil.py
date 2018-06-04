@@ -2,7 +2,7 @@ import time
 import os
 import datetime
 import json
-import cups
+#import cups
 import string
 from datetime import datetime
 from pytz import timezone
@@ -156,8 +156,8 @@ class MovimientoMovilViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                 fc.close()
 
                 # ******** LINEAS PARA IMPRESION EN CUPS ********
-                conn = cups.Connection()
-                printer_returns = conn.printFile('comandas', file_comanda, "Imprimiendo comanda...", {})
+                #conn = cups.Connection()
+                #printer_returns = conn.printFile('comandas', file_comanda, "Imprimiendo comanda...", {})
 
                 # Ruta del archivo creado de manera temporal para impresion en la COCINA
                 if len(listaCocina) > 0:
@@ -186,8 +186,8 @@ class MovimientoMovilViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
                     fc.close()
 
                     # ******** LINEAS PARA IMPRESION EN CUPS ********
-                    conn = cups.Connection()
-                    printer_returns = conn.printFile('cocina', file_cocina, "Imprimiendo pedido de cocina...", {})
+                    #conn = cups.Connection()
+                    #printer_returns = conn.printFile('cocina', file_cocina, "Imprimiendo pedido de cocina...", {})
 
 
                 return Response(serializer.data, status=status.HTTP_201_CREATED)

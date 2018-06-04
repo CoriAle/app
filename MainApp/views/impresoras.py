@@ -1,7 +1,7 @@
 # -*- coding: utf-8 -*-
-import cups
+#import cups
 import time
-import cups
+
 import string
 from datetime import datetime
 from dateutil import tz
@@ -21,6 +21,7 @@ class ImpresoraViewSet(viewsets.ModelViewSet):
         return ImpresoraSerializer
 
     def get_queryset(self):
+        """
         conn = cups.Connection()
         printers = conn.getPrinters()
         jobs = conn.getJobs()
@@ -44,22 +45,23 @@ class ImpresoraViewSet(viewsets.ModelViewSet):
                                "mensaje": atributos['printer-state-message'],
                                "color": color,
                                "tareas_pendientes": tareas_pendientes})
+        """
         return impresoras
 
     @list_route(methods=['post'])
     def stop_printer(self, request):
         """Detiene el proceso de impresión de la impresora recibida por el post"""
         printer = request.GET.get('name')
-        conn = cups.Connection()
-        conn.disablePrinter(name=printer)
+        #conn = cups.Connection()
+        #conn.disablePrinter(name=printer)
         return Response(status=status.HTTP_200_OK)
 
     @list_route(methods=['post'])
     def restart_printer(self, request):
         """Reanuda el proceso de impresion de la impresora especificada por el post"""
         printer = request.GET.get('name')
-        conn = cups.Connection()
-        conn.enablePrinter(printer)
+        #conn = cups.Connection()
+        #conn.enablePrinter(printer)
         return Response(status=status.HTTP_200_OK)
 
     # @list_route(methods=['post'])
@@ -74,8 +76,8 @@ class ImpresoraViewSet(viewsets.ModelViewSet):
     @list_route(methods=['post'])
     def borrar_trabajos(self, request):
         printer = request.GET.get('printer_uri')
-        conn = cups.Connection()
-        conn.cancelAllJobs(uri=printer, purge_jobs=False)
+        #conn = cups.Connection()
+        #conn.cancelAllJobs(uri=printer, purge_jobs=False)
         return Response(status=status.HTTP_200_OK)
 
     @list_route(methods=['get'])
