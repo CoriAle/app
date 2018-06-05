@@ -11,7 +11,9 @@
  *
  */
 
-/* [Table of contents]
+/* ========================================================================
+
+[Table of contents]
 
 1. Bootstrap reset
   1.1 bootstrap
@@ -95,17 +97,68 @@
 
 12. Documentation
   12.1 docs
- */
 
-/* ========================================================================
-     Component: media-queries
  ========================================================================== */
 
 /* ========================================================================
-     Component: bootstrap-reset
+   Component: bootstrap-reset.less
  ========================================================================== */
 
 @import url(//fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,600,400italic);
+
+.glyphicon {
+  display: inline-block;
+  font: normal normal normal 14px/1 FontAwesome;
+  font-size: inherit;
+  text-rendering: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+.glyphicon.fa-pull-left {
+  margin-left: 0.3em;
+}
+
+.glyphicon.fa-pull-right {
+  margin-right: 0.3em;
+}
+
+.glyphicon.pull-left {
+  margin-left: 0.3em;
+}
+
+.glyphicon.pull-right {
+  margin-right: 0.3em;
+}
+
+.glyphicon.glyphicon-chevron-left:before {
+  content: "\f053";
+}
+
+.glyphicon.glyphicon-chevron-right:before {
+  content: "\f054";
+}
+
+.glyphicon.glyphicon-chevron-up:before {
+  content: "\f077";
+}
+
+.glyphicon.glyphicon-chevron-down:before {
+  content: "\f078";
+}
+
+.glyphicon.glyphicon-folder-open:before {
+  content: "\f07c";
+}
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+  display: none !important;
+}
 
 *:focus {
   outline: 0 !important;
@@ -113,12 +166,16 @@
 
 a {
   outline: none !important;
-  cursor: pointer;
 }
 
 a.text-muted:hover,
 a.text-muted:focus {
   color: #748690;
+}
+
+[ng-click],
+[data-ng-click] {
+  cursor: pointer;
 }
 
 hr {
@@ -127,6 +184,10 @@ hr {
 
 now {
   display: inline-block;
+}
+
+.navbar-toggle .icon-bar {
+  background-color: #fff;
 }
 
 .list-group {
@@ -139,10 +200,6 @@ now {
 
 .panel > .list-group .list-group-item {
   border-top: 0;
-}
-
-.navbar-toggle .icon-bar {
-  background-color: #fff;
 }
 
 .page-header {
@@ -205,8 +262,11 @@ now {
   padding: 0;
 }
 
-.btn,
-.ColVis .ColVis_Button {
+.p0 .tab-content {
+  padding: 0 !important;
+}
+
+.btn {
   border-radius: 3px;
   font-size: 13px;
   border-color: transparent;
@@ -217,32 +277,25 @@ now {
   transition: all 0.1s;
 }
 
-.btn.btn-link,
-.ColVis .btn-link.ColVis_Button {
+.btn.btn-link {
   box-shadow: none;
   border: 0;
 }
 
-.btn.btn-default,
-.ColVis .ColVis_Button {
+.btn.btn-default {
   border-color: #eaeaea;
 }
 
-.input-group .btn,
-.input-group .ColVis .ColVis_Button,
-.ColVis .input-group .ColVis_Button {
+.input-group .btn {
   font-size: 14px;
   border-color: #dde6e9;
 }
 
-.input-group .input-sm + .input-group-btn .btn,
-.input-group .input-sm + .input-group-btn .ColVis .ColVis_Button,
-.ColVis .input-group .input-sm + .input-group-btn .ColVis_Button {
+.input-group .input-sm + .input-group-btn .btn {
   font-size: 13px;
 }
 
-.form-control,
-body .bootstrap-tagsinput {
+.form-control {
   box-shadow: 0 0 0 #000 !important;
 }
 
@@ -387,37 +440,8 @@ fieldset .form-group {
   filter: none !important;
 }
 
-.glyphicon {
-  display: inline-block;
-  font: normal normal normal 14px/1 FontAwesome;
-  font-size: inherit;
-  text-rendering: auto;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-}
-
-.glyphicon.glyphicon-chevron-right:before {
-  content: "";
-}
-
-.glyphicon.glyphicon-chevron-left:before {
-  content: "";
-}
-
-.glyphicon.glyphicon-chevron-up:before {
-  content: "";
-}
-
-.glyphicon.glyphicon-chevron-down:before {
-  content: "";
-}
-
-.glyphicon.glyphicon-folder-open:before {
-  content: "";
-}
-
 /* ========================================================================
-     Component: typo
+   Component: typo.less
  ========================================================================== */
 
 body {
@@ -433,11 +457,11 @@ h4 {
 }
 
 /* ========================================================================
-     Component: layout
+   Component: layout.less
  ========================================================================== */
 
 html {
-  /* $replace rtl */
+  /* @replace rtl */
   direction: rtl;
   height: 100%;
   -ms-touch-action: manipulation;
@@ -559,8 +583,7 @@ body {
 }
 
 .content-wrapper > button,
-.content-wrapper > .btn,
-.ColVis .content-wrapper > .ColVis_Button {
+.content-wrapper > .btn {
   margin: 10px 0 0 10px;
 }
 
@@ -583,8 +606,7 @@ body {
   }
 
   .content-wrapper > button,
-  .content-wrapper > .btn,
-  .ColVis .content-wrapper > .ColVis_Button {
+  .content-wrapper > .btn {
     margin: 0;
   }
 }
@@ -827,7 +849,7 @@ _:-ms-lang(x),
 }
 
 /* ========================================================================
-   Component: layout-extra
+   Component: layout-extra.less
  ========================================================================== */
 
 .hidden-footer .wrapper > footer {
@@ -1155,7 +1177,7 @@ _:-ms-lang(x),
 }
 
 /* ========================================================================
-     Component: top-navbar
+   Component: top-navbar.less
  ========================================================================== */
 
 .topnavbar {
@@ -1190,7 +1212,7 @@ _:-ms-lang(x),
   background-image: -o-linear-gradient(left, #23b7e5 0%, #51c6ea 100%);
   background-image: linear-gradient(to right, #23b7e5 0%, #51c6ea 100%);
   background-repeat: repeat-x;
-  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF23B7E5', endColorstr='#FF51C6EA', GradientType=1);
+  filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff23b7e5', endColorstr='#ff51c6ea', GradientType=1);
 }
 
 @media only screen and (min-width: 768px) {
@@ -1229,17 +1251,17 @@ _:-ms-lang(x),
 }
 
 .topnavbar .navbar-nav > li > a:hover,
-.topnavbar .navbar-nav > li > a:focus,
 .topnavbar .navbar-nav > .open > a:hover,
+.topnavbar .navbar-nav > li > a:focus,
 .topnavbar .navbar-nav > .open > a:focus {
   color: #117391;
 }
 
 .topnavbar .navbar-nav > .active > a,
-.topnavbar .navbar-nav > .active > a:hover,
-.topnavbar .navbar-nav > .active > a:focus,
 .topnavbar .navbar-nav > .open > a,
+.topnavbar .navbar-nav > .active > a:hover,
 .topnavbar .navbar-nav > .open > a:hover,
+.topnavbar .navbar-nav > .active > a:focus,
 .topnavbar .navbar-nav > .open > a:focus {
   background-color: transparent;
 }
@@ -1298,7 +1320,7 @@ _:-ms-lang(x),
 
 .nav-wrapper .navbar-nav .open .dropdown-menu {
   position: absolute;
-  background-color: white;
+  background-color: #ffffff;
   right: 0px;
   left: 0px;
   border-top: 1px solid #e1e1e1;
@@ -1326,9 +1348,7 @@ _:-ms-lang(x),
   width: 100%;
 }
 
-.topnavbar .navbar-form .form-control,
-.topnavbar .navbar-form body .bootstrap-tagsinput,
-body .topnavbar .navbar-form .bootstrap-tagsinput {
+.topnavbar .navbar-form .form-control {
   height: 100%;
   border: 0;
   border-radius: 0;
@@ -1365,7 +1385,7 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
     background-image: -o-linear-gradient(left, #23b7e5 0%, #51c6ea 100%);
     background-image: linear-gradient(to right, #23b7e5 0%, #51c6ea 100%);
     background-repeat: repeat-x;
-    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF23B7E5', endColorstr='#FF51C6EA', GradientType=1);
+    filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#ff23b7e5', endColorstr='#ff51c6ea', GradientType=1);
   }
 
   .topnavbar .navbar-header {
@@ -1384,7 +1404,7 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
   .topnavbar .navbar-nav > .open > a,
   .topnavbar .navbar-nav > .open > a:hover,
   .topnavbar .navbar-nav > .open > a:focus {
-    box-shadow: 0 -3px 0 #5d9cec inset;
+    box-shadow: 0 -3px 0 #19a5d1 inset;
     -webkit-transition: all 0.2s;
     -o-transition: all 0.2s;
     transition: all 0.2s;
@@ -1396,8 +1416,8 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
   }
 
   .topnavbar .navbar-nav > li > a:hover,
-  .topnavbar .navbar-nav > li > a:focus,
   .topnavbar .navbar-nav > .open > a:hover,
+  .topnavbar .navbar-nav > li > a:focus,
   .topnavbar .navbar-nav > .open > a:focus {
     color: #117391;
   }
@@ -1456,7 +1476,7 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
 }
 
 /* ========================================================================
-     Component: sidebar
+   Component: sidebar.less
  ========================================================================== */
 
 .sidebar {
@@ -1512,8 +1532,8 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
 }
 
 .sidebar > .nav > li > a:focus,
-.sidebar > .nav > li > a:hover,
 .sidebar > .nav > li > .nav-item:focus,
+.sidebar > .nav > li > a:hover,
 .sidebar > .nav > li > .nav-item:hover {
   text-decoration: none;
   outline: none;
@@ -1522,7 +1542,7 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
 
 .sidebar > .nav > li > a > em,
 .sidebar > .nav > li > .nav-item > em {
-  width: 1.8em;
+  width: 2em;
   display: inline-block;
   font-style: normal;
   font-weight: normal;
@@ -1532,10 +1552,10 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
 }
 
 .sidebar > .nav > li.active,
-.sidebar > .nav > li.active > a,
-.sidebar > .nav > li.active .nav,
 .sidebar > .nav > li.open,
+.sidebar > .nav > li.active > a,
 .sidebar > .nav > li.open > a,
+.sidebar > .nav > li.active .nav,
 .sidebar > .nav > li.open .nav {
   background-color: #fcfcfc;
   color: #23b7e5;
@@ -1588,8 +1608,8 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
 }
 
 .sidebar-subnav > li > a:focus,
-.sidebar-subnav > li > a:hover,
 .sidebar-subnav > li > .nav-item:focus,
+.sidebar-subnav > li > a:hover,
 .sidebar-subnav > li > .nav-item:hover {
   color: #23b7e5;
 }
@@ -1657,7 +1677,7 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
 }
 
 .aside-collapsed .sidebar > .nav > li {
-  width: 69px;
+  width: 68px;
 }
 
 .aside-collapsed .sidebar > .nav > li > a,
@@ -1691,7 +1711,7 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
 }
 
 /* ========================================================================
-     Component: offsidebar
+   Component: offsidebar.less
  ========================================================================== */
 
 .offsidebar {
@@ -1784,7 +1804,7 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
 }
 
 /* ========================================================================
-   Component: preloader
+   Component: preloader.less
  ========================================================================== */
 
 /*@noflip*/
@@ -1866,7 +1886,7 @@ body .topnavbar .navbar-form .bootstrap-tagsinput {
 }
 
 /* ========================================================================
-   Component: breadcrumbs
+   Component: breadcrumbs.less
  ========================================================================== */
 
 .breadcrumb {
@@ -1899,8 +1919,8 @@ h3 > .breadcrumb.pull-right,
 }
 
 /* ========================================================================
-   Component: loading-bar
-  ========================================================================== */
+   Component: loading-bar.less
+ ========================================================================== */
 
 /*
  * angular-loading-bar v0.6.0 * https://chieffancypants.github.io/angular-loading-bar
@@ -2045,17 +2065,15 @@ h3 > .breadcrumb.pull-right,
 @keyframes loading-bar-spinner {
   0% {
     transform: rotate(0deg);
-    transform: rotate(0deg);
   }
 
   100% {
-    transform: rotate(360deg);
     transform: rotate(360deg);
   }
 }
 
 /* ========================================================================
-     Component: animate
+   Component: animate.less
  ========================================================================== */
 
 [ui-view].ng-leave {
@@ -5444,7 +5462,7 @@ h3 > .breadcrumb.pull-right,
 }
 
 /* ========================================================================
-     Component: button-extra
+   Component: button-extra.less
  ========================================================================== */
 
 .btn-inverse {
@@ -5468,21 +5486,21 @@ h3 > .breadcrumb.pull-right,
 
 .btn-inverse:active,
 .btn-inverse.active,
-.open > .btn-inverse.dropdown-toggle {
+.open > .dropdown-toggle.btn-inverse {
   color: #fff;
   background-color: #0c1318;
   border-color: #05090b;
 }
 
 .btn-inverse:active:hover,
-.btn-inverse:active:focus,
-.btn-inverse:active.focus,
 .btn-inverse.active:hover,
+.open > .dropdown-toggle.btn-inverse:hover,
+.btn-inverse:active:focus,
 .btn-inverse.active:focus,
+.open > .dropdown-toggle.btn-inverse:focus,
+.btn-inverse:active.focus,
 .btn-inverse.active.focus,
-.open > .btn-inverse.dropdown-toggle:hover,
-.open > .btn-inverse.dropdown-toggle:focus,
-.open > .btn-inverse.dropdown-toggle.focus {
+.open > .dropdown-toggle.btn-inverse.focus {
   color: #fff;
   background-color: #0c1318;
   border-color: #05090b;
@@ -5490,27 +5508,27 @@ h3 > .breadcrumb.pull-right,
 
 .btn-inverse:active,
 .btn-inverse.active,
-.open > .btn-inverse.dropdown-toggle {
+.open > .dropdown-toggle.btn-inverse {
   background-image: none;
 }
 
 .btn-inverse.disabled,
-.btn-inverse.disabled:hover,
-.btn-inverse.disabled:focus,
-.btn-inverse.disabled.focus,
-.btn-inverse.disabled:active,
-.btn-inverse.disabled.active,
 .btn-inverse[disabled],
-.btn-inverse[disabled]:hover,
-.btn-inverse[disabled]:focus,
-.btn-inverse[disabled].focus,
-.btn-inverse[disabled]:active,
-.btn-inverse[disabled].active,
 fieldset[disabled] .btn-inverse,
+.btn-inverse.disabled:hover,
+.btn-inverse[disabled]:hover,
 fieldset[disabled] .btn-inverse:hover,
+.btn-inverse.disabled:focus,
+.btn-inverse[disabled]:focus,
 fieldset[disabled] .btn-inverse:focus,
+.btn-inverse.disabled.focus,
+.btn-inverse[disabled].focus,
 fieldset[disabled] .btn-inverse.focus,
+.btn-inverse.disabled:active,
+.btn-inverse[disabled]:active,
 fieldset[disabled] .btn-inverse:active,
+.btn-inverse.disabled.active,
+.btn-inverse[disabled].active,
 fieldset[disabled] .btn-inverse.active {
   background-color: #131e26;
   border-color: #131e26;
@@ -5531,60 +5549,60 @@ fieldset[disabled] .btn-inverse.active {
 .btn-green.focus {
   color: #fff;
   background-color: #32ac8e;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-green:hover {
   color: #fff;
   background-color: #32ac8e;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-green:active,
 .btn-green.active,
-.open > .btn-green.dropdown-toggle {
+.open > .dropdown-toggle.btn-green {
   color: #fff;
   background-color: #32ac8e;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-green:active:hover,
-.btn-green:active:focus,
-.btn-green:active.focus,
 .btn-green.active:hover,
+.open > .dropdown-toggle.btn-green:hover,
+.btn-green:active:focus,
 .btn-green.active:focus,
+.open > .dropdown-toggle.btn-green:focus,
+.btn-green:active.focus,
 .btn-green.active.focus,
-.open > .btn-green.dropdown-toggle:hover,
-.open > .btn-green.dropdown-toggle:focus,
-.open > .btn-green.dropdown-toggle.focus {
+.open > .dropdown-toggle.btn-green.focus {
   color: #fff;
   background-color: #32ac8e;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-green:active,
 .btn-green.active,
-.open > .btn-green.dropdown-toggle {
+.open > .dropdown-toggle.btn-green {
   background-image: none;
 }
 
 .btn-green.disabled,
-.btn-green.disabled:hover,
-.btn-green.disabled:focus,
-.btn-green.disabled.focus,
-.btn-green.disabled:active,
-.btn-green.disabled.active,
 .btn-green[disabled],
-.btn-green[disabled]:hover,
-.btn-green[disabled]:focus,
-.btn-green[disabled].focus,
-.btn-green[disabled]:active,
-.btn-green[disabled].active,
 fieldset[disabled] .btn-green,
+.btn-green.disabled:hover,
+.btn-green[disabled]:hover,
 fieldset[disabled] .btn-green:hover,
+.btn-green.disabled:focus,
+.btn-green[disabled]:focus,
 fieldset[disabled] .btn-green:focus,
+.btn-green.disabled.focus,
+.btn-green[disabled].focus,
 fieldset[disabled] .btn-green.focus,
+.btn-green.disabled:active,
+.btn-green[disabled]:active,
 fieldset[disabled] .btn-green:active,
+.btn-green.disabled.active,
+.btn-green[disabled].active,
 fieldset[disabled] .btn-green.active {
   background-color: #37bc9b;
   border-color: transparent;
@@ -5605,60 +5623,60 @@ fieldset[disabled] .btn-green.active {
 .btn-purple.focus {
   color: #fff;
   background-color: #6558b4;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-purple:hover {
   color: #fff;
   background-color: #6558b4;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-purple:active,
 .btn-purple.active,
-.open > .btn-purple.dropdown-toggle {
+.open > .dropdown-toggle.btn-purple {
   color: #fff;
   background-color: #6558b4;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-purple:active:hover,
-.btn-purple:active:focus,
-.btn-purple:active.focus,
 .btn-purple.active:hover,
+.open > .dropdown-toggle.btn-purple:hover,
+.btn-purple:active:focus,
 .btn-purple.active:focus,
+.open > .dropdown-toggle.btn-purple:focus,
+.btn-purple:active.focus,
 .btn-purple.active.focus,
-.open > .btn-purple.dropdown-toggle:hover,
-.open > .btn-purple.dropdown-toggle:focus,
-.open > .btn-purple.dropdown-toggle.focus {
+.open > .dropdown-toggle.btn-purple.focus {
   color: #fff;
   background-color: #6558b4;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-purple:active,
 .btn-purple.active,
-.open > .btn-purple.dropdown-toggle {
+.open > .dropdown-toggle.btn-purple {
   background-image: none;
 }
 
 .btn-purple.disabled,
-.btn-purple.disabled:hover,
-.btn-purple.disabled:focus,
-.btn-purple.disabled.focus,
-.btn-purple.disabled:active,
-.btn-purple.disabled.active,
 .btn-purple[disabled],
-.btn-purple[disabled]:hover,
-.btn-purple[disabled]:focus,
-.btn-purple[disabled].focus,
-.btn-purple[disabled]:active,
-.btn-purple[disabled].active,
 fieldset[disabled] .btn-purple,
+.btn-purple.disabled:hover,
+.btn-purple[disabled]:hover,
 fieldset[disabled] .btn-purple:hover,
+.btn-purple.disabled:focus,
+.btn-purple[disabled]:focus,
 fieldset[disabled] .btn-purple:focus,
+.btn-purple.disabled.focus,
+.btn-purple[disabled].focus,
 fieldset[disabled] .btn-purple.focus,
+.btn-purple.disabled:active,
+.btn-purple[disabled]:active,
 fieldset[disabled] .btn-purple:active,
+.btn-purple.disabled.active,
+.btn-purple[disabled].active,
 fieldset[disabled] .btn-purple.active {
   background-color: #7266ba;
   border-color: transparent;
@@ -5679,60 +5697,60 @@ fieldset[disabled] .btn-purple.active {
 .btn-pink.focus {
   color: #fff;
   background-color: #f41fe3;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-pink:hover {
   color: #fff;
   background-color: #f41fe3;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-pink:active,
 .btn-pink.active,
-.open > .btn-pink.dropdown-toggle {
+.open > .dropdown-toggle.btn-pink {
   color: #fff;
   background-color: #f41fe3;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-pink:active:hover,
-.btn-pink:active:focus,
-.btn-pink:active.focus,
 .btn-pink.active:hover,
+.open > .dropdown-toggle.btn-pink:hover,
+.btn-pink:active:focus,
 .btn-pink.active:focus,
+.open > .dropdown-toggle.btn-pink:focus,
+.btn-pink:active.focus,
 .btn-pink.active.focus,
-.open > .btn-pink.dropdown-toggle:hover,
-.open > .btn-pink.dropdown-toggle:focus,
-.open > .btn-pink.dropdown-toggle.focus {
+.open > .dropdown-toggle.btn-pink.focus {
   color: #fff;
   background-color: #f41fe3;
-  border-color: transparent;
+  border-color: rgba(0, 0, 0, 0);
 }
 
 .btn-pink:active,
 .btn-pink.active,
-.open > .btn-pink.dropdown-toggle {
+.open > .dropdown-toggle.btn-pink {
   background-image: none;
 }
 
 .btn-pink.disabled,
-.btn-pink.disabled:hover,
-.btn-pink.disabled:focus,
-.btn-pink.disabled.focus,
-.btn-pink.disabled:active,
-.btn-pink.disabled.active,
 .btn-pink[disabled],
-.btn-pink[disabled]:hover,
-.btn-pink[disabled]:focus,
-.btn-pink[disabled].focus,
-.btn-pink[disabled]:active,
-.btn-pink[disabled].active,
 fieldset[disabled] .btn-pink,
+.btn-pink.disabled:hover,
+.btn-pink[disabled]:hover,
 fieldset[disabled] .btn-pink:hover,
+.btn-pink.disabled:focus,
+.btn-pink[disabled]:focus,
 fieldset[disabled] .btn-pink:focus,
+.btn-pink.disabled.focus,
+.btn-pink[disabled].focus,
 fieldset[disabled] .btn-pink.focus,
+.btn-pink.disabled:active,
+.btn-pink[disabled]:active,
 fieldset[disabled] .btn-pink:active,
+.btn-pink.disabled.active,
+.btn-pink[disabled].active,
 fieldset[disabled] .btn-pink.active {
   background-color: #f532e5;
   border-color: transparent;
@@ -5816,15 +5834,13 @@ fieldset[disabled] .btn-pink.active {
   border-radius: 5px 0 0 5px;
 }
 
-.btn-sm .btn-label,
-.calendar-app .fc-button .btn-label {
+.btn-sm .btn-label {
   padding: 5px 10px;
   right: -10px;
   border-radius: 0 2px 2px 0;
 }
 
-.btn-sm .btn-label.btn-label-right,
-.calendar-app .fc-button .btn-label.btn-label-right {
+.btn-sm .btn-label.btn-label-right {
   right: auto;
   left: -10px;
   border-radius: 2px 0 0 2px;
@@ -5846,8 +5862,7 @@ fieldset[disabled] .btn-pink.active {
   min-width: 80px;
 }
 
-.btn-fw.btn-sm,
-.calendar-app .btn-fw.fc-button {
+.btn-fw.btn-sm {
   min-width: 40px;
 }
 
@@ -5882,7 +5897,7 @@ fieldset[disabled] .btn-pink.active {
 }
 
 /* ========================================================================
-     Component: placeholder
+   Component: placeholder.less
  ========================================================================== */
 
 .box-placeholder {
@@ -5903,7 +5918,7 @@ fieldset[disabled] .btn-pink.active {
 }
 
 /* ========================================================================
-     Component: panels
+   Component: panels.less
  ========================================================================== */
 
 .panel .table {
@@ -6115,7 +6130,7 @@ fieldset[disabled] .btn-pink.active {
 }
 
 /* ========================================================================
-     Component: progress-extra
+   Component: progress-extra.less
  ========================================================================== */
 
 .progress-sm {
@@ -6166,410 +6181,44 @@ fieldset[disabled] .btn-pink.active {
   background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
 }
 
-.progress-bar-yellow {
-  background-color: #fad732;
-}
-
-.progress-striped .progress-bar-yellow {
-  background-image: -webkit-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: -o-linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-  background-image: linear-gradient(45deg, rgba(255, 255, 255, 0.15) 25%, transparent 25%, transparent 50%, rgba(255, 255, 255, 0.15) 50%, rgba(255, 255, 255, 0.15) 75%, transparent 75%, transparent);
-}
-
-.progress-1 {
-  width: 1%;
-}
-
-.progress-2 {
-  width: 2%;
-}
-
-.progress-3 {
-  width: 3%;
-}
-
-.progress-4 {
-  width: 4%;
-}
-
-.progress-5 {
-  width: 5%;
-}
-
-.progress-6 {
-  width: 6%;
-}
-
-.progress-7 {
-  width: 7%;
-}
-
-.progress-8 {
-  width: 8%;
-}
-
-.progress-9 {
-  width: 9%;
+.progress-0 {
+  width: 0%;
 }
 
 .progress-10 {
   width: 10%;
 }
 
-.progress-11 {
-  width: 11%;
-}
-
-.progress-12 {
-  width: 12%;
-}
-
-.progress-13 {
-  width: 13%;
-}
-
-.progress-14 {
-  width: 14%;
-}
-
-.progress-15 {
-  width: 15%;
-}
-
-.progress-16 {
-  width: 16%;
-}
-
-.progress-17 {
-  width: 17%;
-}
-
-.progress-18 {
-  width: 18%;
-}
-
-.progress-19 {
-  width: 19%;
-}
-
 .progress-20 {
   width: 20%;
-}
-
-.progress-21 {
-  width: 21%;
-}
-
-.progress-22 {
-  width: 22%;
-}
-
-.progress-23 {
-  width: 23%;
-}
-
-.progress-24 {
-  width: 24%;
-}
-
-.progress-25 {
-  width: 25%;
-}
-
-.progress-26 {
-  width: 26%;
-}
-
-.progress-27 {
-  width: 27%;
-}
-
-.progress-28 {
-  width: 28%;
-}
-
-.progress-29 {
-  width: 29%;
 }
 
 .progress-30 {
   width: 30%;
 }
 
-.progress-31 {
-  width: 31%;
-}
-
-.progress-32 {
-  width: 32%;
-}
-
-.progress-33 {
-  width: 33%;
-}
-
-.progress-34 {
-  width: 34%;
-}
-
-.progress-35 {
-  width: 35%;
-}
-
-.progress-36 {
-  width: 36%;
-}
-
-.progress-37 {
-  width: 37%;
-}
-
-.progress-38 {
-  width: 38%;
-}
-
-.progress-39 {
-  width: 39%;
-}
-
 .progress-40 {
   width: 40%;
-}
-
-.progress-41 {
-  width: 41%;
-}
-
-.progress-42 {
-  width: 42%;
-}
-
-.progress-43 {
-  width: 43%;
-}
-
-.progress-44 {
-  width: 44%;
-}
-
-.progress-45 {
-  width: 45%;
-}
-
-.progress-46 {
-  width: 46%;
-}
-
-.progress-47 {
-  width: 47%;
-}
-
-.progress-48 {
-  width: 48%;
-}
-
-.progress-49 {
-  width: 49%;
 }
 
 .progress-50 {
   width: 50%;
 }
 
-.progress-51 {
-  width: 51%;
-}
-
-.progress-52 {
-  width: 52%;
-}
-
-.progress-53 {
-  width: 53%;
-}
-
-.progress-54 {
-  width: 54%;
-}
-
-.progress-55 {
-  width: 55%;
-}
-
-.progress-56 {
-  width: 56%;
-}
-
-.progress-57 {
-  width: 57%;
-}
-
-.progress-58 {
-  width: 58%;
-}
-
-.progress-59 {
-  width: 59%;
-}
-
 .progress-60 {
   width: 60%;
-}
-
-.progress-61 {
-  width: 61%;
-}
-
-.progress-62 {
-  width: 62%;
-}
-
-.progress-63 {
-  width: 63%;
-}
-
-.progress-64 {
-  width: 64%;
-}
-
-.progress-65 {
-  width: 65%;
-}
-
-.progress-66 {
-  width: 66%;
-}
-
-.progress-67 {
-  width: 67%;
-}
-
-.progress-68 {
-  width: 68%;
-}
-
-.progress-69 {
-  width: 69%;
 }
 
 .progress-70 {
   width: 70%;
 }
 
-.progress-71 {
-  width: 71%;
-}
-
-.progress-72 {
-  width: 72%;
-}
-
-.progress-73 {
-  width: 73%;
-}
-
-.progress-74 {
-  width: 74%;
-}
-
-.progress-75 {
-  width: 75%;
-}
-
-.progress-76 {
-  width: 76%;
-}
-
-.progress-77 {
-  width: 77%;
-}
-
-.progress-78 {
-  width: 78%;
-}
-
-.progress-79 {
-  width: 79%;
-}
-
 .progress-80 {
   width: 80%;
 }
 
-.progress-81 {
-  width: 81%;
-}
-
-.progress-82 {
-  width: 82%;
-}
-
-.progress-83 {
-  width: 83%;
-}
-
-.progress-84 {
-  width: 84%;
-}
-
-.progress-85 {
-  width: 85%;
-}
-
-.progress-86 {
-  width: 86%;
-}
-
-.progress-87 {
-  width: 87%;
-}
-
-.progress-88 {
-  width: 88%;
-}
-
-.progress-89 {
-  width: 89%;
-}
-
 .progress-90 {
   width: 90%;
-}
-
-.progress-91 {
-  width: 91%;
-}
-
-.progress-92 {
-  width: 92%;
-}
-
-.progress-93 {
-  width: 93%;
-}
-
-.progress-94 {
-  width: 94%;
-}
-
-.progress-95 {
-  width: 95%;
-}
-
-.progress-96 {
-  width: 96%;
-}
-
-.progress-97 {
-  width: 97%;
-}
-
-.progress-98 {
-  width: 98%;
-}
-
-.progress-99 {
-  width: 99%;
 }
 
 .progress-100 {
@@ -6577,7 +6226,7 @@ fieldset[disabled] .btn-pink.active {
 }
 
 /* ========================================================================
-     Component: radial-bar
+   Component: radial-bar.less
  ========================================================================== */
 
 /* -------------------------------------
@@ -6672,47 +6321,47 @@ fieldset[disabled] .btn-pink.active {
 }
 
 .radial-bar.radial-bar-50 {
-  background-image: linear-gradient(-90deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(270deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar.radial-bar-55 {
-  background-image: linear-gradient(-72deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(288deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar.radial-bar-60 {
-  background-image: linear-gradient(-54deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(306deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar.radial-bar-65 {
-  background-image: linear-gradient(-36deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(324deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar.radial-bar-70 {
-  background-image: linear-gradient(-18deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(342deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar.radial-bar-75 {
-  background-image: linear-gradient(0deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(360deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar.radial-bar-80 {
-  background-image: linear-gradient(18deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(378deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar.radial-bar-85 {
-  background-image: linear-gradient(36deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(396deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar.radial-bar-90 {
-  background-image: linear-gradient(54deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(414deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar.radial-bar-95 {
-  background-image: linear-gradient(72deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(432deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar.radial-bar-100 {
-  background-image: linear-gradient(90deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(450deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-0 {
@@ -6756,47 +6405,47 @@ fieldset[disabled] .btn-pink.active {
 }
 
 .radial-bar-primary.radial-bar-50 {
-  background-image: linear-gradient(-90deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(270deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-55 {
-  background-image: linear-gradient(-72deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(288deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-60 {
-  background-image: linear-gradient(-54deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(306deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-65 {
-  background-image: linear-gradient(-36deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(324deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-70 {
-  background-image: linear-gradient(-18deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(342deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-75 {
-  background-image: linear-gradient(0deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(360deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-80 {
-  background-image: linear-gradient(18deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(378deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-85 {
-  background-image: linear-gradient(36deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(396deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-90 {
-  background-image: linear-gradient(54deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(414deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-95 {
-  background-image: linear-gradient(72deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(432deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-primary.radial-bar-100 {
-  background-image: linear-gradient(90deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(450deg, #5d9cec 50%, transparent 50%, transparent), linear-gradient(270deg, #5d9cec 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-0 {
@@ -6840,47 +6489,47 @@ fieldset[disabled] .btn-pink.active {
 }
 
 .radial-bar-success.radial-bar-50 {
-  background-image: linear-gradient(-90deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(270deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-55 {
-  background-image: linear-gradient(-72deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(288deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-60 {
-  background-image: linear-gradient(-54deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(306deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-65 {
-  background-image: linear-gradient(-36deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(324deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-70 {
-  background-image: linear-gradient(-18deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(342deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-75 {
-  background-image: linear-gradient(0deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(360deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-80 {
-  background-image: linear-gradient(18deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(378deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-85 {
-  background-image: linear-gradient(36deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(396deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-90 {
-  background-image: linear-gradient(54deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(414deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-95 {
-  background-image: linear-gradient(72deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(432deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-success.radial-bar-100 {
-  background-image: linear-gradient(90deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(450deg, #27c24c 50%, transparent 50%, transparent), linear-gradient(270deg, #27c24c 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-0 {
@@ -6924,47 +6573,47 @@ fieldset[disabled] .btn-pink.active {
 }
 
 .radial-bar-info.radial-bar-50 {
-  background-image: linear-gradient(-90deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(270deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-55 {
-  background-image: linear-gradient(-72deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(288deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-60 {
-  background-image: linear-gradient(-54deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(306deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-65 {
-  background-image: linear-gradient(-36deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(324deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-70 {
-  background-image: linear-gradient(-18deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(342deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-75 {
-  background-image: linear-gradient(0deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(360deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-80 {
-  background-image: linear-gradient(18deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(378deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-85 {
-  background-image: linear-gradient(36deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(396deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-90 {
-  background-image: linear-gradient(54deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(414deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-95 {
-  background-image: linear-gradient(72deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(432deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-info.radial-bar-100 {
-  background-image: linear-gradient(90deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(450deg, #23b7e5 50%, transparent 50%, transparent), linear-gradient(270deg, #23b7e5 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-0 {
@@ -7008,47 +6657,47 @@ fieldset[disabled] .btn-pink.active {
 }
 
 .radial-bar-warning.radial-bar-50 {
-  background-image: linear-gradient(-90deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(270deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-55 {
-  background-image: linear-gradient(-72deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(288deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-60 {
-  background-image: linear-gradient(-54deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(306deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-65 {
-  background-image: linear-gradient(-36deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(324deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-70 {
-  background-image: linear-gradient(-18deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(342deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-75 {
-  background-image: linear-gradient(0deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(360deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-80 {
-  background-image: linear-gradient(18deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(378deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-85 {
-  background-image: linear-gradient(36deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(396deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-90 {
-  background-image: linear-gradient(54deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(414deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-95 {
-  background-image: linear-gradient(72deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(432deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-warning.radial-bar-100 {
-  background-image: linear-gradient(90deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(450deg, #ff902b 50%, transparent 50%, transparent), linear-gradient(270deg, #ff902b 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-0 {
@@ -7092,47 +6741,47 @@ fieldset[disabled] .btn-pink.active {
 }
 
 .radial-bar-danger.radial-bar-50 {
-  background-image: linear-gradient(-90deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(270deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-55 {
-  background-image: linear-gradient(-72deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(288deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-60 {
-  background-image: linear-gradient(-54deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(306deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-65 {
-  background-image: linear-gradient(-36deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(324deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-70 {
-  background-image: linear-gradient(-18deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(342deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-75 {
-  background-image: linear-gradient(0deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(360deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-80 {
-  background-image: linear-gradient(18deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(378deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-85 {
-  background-image: linear-gradient(36deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(396deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-90 {
-  background-image: linear-gradient(54deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(414deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-95 {
-  background-image: linear-gradient(72deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(432deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-danger.radial-bar-100 {
-  background-image: linear-gradient(90deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
+  background-image: linear-gradient(450deg, #f05050 50%, transparent 50%, transparent), linear-gradient(270deg, #f05050 50%, #fafafa 50%, #fafafa);
 }
 
 .radial-bar-lg {
@@ -7186,7 +6835,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-     Component: user-block
+   Component: user-block.less
  ========================================================================== */
 
 .has-user-block {
@@ -7275,7 +6924,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-     Component: circles
+   Component: circles.less
  ========================================================================== */
 
 .circle {
@@ -7373,7 +7022,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-     Component: timeline
+   Component: timeline.less
  ========================================================================== */
 
 .timeline,
@@ -7427,8 +7076,8 @@ x:-o-prefocus,
 }
 
 .timeline > li:before,
-.timeline > li:after,
 .timeline-alt > li:before,
+.timeline > li:after,
 .timeline-alt > li:after {
   content: " ";
   display: table;
@@ -7674,7 +7323,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-     Component: dropdown-extras
+   Component: dropdown-extras.less
  ========================================================================== */
 
 .dropdown-lg > .dropdown-menu {
@@ -7728,7 +7377,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-     Component: row-extra
+   Component: row-extra.less
  ========================================================================== */
 
 .container-sm {
@@ -7767,7 +7416,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-     Component: half-float
+   Component: half-float.less
  ========================================================================== */
 
 .half-float {
@@ -7797,7 +7446,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-     Component: masonry-grid
+   Component: masonry-grid.less
  ========================================================================== */
 
 .row-masonry {
@@ -9169,7 +8818,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-     Component: widget
+   Component: widget.less
  ========================================================================== */
 
 .widget {
@@ -9199,8 +8848,8 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-   Component: typeahead
-  ========================================================================== */
+   Component: typeahead.less
+ ========================================================================== */
 
 .typeahead-ctrl .dropdown-menu {
   max-height: 300px;
@@ -9359,7 +9008,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-     Component: todo
+   Component: todo.less
  ========================================================================== */
 
 .todo .todo-item-list {
@@ -9367,9 +9016,9 @@ x:-o-prefocus,
 }
 
 .todo .todo-item {
-  -webkit-transition: "color 0.6s, background-color 0.3s";
-  -o-transition: "color 0.6s, background-color 0.3s";
-  transition: "color 0.6s, background-color 0.3s";
+  -webkit-transition: color 0.6s, background-color 0.3s;
+  -o-transition: color 0.6s, background-color 0.3s;
+  transition: color 0.6s, background-color 0.3s;
 }
 
 .todo .todo-item.ng-enter {
@@ -9426,10 +9075,6 @@ x:-o-prefocus,
 .todo .panel-group > .panel .panel-body {
   border-bottom: 1px solid #edf1f2;
 }
-
-/* ========================================================================
-   Component: ngwig
-  ========================================================================== */
 
 /**
  *   main wrapper for the editor
@@ -9520,9 +9165,7 @@ x:-o-prefocus,
   color: #fff;
 }
 
-.ng-wig .btn-group .btn-default,
-.ng-wig .btn-group .ColVis .ColVis_Button,
-.ColVis .ng-wig .btn-group .ColVis_Button {
+.ng-wig .btn-group .btn-default {
   color: #777;
 }
 
@@ -9590,10 +9233,6 @@ x:-o-prefocus,
   font-style: italic;
 }
 
-/* ========================================================================
-   Component: ngdialog
-  ========================================================================== */
-
 .ngdialog.ngdialog-theme-default .ngdialog-content {
   background-color: #fff !important;
   border-radius: 4px !important;
@@ -9603,7 +9242,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-     Component: nestable
+   Component: nestable.less
  ========================================================================== */
 
 .dd {
@@ -9727,6 +9366,10 @@ x:-o-prefocus,
   box-shadow: -2px 4px 6px 0 rgba(0, 0, 0, 0.1);
 }
 
+/**
+ * Nestable Extras
+ */
+
 .nestable-lists {
   display: block;
   clear: both;
@@ -9746,6 +9389,10 @@ x:-o-prefocus,
 .dd-hover > .dd-handle {
   background: #2ea8e5 !important;
 }
+
+/**
+ * Nestable Draggable Handles
+ */
 
 .dd3-content {
   display: block;
@@ -9801,7 +9448,7 @@ x:-o-prefocus,
 }
 
 /* ========================================================================
-   Component: carousel
+   Component: carousel.less
  ========================================================================== */
 
 .bgimage {
@@ -9879,7 +9526,7 @@ ul[rn-carousel] {
 }
 
 /* ========================================================================
-   Component: masonry-grid-deck
+   Component: masonry-grid-deck.less
  ========================================================================== */
 
 .photo {
@@ -9918,7 +9565,7 @@ ul[rn-carousel] {
 }
 
 .photo .photo-index {
-  background: fade(#3a3f51, 75%);
+  background: rgba(58, 63, 81, 0.75);
   color: #fff;
   position: absolute;
   height: 100%;
@@ -9992,33 +9639,33 @@ ul[rn-carousel] {
   visibility: hidden;
 }
 
-@media (min-width: 480px) {
+@media only screen and (min-width: 480px) {
   .deckgrid[deckgrid]::before {
     content: '2 .column.size-1-2';
   }
 }
 
-@media (min-width: 768px) {
+@media only screen and (min-width: 768px) {
   .deckgrid[deckgrid]::before {
     content: '3 .column.size-1-3';
   }
 }
 
-@media (min-width: 992px) {
+@media only screen and (min-width: 992px) {
   .deckgrid[deckgrid]::before {
     content: '4 .column.size-1-4';
   }
 }
 
-@media (min-width: 1200px) {
+@media only screen and (min-width: 1200px) {
   .deckgrid[deckgrid]::before {
     content: '5 .column.size-1-5';
   }
 }
 
 /* ========================================================================
-     Component: chart-flot
- ======================================================================== */
+   Component: chart-flot.less
+ ========================================================================== */
 
 flot {
   display: block;
@@ -10074,7 +9721,7 @@ flot .legend .legendColorBox > div > div {
 }
 
 /* ========================================================================
-   Component: chart-easypie
+   Component: chart-easypie.less
  ========================================================================== */
 
 .easypie-chart {
@@ -10100,7 +9747,7 @@ flot .legend .legendColorBox > div > div {
 }
 
 /* ========================================================================
-     Component: form-elements
+   Component: form-elements.less
  ========================================================================== */
 
 /**
@@ -10144,7 +9791,7 @@ flot .legend .legendColorBox > div > div {
 
 .c-checkbox span:before,
 .c-radio span:before {
-  margin-right: 1px;
+  margin-right: 0;
 }
 
 .c-checkbox:hover span,
@@ -10153,14 +9800,13 @@ flot .legend .legendColorBox > div > div {
 }
 
 .form-inline .c-checkbox span,
-.form-inline
-.c-radio span {
+.form-inline .c-radio span {
   margin-right: 0;
 }
 
 .c-checkbox.c-checkbox-rounded span,
-.c-checkbox.c-radio-rounded span,
 .c-radio.c-checkbox-rounded span,
+.c-checkbox.c-radio-rounded span,
 .c-radio.c-radio-rounded span {
   border-radius: 500px;
 }
@@ -10197,17 +9843,17 @@ flot .legend .legendColorBox > div > div {
 }
 
 .c-checkbox input[type=checkbox]:checked + span:before,
-.c-checkbox input[type=radio]:checked + span:before,
 .c-radio input[type=checkbox]:checked + span:before,
+.c-checkbox input[type=radio]:checked + span:before,
 .c-radio input[type=radio]:checked + span:before {
   color: #fff;
   opacity: 1;
-  transition: color .3s ease-out;
+  transition: color 0.3s ease-out;
 }
 
 .c-checkbox input[type=checkbox]:checked + span,
-.c-checkbox input[type=radio]:checked + span,
 .c-radio input[type=checkbox]:checked + span,
+.c-checkbox input[type=radio]:checked + span,
 .c-radio input[type=radio]:checked + span {
   border-color: #5d9cec;
   background-color: #5d9cec;
@@ -10224,8 +9870,8 @@ flot .legend .legendColorBox > div > div {
 }
 
 .c-checkbox input[type=checkbox]:disabled + span,
-.c-checkbox input[type=radio]:disabled + span,
 .c-radio input[type=checkbox]:disabled + span,
+.c-checkbox input[type=radio]:disabled + span,
 .c-radio input[type=radio]:disabled + span {
   border-color: #ddd !important;
   background-color: #ddd !important;
@@ -10261,7 +9907,7 @@ flot .legend .legendColorBox > div > div {
 .c-radio.c-radio-nofont input[type=radio]:checked + span:before {
   color: #fff;
   opacity: 1;
-  transition: color .3s ease-out;
+  transition: color 0.3s ease-out;
 }
 
 .c-radio.c-radio-nofont input[type=radio]:checked + span {
@@ -10294,9 +9940,7 @@ flot .legend .legendColorBox > div > div {
   border-radius: 100px;
 }
 
-.switch .form-control,
-.switch body .bootstrap-tagsinput,
-body .switch .bootstrap-tagsinput {
+.switch .form-control {
   padding-top: 7px;
   margin-bottom: 0;
 }
@@ -10375,9 +10019,7 @@ body .switch .bootstrap-tagsinput {
 }
 
 .form-control + .form-control-feedback,
-body .bootstrap-tagsinput + .form-control-feedback,
-.form-control + .parsley-errors-list + .form-control-feedback,
-body .bootstrap-tagsinput + .parsley-errors-list + .form-control-feedback {
+.form-control + .parsley-errors-list + .form-control-feedback {
   left: 0;
   right: auto;
   top: 10px;
@@ -10389,9 +10031,7 @@ body .bootstrap-tagsinput + .parsley-errors-list + .form-control-feedback {
 }
 
 label + .form-control + .form-control-feedback,
-body label + .bootstrap-tagsinput + .form-control-feedback,
-label + .form-control + .parsley-errors-list + .form-control-feedback,
-body label + .bootstrap-tagsinput + .parsley-errors-list + .form-control-feedback {
+label + .form-control + .parsley-errors-list + .form-control-feedback {
   top: 36px;
 }
 
@@ -10418,7 +10058,7 @@ body label + .bootstrap-tagsinput + .parsley-errors-list + .form-control-feedbac
 }
 
 /* ========================================================================
-   Component: form-imgcrop
+   Component: form-imgcrop.less
  ========================================================================== */
 
 .imgcrop-area {
@@ -10459,27 +10099,19 @@ body label + .bootstrap-tagsinput + .parsley-errors-list + .form-control-feedbac
 }
 
 /* ========================================================================
-     Component: form-validation
+   Component: form-validation.less
  ========================================================================== */
 
-.form-validate .form-control.ng-dirty.ng-invalid,
-.form-validate body .ng-dirty.ng-invalid.bootstrap-tagsinput,
-body .form-validate .ng-dirty.ng-invalid.bootstrap-tagsinput {
+.form-validate .form-control.ng-dirty.ng-invalid {
   border-color: #f05050;
 }
 
 .form-validate .form-control.ng-dirty.ng-valid,
-.form-validate body .ng-dirty.ng-valid.bootstrap-tagsinput,
-body .form-validate .ng-dirty.ng-valid.bootstrap-tagsinput,
-.form-validate .form-control.ng-dirty.ng-valid:focus,
-.form-validate body .ng-dirty.ng-valid.bootstrap-tagsinput:focus,
-body .form-validate .ng-dirty.ng-valid.bootstrap-tagsinput:focus {
+.form-validate .form-control.ng-dirty.ng-valid:focus {
   border-color: #27c24c;
 }
 
-.form-validate .has-error .form-control,
-.form-validate .has-error body .bootstrap-tagsinput,
-body .form-validate .has-error .bootstrap-tagsinput {
+.form-validate .has-error .form-control {
   border-color: #f05050 !important;
 }
 
@@ -10488,15 +10120,11 @@ body .form-validate .has-error .bootstrap-tagsinput {
   border-color: #f05050;
 }
 
-.form-validate .ui-select-container.ng-dirty.ng-invalid .btn,
-.form-validate .ui-select-container.ng-dirty.ng-invalid .ColVis .ColVis_Button,
-.ColVis .form-validate .ui-select-container.ng-dirty.ng-invalid .ColVis_Button {
+.form-validate .ui-select-container.ng-dirty.ng-invalid .btn {
   border-color: #f05050;
 }
 
-.form-validate .input-group .ui-select-container.ng-dirty.ng-invalid .btn,
-.form-validate .input-group .ui-select-container.ng-dirty.ng-invalid .ColVis .ColVis_Button,
-.ColVis .form-validate .input-group .ui-select-container.ng-dirty.ng-invalid .ColVis_Button {
+.form-validate .input-group .ui-select-container.ng-dirty.ng-invalid .btn {
   margin-right: -1px;
 }
 
@@ -10509,18 +10137,12 @@ body .form-validate .has-error .bootstrap-tagsinput {
   border-color: #27c24c;
 }
 
-.form-validate .form-control.ng-dirty.ng-invalid + .bootstrap-tagsinput,
-.form-validate body .ng-dirty.ng-invalid.bootstrap-tagsinput + .bootstrap-tagsinput,
-body .form-validate .ng-dirty.ng-invalid.bootstrap-tagsinput + .bootstrap-tagsinput {
+.form-validate .form-control.ng-dirty.ng-invalid + .bootstrap-tagsinput {
   border-color: #f05050;
 }
 
 .form-validate .form-control.ng-dirty.ng-valid + .bootstrap-tagsinput,
-.form-validate body .ng-dirty.ng-valid.bootstrap-tagsinput + .bootstrap-tagsinput,
-body .form-validate .ng-dirty.ng-valid.bootstrap-tagsinput + .bootstrap-tagsinput,
-.form-validate .form-control.ng-dirty.ng-valid:focus + .bootstrap-tagsinput,
-.form-validate body .ng-dirty.ng-valid.bootstrap-tagsinput:focus + .bootstrap-tagsinput,
-body .form-validate .ng-dirty.ng-valid.bootstrap-tagsinput:focus + .bootstrap-tagsinput {
+.form-validate .form-control.ng-dirty.ng-valid:focus + .bootstrap-tagsinput {
   border-color: #27c24c;
 }
 
@@ -10545,13 +10167,62 @@ body .form-validate .ng-dirty.ng-valid.bootstrap-tagsinput:focus + .bootstrap-ta
 }
 
 /* ========================================================================
-     Component: form-tags
+   Component: form-tags.less
  ========================================================================== */
 
 body .bootstrap-tagsinput {
+  box-shadow: 0 0 0 #000 !important;
+  display: block;
+  width: 100%;
+  height: 35px;
+  padding: 6px 16px;
+  font-size: 14px;
+  line-height: 1.52857143;
+  color: #3a3f51;
+  background-color: #fff;
+  background-image: none;
+  border: 1px solid #dde6e9;
+  border-radius: 4px;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075);
+  -webkit-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  -o-transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
+  transition: border-color ease-in-out .15s, box-shadow ease-in-out .15s;
   height: auto;
   min-height: 35px;
   margin-bottom: 0;
+}
+
+body .bootstrap-tagsinput:focus {
+  border-color: #66afe9;
+  outline: 0;
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+}
+
+body .bootstrap-tagsinput::-moz-placeholder {
+  color: #b7bac9;
+  opacity: 1;
+}
+
+body .bootstrap-tagsinput:-ms-input-placeholder {
+  color: #b7bac9;
+}
+
+body .bootstrap-tagsinput::-webkit-input-placeholder {
+  color: #b7bac9;
+}
+
+body .bootstrap-tagsinput[disabled],
+body .bootstrap-tagsinput[readonly],
+fieldset[disabled] body .bootstrap-tagsinput {
+  cursor: not-allowed;
+  background-color: #edf1f2;
+  opacity: 1;
+}
+
+textareabody .bootstrap-tagsinput {
+  height: auto;
 }
 
 body .bootstrap-tagsinput .tag {
@@ -10679,7 +10350,7 @@ body .bootstrap-tagsinput .tag {
 }
 
 /* ========================================================================
-   Component: uiselect
+   Component: uiselect.less
  ========================================================================== */
 
 .ui-select-bootstrap > .ui-select-match {
@@ -10690,8 +10361,13 @@ body .bootstrap-tagsinput .tag {
   font-size: 14px;
 }
 
+.btn-default-focus {
+  box-shadow: 0 0 0 #000 !important;
+  outline: 0 !important;
+}
+
 /* ========================================================================
-   Component: code-editor
+   Component: code-editor.less
  ========================================================================== */
 
 .code-container {
@@ -10757,7 +10433,7 @@ body .bootstrap-tagsinput .tag {
 }
 
 /* ========================================================================
-     Component: datatable
+   Component: datatable.less
  ========================================================================== */
 
 .dataTables_filter input {
@@ -10781,15 +10457,41 @@ table.dataTable tfoot > tr > th {
   width: 100% !important;
 }
 
-.ColVis .ColVis_Button {
-  background-color: #fff;
-  background-image: none !important;
-  box-shadow: 0 0 0 #000 !important;
+.ColVis button.ColVis_Button {
+  border-radius: 3px;
+  font-size: 13px;
+  border-color: transparent;
+  -webkit-appearance: none;
+  outline: none !important;
+  -webkit-transition: all 0.1s;
+  -o-transition: all 0.1s;
+  transition: all 0.1s;
+  border-color: #eaeaea;
+  background-image: none;
+  box-shadow: 0 0 0 #000;
   cursor: pointer;
   height: 31px;
 }
 
-.ColVis .ColVis_Button > span {
+.ColVis button.ColVis_Button.btn-link {
+  box-shadow: none;
+  border: 0;
+}
+
+.ColVis button.ColVis_Button.btn-default {
+  border-color: #eaeaea;
+}
+
+.input-group .ColVis button.ColVis_Button {
+  font-size: 14px;
+  border-color: #dde6e9;
+}
+
+.input-group .input-sm + .input-group-btn .ColVis button.ColVis_Button {
+  font-size: 13px;
+}
+
+.ColVis button.ColVis_Button > span {
   color: #656565;
 }
 
@@ -10925,7 +10627,7 @@ body .dataTables_wrapper .dataTables_paginate {
 }
 
 /* ========================================================================
-     Component: table-extras
+   Component: table-extras.less
  ========================================================================== */
 
 .table > thead > tr > th {
@@ -10986,7 +10688,7 @@ body .dataTables_wrapper .dataTables_paginate {
 }
 
 /* ========================================================================
-   Component: table-ngtable
+   Component: table-ngtable.less
  ========================================================================== */
 
 body .ng-table th.sortable.sort-desc,
@@ -11187,7 +10889,7 @@ body .ng-table-pager:after {
 }
 
 /* ========================================================================
-   Component: uigrid
+   Component: uigrid.less
  ========================================================================== */
 
 .table-uigrid.ui-grid {
@@ -11265,7 +10967,7 @@ body .ng-table-pager:after {
 }
 
 /* ========================================================================
-   Component: table-angulargrid
+   Component: table-angulargrid.less
  ========================================================================== */
 
 .ag-angle .ag-root {
@@ -11451,9 +11153,9 @@ body .ng-table-pager:after {
 }
 
 /* ========================================================================
-     Component: plugins
-// - User this stylesheet to include single css styles and fixes 
-//   for plugins
+   Component: plugins.less
+   - User this stylesheet to include single css styles and fixes 
+     for plugins
  ========================================================================== */
 
 /**
@@ -11517,17 +11219,17 @@ body {
 }
 
 body .chosen-container {
-  width: 100% !important;
   max-width: 100%;
 }
 
 body .chosen-container-multi .chosen-choices {
+  box-shadow: 0 0 0 #000 !important;
   display: block;
   width: 100%;
   height: 35px;
   padding: 6px 16px;
   font-size: 14px;
-  line-height: 1.52857;
+  line-height: 1.52857143;
   color: #3a3f51;
   background-color: #fff;
   background-image: none;
@@ -11543,8 +11245,8 @@ body .chosen-container-multi .chosen-choices {
 body .chosen-container-multi .chosen-choices:focus {
   border-color: #66afe9;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
 body .chosen-container-multi .chosen-choices::-moz-placeholder {
@@ -11566,6 +11268,10 @@ fieldset[disabled] body .chosen-container-multi .chosen-choices {
   cursor: not-allowed;
   background-color: #edf1f2;
   opacity: 1;
+}
+
+textareabody .chosen-container-multi .chosen-choices {
+  height: auto;
 }
 
 body .chosen-container-multi .chosen-choices li.search-field input[type=text] {
@@ -11596,12 +11302,13 @@ body .chosen-container .chosen-results li.group-result {
 
 body .chosen-container-single .chosen-single,
 body .chosen-container-active.chosen-with-drop .chosen-single {
+  box-shadow: 0 0 0 #000 !important;
   display: block;
   width: 100%;
   height: 35px;
   padding: 6px 16px;
   font-size: 14px;
-  line-height: 1.52857;
+  line-height: 1.52857143;
   color: #3a3f51;
   background-color: #fff;
   background-image: none;
@@ -11618,8 +11325,8 @@ body .chosen-container-single .chosen-single:focus,
 body .chosen-container-active.chosen-with-drop .chosen-single:focus {
   border-color: #66afe9;
   outline: 0;
-  -webkit-box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
-  box-shadow: inset 0 1px 1px rgba(0, 0, 0, 0.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  -webkit-box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
+  box-shadow: inset 0 1px 1px rgba(0,0,0,.075), 0 0 8px rgba(102, 175, 233, 0.6);
 }
 
 body .chosen-container-single .chosen-single::-moz-placeholder,
@@ -11639,15 +11346,19 @@ body .chosen-container-active.chosen-with-drop .chosen-single::-webkit-input-pla
 }
 
 body .chosen-container-single .chosen-single[disabled],
-body .chosen-container-single .chosen-single[readonly],
-fieldset[disabled] body .chosen-container-single .chosen-single,
 body .chosen-container-active.chosen-with-drop .chosen-single[disabled],
+body .chosen-container-single .chosen-single[readonly],
 body .chosen-container-active.chosen-with-drop .chosen-single[readonly],
-fieldset[disabled]
-body .chosen-container-active.chosen-with-drop .chosen-single {
+fieldset[disabled] body .chosen-container-single .chosen-single,
+fieldset[disabled] body .chosen-container-active.chosen-with-drop .chosen-single {
   cursor: not-allowed;
   background-color: #edf1f2;
   opacity: 1;
+}
+
+textareabody .chosen-container-single .chosen-single,
+textareabody .chosen-container-active.chosen-with-drop .chosen-single {
+  height: auto;
 }
 
 body .chosen-container-single .chosen-drop {
@@ -11673,11 +11384,7 @@ body .input-group select:first-child + .chosen-container > a {
   border-bottom-left-radius: 0;
 }
 
-body .bootstrap-filestyle {
-  max-width: 380px;
-}
-
-body [data-classyloader] {
+body [classyloader] {
   max-width: 100%;
 }
 
@@ -11686,7 +11393,7 @@ body .ui-select-bootstrap .ui-select-toggle {
 }
 
 /* ========================================================================
-     Component: slim-scroll
+   Component: slim-scroll.less
  ========================================================================== */
 
 scrollable {
@@ -11709,7 +11416,7 @@ scrollable {
 }
 
 /* ========================================================================
-   Component: datepicker
+   Component: datepicker.less
  ========================================================================== */
 
 .ui-datepicker {
@@ -11728,6 +11435,8 @@ scrollable {
   right: 60px;
   z-index: 9090;
   width: 350px;
+  right: auto;
+  left: 60px;
 }
 
 .alerts:hover .alert .close {
@@ -11736,7 +11445,6 @@ scrollable {
 }
 
 .alerts-top-right,
-.alerts,
 .alerts-bottom-right {
   right: auto;
   left: 60px;
@@ -11765,7 +11473,7 @@ scrollable {
 }
 
 /* ========================================================================
-     Component: notify
+   Component: notify.less
  ========================================================================== */
 
 .uk-notify {
@@ -11831,7 +11539,7 @@ scrollable {
 }
 
 /* ========================================================================
-     Component: calendar
+   Component: calendar.less
  ========================================================================== */
 
 .calendar-app .fc-button {
@@ -11849,61 +11557,61 @@ scrollable {
 .calendar-app .fc-button:focus,
 .calendar-app .fc-button.focus {
   color: #333;
-  background-color: whitesmoke;
+  background-color: #f5f5f5;
   border-color: #d6d6d6;
 }
 
 .calendar-app .fc-button:hover {
   color: #333;
-  background-color: whitesmoke;
+  background-color: #f5f5f5;
   border-color: #d6d6d6;
 }
 
 .calendar-app .fc-button:active,
 .calendar-app .fc-button.active,
-.open > .calendar-app .fc-button.dropdown-toggle {
+.open > .dropdown-toggle.calendar-app .fc-button {
   color: #333;
-  background-color: whitesmoke;
+  background-color: #f5f5f5;
   border-color: #d6d6d6;
 }
 
 .calendar-app .fc-button:active:hover,
-.calendar-app .fc-button:active:focus,
-.calendar-app .fc-button:active.focus,
 .calendar-app .fc-button.active:hover,
+.open > .dropdown-toggle.calendar-app .fc-button:hover,
+.calendar-app .fc-button:active:focus,
 .calendar-app .fc-button.active:focus,
+.open > .dropdown-toggle.calendar-app .fc-button:focus,
+.calendar-app .fc-button:active.focus,
 .calendar-app .fc-button.active.focus,
-.open > .calendar-app .fc-button.dropdown-toggle:hover,
-.open > .calendar-app .fc-button.dropdown-toggle:focus,
-.open > .calendar-app .fc-button.dropdown-toggle.focus {
+.open > .dropdown-toggle.calendar-app .fc-button.focus {
   color: #333;
-  background-color: whitesmoke;
+  background-color: #f5f5f5;
   border-color: #d6d6d6;
 }
 
 .calendar-app .fc-button:active,
 .calendar-app .fc-button.active,
-.open > .calendar-app .fc-button.dropdown-toggle {
+.open > .dropdown-toggle.calendar-app .fc-button {
   background-image: none;
 }
 
 .calendar-app .fc-button.disabled,
-.calendar-app .fc-button.disabled:hover,
-.calendar-app .fc-button.disabled:focus,
-.calendar-app .fc-button.disabled.focus,
-.calendar-app .fc-button.disabled:active,
-.calendar-app .fc-button.disabled.active,
 .calendar-app .fc-button[disabled],
-.calendar-app .fc-button[disabled]:hover,
-.calendar-app .fc-button[disabled]:focus,
-.calendar-app .fc-button[disabled].focus,
-.calendar-app .fc-button[disabled]:active,
-.calendar-app .fc-button[disabled].active,
 fieldset[disabled] .calendar-app .fc-button,
+.calendar-app .fc-button.disabled:hover,
+.calendar-app .fc-button[disabled]:hover,
 fieldset[disabled] .calendar-app .fc-button:hover,
+.calendar-app .fc-button.disabled:focus,
+.calendar-app .fc-button[disabled]:focus,
 fieldset[disabled] .calendar-app .fc-button:focus,
+.calendar-app .fc-button.disabled.focus,
+.calendar-app .fc-button[disabled].focus,
 fieldset[disabled] .calendar-app .fc-button.focus,
+.calendar-app .fc-button.disabled:active,
+.calendar-app .fc-button[disabled]:active,
 fieldset[disabled] .calendar-app .fc-button:active,
+.calendar-app .fc-button.disabled.active,
+.calendar-app .fc-button[disabled].active,
 fieldset[disabled] .calendar-app .fc-button.active {
   background-color: #fff;
   border-color: #eaeaea;
@@ -12008,7 +11716,7 @@ fieldset[disabled] .calendar-app .fc-button.active {
 }
 
 /* ========================================================================
-   Component: spinner
+   Component: spinner.less
  ========================================================================== */
 
 body .whirl {
@@ -12067,7 +11775,7 @@ body .whirl.traditional:after {
 }
 
 body .whirl.line:after {
-  box-shadow: inset 10px 0px 0px fade(#5d9cec, 50%);
+  box-shadow: inset 10px 0px 0px rgba(93, 156, 236, 0.5);
 }
 
 .no-cssanimations body .whirl:before {
@@ -12078,7 +11786,7 @@ body .whirl.line:after {
   content: "Loading...";
   width: 40px;
   height: 40px;
-  margin: -20px 0 -20px;
+  margin: -20px -20px 0 0;
   line-height: 40px;
   color: #000;
   opacity: 1;
@@ -12200,8 +11908,12 @@ body .sk-wordpress .sk-inner-circle {
   display: inline-block;
 }
 
+.loader-demo.loader-demo-sk {
+  padding-top: 0;
+}
+
 /* ========================================================================
-     Component: gmap
+   Component: gmap.less
  ========================================================================== */
 
 .gmap {
@@ -12213,7 +11925,7 @@ body .sk-wordpress .sk-inner-circle {
 }
 
 /* ========================================================================
-     Component: vector-map
+   Component: vector-map.less
  ========================================================================== */
 
 body .jvectormap-label {
@@ -12252,7 +11964,7 @@ body .jvectormap-zoomout {
 }
 
 /* ========================================================================
-     Component: portlets
+   Component: portlets.less
  ========================================================================== */
 
 [portlet] {
@@ -12277,10 +11989,11 @@ body .jvectormap-zoomout {
 }
 
 /* ========================================================================
-     Component: mailbox
+   Component: mailbox.less
  ========================================================================== */
 
 .mb-boxes {
+  height: 0;
   overflow: hidden;
 }
 
@@ -12391,7 +12104,7 @@ body .jvectormap-zoomout {
 }
 
 /* ========================================================================
-     Component: utils
+   Component: utils.less
  ========================================================================== */
 
 .m0 {
@@ -12418,23 +12131,19 @@ body .jvectormap-zoomout {
   margin: 10px !important;
 }
 
-.ml,
-.mh {
+.ml {
   margin-right: 10px !important;
 }
 
-.mr,
-.mh {
+.mr {
   margin-left: 10px !important;
 }
 
-.mt,
-.mv {
+.mt {
   margin-top: 10px !important;
 }
 
-.mb,
-.mv {
+.mb {
   margin-bottom: 10px !important;
 }
 
@@ -12442,23 +12151,19 @@ body .jvectormap-zoomout {
   margin: 5px !important;
 }
 
-.ml-sm,
-.mh-sm {
+.ml-sm {
   margin-right: 5px !important;
 }
 
-.mr-sm,
-.mh-sm {
+.mr-sm {
   margin-left: 5px !important;
 }
 
-.mt-sm,
-.mv-sm {
+.mt-sm {
   margin-top: 5px !important;
 }
 
-.mb-sm,
-.mv-sm {
+.mb-sm {
   margin-bottom: 5px !important;
 }
 
@@ -12466,23 +12171,19 @@ body .jvectormap-zoomout {
   margin: 15px !important;
 }
 
-.ml-lg,
-.mh-lg {
+.ml-lg {
   margin-right: 15px !important;
 }
 
-.mr-lg,
-.mh-lg {
+.mr-lg {
   margin-left: 15px !important;
 }
 
-.mt-lg,
-.mv-lg {
+.mt-lg {
   margin-top: 15px !important;
 }
 
-.mb-lg,
-.mv-lg {
+.mb-lg {
   margin-bottom: 15px !important;
 }
 
@@ -12506,51 +12207,83 @@ body .jvectormap-zoomout {
   margin-bottom: 30px !important;
 }
 
+.mv {
+  margin-top: 10px !important;
+  margin-bottom: 10px !important;
+}
+
+.mh {
+  margin-right: 10px !important;
+  margin-left: 10px !important;
+}
+
+.mv-lg {
+  margin-top: 15px !important;
+  margin-bottom: 15px !important;
+}
+
+.mh-lg {
+  margin-right: 15px !important;
+  margin-left: 15px !important;
+}
+
+.mv-sm {
+  margin-top: 5px !important;
+  margin-bottom: 5px !important;
+}
+
+.mh-sm {
+  margin-right: 5px !important;
+  margin-left: 5px !important;
+}
+
 .p0 {
   padding: 0 !important;
 }
 
-.pl0,
-.ph0 {
+.pl0 {
   padding-right: 0 !important;
 }
 
-.pr0,
-.ph0 {
+.pr0 {
   padding-left: 0 !important;
 }
 
-.pt0,
-.pv0 {
+.pt0 {
   padding-top: 0 !important;
 }
 
-.pb0,
-.pv0 {
+.pb0 {
   padding-bottom: 0 !important;
+}
+
+.pv0 {
+  padding-top: 0 !important;
+  padding-bottom: 0 !important;
+}
+
+.ph0 {
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 }
 
 .p {
   padding: 10px !important;
 }
 
-.pl,
-.ph {
+.pl {
   padding-right: 10px !important;
 }
 
-.pr,
-.ph {
+.pr {
   padding-left: 10px !important;
 }
 
-.pt,
-.pv {
+.pt {
   padding-top: 10px !important;
 }
 
-.pb,
-.pv {
+.pb {
   padding-bottom: 10px !important;
 }
 
@@ -12558,23 +12291,19 @@ body .jvectormap-zoomout {
   padding: 5px !important;
 }
 
-.pl-sm,
-.ph-sm {
+.pl-sm {
   padding-right: 5px !important;
 }
 
-.pr-sm,
-.ph-sm {
+.pr-sm {
   padding-left: 5px !important;
 }
 
-.pt-sm,
-.pv-sm {
+.pt-sm {
   padding-top: 5px !important;
 }
 
-.pb-sm,
-.pv-sm {
+.pb-sm {
   padding-bottom: 5px !important;
 }
 
@@ -12582,23 +12311,19 @@ body .jvectormap-zoomout {
   padding: 15px !important;
 }
 
-.pl-lg,
-.ph-lg {
+.pl-lg {
   padding-right: 15px !important;
 }
 
-.pr-lg,
-.ph-lg {
+.pr-lg {
   padding-left: 15px !important;
 }
 
-.pt-lg,
-.pv-lg {
+.pt-lg {
   padding-top: 15px !important;
 }
 
-.pb-lg,
-.pv-lg {
+.pb-lg {
   padding-bottom: 15px !important;
 }
 
@@ -12606,24 +12331,60 @@ body .jvectormap-zoomout {
   padding: 30px !important;
 }
 
-.pl-xl,
-.ph-xl {
+.pl-xl {
   padding-right: 30px !important;
 }
 
-.pr-xl,
-.ph-xl {
+.pr-xl {
   padding-left: 30px !important;
 }
 
-.pt-xl,
-.pv-xl {
+.pt-xl {
   padding-top: 30px !important;
 }
 
-.pb-xl,
-.pv-xl {
+.pb-xl {
   padding-bottom: 30px !important;
+}
+
+.pv {
+  padding-top: 10px !important;
+  padding-bottom: 10px !important;
+}
+
+.ph {
+  padding-right: 10px !important;
+  padding-left: 10px !important;
+}
+
+.pv-xl {
+  padding-top: 30px !important;
+  padding-bottom: 30px !important;
+}
+
+.ph-xl {
+  padding-right: 30px !important;
+  padding-left: 30px !important;
+}
+
+.pv-lg {
+  padding-top: 15px !important;
+  padding-bottom: 15px !important;
+}
+
+.ph-lg {
+  padding-right: 15px !important;
+  padding-left: 15px !important;
+}
+
+.pv-sm {
+  padding-top: 5px !important;
+  padding-bottom: 5px !important;
+}
+
+.ph-sm {
+  padding-right: 5px !important;
+  padding-left: 5px !important;
 }
 
 .b0 {
@@ -12646,27 +12407,27 @@ body .jvectormap-zoomout {
   border-bottom-width: 0 !important;
 }
 
-.br,
-.b,
-.ba {
+.br {
   border-left: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.bl,
-.b,
-.ba {
+.bl {
   border-right: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.bt,
-.b,
-.ba {
+.bt {
   border-top: 1px solid rgba(0, 0, 0, 0.12);
 }
 
-.bb,
+.bb {
+  border-bottom: 1px solid rgba(0, 0, 0, 0.12);
+}
+
 .b,
 .ba {
+  border-left: 1px solid rgba(0, 0, 0, 0.12);
+  border-right: 1px solid rgba(0, 0, 0, 0.12);
+  border-top: 1px solid rgba(0, 0, 0, 0.12);
   border-bottom: 1px solid rgba(0, 0, 0, 0.12);
 }
 
@@ -12732,6 +12493,10 @@ body .jvectormap-zoomout {
 
 .text-gray-lighter {
   color: #edf1f2;
+}
+
+.text-inherit {
+  color: inherit;
 }
 
 .text-sm {
@@ -12990,6 +12755,10 @@ body .jvectormap-zoomout {
   color: #515253 !important;
 }
 
+.bg-transparent {
+  background-color: transparent !important;
+}
+
 .bg-cover {
   background-size: cover;
 }
@@ -13205,15 +12974,11 @@ body .jvectormap-zoomout {
 }
 
 .alert-inverse hr {
-  border-top-color: #0b1115;
+  border-top-color: #0a1115;
 }
 
 .alert-inverse .alert-link {
   color: #e6e6e6;
-}
-
-.clickable {
-  cursor: pointer;
 }
 
 .abs-center-container {
@@ -13281,7 +13046,7 @@ body .jvectormap-zoomout {
   display: block;
 }
 
-.hover-visible:hover .hover-inline {
+.hover-visible:hover .hover-hidden-inline {
   display: inline-block;
 }
 
@@ -13322,15 +13087,14 @@ body .jvectormap-zoomout {
 }
 
 /* ========================================================================
-     Component: print
+   Component: print.less
  ========================================================================== */
 
 @media print {
   .sidebar,
   .topnavbar,
   .offsidebar,
-  .btn,
-  .ColVis .ColVis_Button {
+  .btn {
     display: none !important;
     width: 0 !important;
     height: 0 !important;
@@ -13644,21 +13408,21 @@ flatdoc .button:hover {
 
 flatdoc .button:active,
 flatdoc .button.active,
-.open > flatdoc .button.dropdown-toggle {
+.open > .dropdown-toggleflatdoc .button {
   color: #fff;
   background-color: #1aacda;
   border-color: #189ec8;
 }
 
 flatdoc .button:active:hover,
-flatdoc .button:active:focus,
-flatdoc .button:active.focus,
 flatdoc .button.active:hover,
+.open > .dropdown-toggleflatdoc .button:hover,
+flatdoc .button:active:focus,
 flatdoc .button.active:focus,
+.open > .dropdown-toggleflatdoc .button:focus,
+flatdoc .button:active.focus,
 flatdoc .button.active.focus,
-.open > flatdoc .button.dropdown-toggle:hover,
-.open > flatdoc .button.dropdown-toggle:focus,
-.open > flatdoc .button.dropdown-toggle.focus {
+.open > .dropdown-toggleflatdoc .button.focus {
   color: #fff;
   background-color: #1aacda;
   border-color: #189ec8;
@@ -13666,27 +13430,27 @@ flatdoc .button.active.focus,
 
 flatdoc .button:active,
 flatdoc .button.active,
-.open > flatdoc .button.dropdown-toggle {
+.open > .dropdown-toggleflatdoc .button {
   background-image: none;
 }
 
 flatdoc .button.disabled,
-flatdoc .button.disabled:hover,
-flatdoc .button.disabled:focus,
-flatdoc .button.disabled.focus,
-flatdoc .button.disabled:active,
-flatdoc .button.disabled.active,
 flatdoc .button[disabled],
-flatdoc .button[disabled]:hover,
-flatdoc .button[disabled]:focus,
-flatdoc .button[disabled].focus,
-flatdoc .button[disabled]:active,
-flatdoc .button[disabled].active,
 fieldset[disabled] flatdoc .button,
+flatdoc .button.disabled:hover,
+flatdoc .button[disabled]:hover,
 fieldset[disabled] flatdoc .button:hover,
+flatdoc .button.disabled:focus,
+flatdoc .button[disabled]:focus,
 fieldset[disabled] flatdoc .button:focus,
+flatdoc .button.disabled.focus,
+flatdoc .button[disabled].focus,
 fieldset[disabled] flatdoc .button.focus,
+flatdoc .button.disabled:active,
+flatdoc .button[disabled]:active,
 fieldset[disabled] flatdoc .button:active,
+flatdoc .button.disabled.active,
+flatdoc .button[disabled].active,
 fieldset[disabled] flatdoc .button.active {
   background-color: #23b7e5;
   border-color: #23b7e5;
@@ -13695,118 +13459,4 @@ fieldset[disabled] flatdoc .button.active {
 flatdoc .button .badge {
   color: #23b7e5;
   background-color: #fff;
-}
-
-@media screen {
-  .printOnly {
-    display: none;
-  }
-}
-
-@media print {
-  body * {
-    visibility: hidden;
-  }
-
-  body {
-    margin: 0mm !important;
-    -webkit-print-color-adjust: exact;
-  }
-
-  .printOnly,
-  .printOnly * {
-    visibility: visible;
-    display: initial;
-  }
-
-  .printOnly.printRemove {
-    display: none;
-  }
-
-  .printSection,
-  .printSection * {
-    visibility: visible;
-  }
-
-  .printRemove,
-  .printRemove * {
-    display: none;
-  }
-
-  .printHide,
-  .printHide * {
-    visibility: hidden;
-  }
-
-  .printHide .printSection * {
-    visibility: visible;
-  }
-
-  .printRemove .printSection * {
-    visibility: visible;
-  }
-
-  .avoidPageBreak {
-    page-break-inside: avoid;
-  }
-
-  td div {
-    page-break-inside: avoid;
-  }
-
-  thead {
-    display: table-header-group;
-  }
-
-  .noPrintMargin {
-    margin: 0px !important;
-    padding: 0px !important;
-  }
-
-@page {
-    margin: 0cm;
-}
-
-@page :first {
-    margin-top: 0cm;
-}
-
-@page :left {
-    margin-right: 0cm;
-    margin-left: 0cm;
-}
-
-@page :right {
-    margin-right: 0cm;
-    margin-left: 0cm;
-}
-}
-
-.ngdialog.ngdialog-theme-default {
-  padding-top: 10px;
-}
-
-.ngdialog.ngdialog-theme-default .ngdialog-content {
-  width: 80% !important;
-}
-
-/* estilos para choseen para que se adapten a el tamaño del div*/
-
-body .chosen-container-single .chosen-single,
-body .chosen-container-active.chosen-with-drop .chosen-single {
-  width: 100%;
-}
-
-/*Estilo para tabla de productos el cual cambia
-  de color la fila si la existencia es menor o igual a la existencia minima*/
-
-.table-striped tbody tr.menor {
-  background-color: rgba(233, 212, 96, 0.8) !important;
-}
-
-/*Estilos para los iconos de Menu*/
-
-.sidebar > .nav > li > a,
-.sidebar > .nav > li > .nav-item {
-  color: #232735;
 }

@@ -12,28 +12,60 @@
       </div>
    </div>
    <!-- END Language list    -->
-   Panel Principal
-   <small>{{ 'dashboard.WELCOME' | translate:{ appName: app.name } }} !</small>
+   <Dashboard>
+      <small>{{ 'dashboard.WELCOME' | translate:{ appName: app.name } }} !</small>
 </h3>
 <!-- START widgets box-->
 <div class="row">
-   <div class="col-lg-6 col-md-6 col-sm-12">
+   <a ui-sref="app.producto.lista" class="col-lg-3 col-sm-6">
       <!-- START widget-->
       <div class="panel widget bg-warning">
          <div class="row row-table">
             <div class="col-xs-4 text-center bg-warning-dark pv-lg">
                <em class="icon-layers fa-3x"></em>
             </div>
+
             <div class="col-xs-8 pv-lg">
                <div ng-controller="ProductoMinimoController as producto">
                   <div class="h2 mt0">{{producto.minimo.cantidad}}</div>
                   <div class="text-uppercase">Productos con Existencia Minima</div>
                </div>
             </div>
+            -->
+         </div>
+      </div>
+   </a>
+   <div class="col-lg-3 col-sm-6">
+      <!-- START widget-->
+      <div class="panel widget bg-purple">
+         <div class="row row-table">
+            <div class="col-xs-4 text-center bg-purple-dark pv-lg">
+               <em class="icon-globe fa-3x"></em>
+            </div>
+            <div class="col-xs-8 pv-lg">
+               <div class="h2 mt0">700
+                  <small>GB</small>
+               </div>
+               <div class="text-uppercase">Quota</div>
+            </div>
          </div>
       </div>
    </div>
-   <div class="col-lg-6 col-md-6 col-sm-12">
+   <div class="col-lg-3 col-md-6 col-sm-12">
+      <!-- START widget-->
+      <div class="panel widget bg-green">
+         <div class="row row-table">
+            <div class="col-xs-4 text-center bg-green-dark pv-lg">
+               <em class="icon-bubbles fa-3x"></em>
+            </div>
+            <div class="col-xs-8 pv-lg">
+               <div class="h2 mt0">500</div>
+               <div class="text-uppercase">Reviews</div>
+            </div>
+         </div>
+      </div>
+   </div>
+   <div class="col-lg-3 col-md-6 col-sm-12">
       <!-- START date widget-->
       <div class="panel widget">
          <div class="row row-table">
@@ -55,3 +87,4 @@
    </div>
 </div>
 <!-- END widgets box-->
+</Dashboard>

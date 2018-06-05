@@ -5,7 +5,7 @@
   ProductoService.$inject = ['$resource'];
 
   function ProductoService($resource) {
-    var url = '/api';
+    var url = 'http://localhost:8000/api';
     return $resource(url + '/productos/:id/', {}, {
       list: {
         method: 'GET'

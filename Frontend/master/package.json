@@ -3,7 +3,9 @@
   "version": "0.0.0",
   "description": "Angle - Bootstrap Admin App + AngularJS",
   "author": "@themicon_co",
-  "dependencies": {},
+  "dependencies": {
+    "http-server": "^0.11.1"
+  },
   "devDependencies": {
     "css-flip": "git://github.com/geedmo/css-flip",
     "del": "^2.2.2",
@@ -41,7 +43,6 @@
   },
   "scripts": {
     "prestart": "bower install",
-    "start": "npm install",
-    "poststart": "gulp"
+    "start": "http-server ../app/views -a localhost -p 4200 -c-1"
   }
 }

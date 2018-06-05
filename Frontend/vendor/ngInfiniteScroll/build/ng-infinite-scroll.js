@@ -1,1 +1,186 @@
-var mod;mod=angular.module("infinite-scroll",[]),mod.value("THROTTLE_MILLISECONDS",null),mod.directive("infiniteScroll",["$rootScope","$window","$interval","THROTTLE_MILLISECONDS",function(n,e,t,i){return{scope:{infiniteScroll:"&",infiniteScrollContainer:"=",infiniteScrollDistance:"=",infiniteScrollDisabled:"=",infiniteScrollUseDocumentBottom:"=",infiniteScrollListenForEvent:"@"},link:function(l,o,r){var c,u,a,f,m,d,s,S,g,p,v,$,w,D,h,E,T,L;return L=angular.element(e),w=null,D=null,u=null,a=null,p=!0,T=!1,E=null,g=function(n){return n=n[0]||n,isNaN(n.offsetHeight)?n.document.documentElement.clientHeight:n.offsetHeight},v=function(n){if(n[0].getBoundingClientRect&&!n.css("none"))return n[0].getBoundingClientRect().top+$(n)},$=function(n){return n=n[0]||n,isNaN(window.pageYOffset)?n.document.documentElement.scrollTop:n.ownerDocument.defaultView.pageYOffset},S=function(){var e,t,i,r,c;return a===L?(e=g(a)+$(a[0].document.documentElement),i=v(o)+g(o)):(e=g(a),t=0,void 0!==v(a)&&(t=v(a)),i=v(o)-t+g(o)),T&&(i=g((o[0].ownerDocument||o[0].document).documentElement)),r=i-e,c=r<=g(a)*w+1,c?(u=!0,D?l.$$phase||n.$$phase?l.infiniteScroll():l.$apply(l.infiniteScroll):void 0):u=!1},h=function(n,e){var i,l,o;return o=null,l=0,i=function(){var e;return l=(new Date).getTime(),t.cancel(o),o=null,n.call(),e=null},function(){var r,c;return r=(new Date).getTime(),c=e-(r-l),c<=0?(clearTimeout(o),t.cancel(o),o=null,l=r,n.call()):o?void 0:o=t(i,c,1)}},null!=i&&(S=h(S,i)),l.$on("$destroy",function(){if(a.unbind("scroll",S),null!=E)return E(),E=null}),d=function(n){return w=parseFloat(n)||0},l.$watch("infiniteScrollDistance",d),d(l.infiniteScrollDistance),m=function(n){if(D=!n,D&&u)return u=!1,S()},l.$watch("infiniteScrollDisabled",m),m(l.infiniteScrollDisabled),s=function(n){return T=n},l.$watch("infiniteScrollUseDocumentBottom",s),s(l.infiniteScrollUseDocumentBottom),c=function(n){if(null!=a&&a.unbind("scroll",S),a=n,null!=n)return a.bind("scroll",S)},c(L),l.infiniteScrollListenForEvent&&(E=n.$on(l.infiniteScrollListenForEvent,S)),f=function(n){if(null!=n&&0!==n.length){if(n instanceof HTMLElement?n=angular.element(n):"function"==typeof n.append?n=angular.element(n[n.length-1]):"string"==typeof n&&(n=angular.element(document.querySelector(n))),null!=n)return c(n);throw new Exception("invalid infinite-scroll-container attribute.")}},l.$watch("infiniteScrollContainer",f),f(l.infiniteScrollContainer||[]),null!=r.infiniteScrollParent&&c(angular.element(o.parent())),null!=r.infiniteScrollImmediateCheck&&(p=l.$eval(r.infiniteScrollImmediateCheck)),t(function(){if(p)return S()},0,1)}}}]);
+/* ng-infinite-scroll - v1.2.0 - 2015-02-14 */
+var mod;
+
+mod = angular.module('infinite-scroll', []);
+
+mod.value('THROTTLE_MILLISECONDS', null);
+
+mod.directive('infiniteScroll', [
+  '$rootScope', '$window', '$interval', 'THROTTLE_MILLISECONDS', function($rootScope, $window, $interval, THROTTLE_MILLISECONDS) {
+    return {
+      scope: {
+        infiniteScroll: '&',
+        infiniteScrollContainer: '=',
+        infiniteScrollDistance: '=',
+        infiniteScrollDisabled: '=',
+        infiniteScrollUseDocumentBottom: '=',
+        infiniteScrollListenForEvent: '@'
+      },
+      link: function(scope, elem, attrs) {
+        var changeContainer, checkWhenEnabled, container, handleInfiniteScrollContainer, handleInfiniteScrollDisabled, handleInfiniteScrollDistance, handleInfiniteScrollUseDocumentBottom, handler, height, immediateCheck, offsetTop, pageYOffset, scrollDistance, scrollEnabled, throttle, unregisterEventListener, useDocumentBottom, windowElement;
+        windowElement = angular.element($window);
+        scrollDistance = null;
+        scrollEnabled = null;
+        checkWhenEnabled = null;
+        container = null;
+        immediateCheck = true;
+        useDocumentBottom = false;
+        unregisterEventListener = null;
+        height = function(elem) {
+          elem = elem[0] || elem;
+          if (isNaN(elem.offsetHeight)) {
+            return elem.document.documentElement.clientHeight;
+          } else {
+            return elem.offsetHeight;
+          }
+        };
+        offsetTop = function(elem) {
+          if (!elem[0].getBoundingClientRect || elem.css('none')) {
+            return;
+          }
+          return elem[0].getBoundingClientRect().top + pageYOffset(elem);
+        };
+        pageYOffset = function(elem) {
+          elem = elem[0] || elem;
+          if (isNaN(window.pageYOffset)) {
+            return elem.document.documentElement.scrollTop;
+          } else {
+            return elem.ownerDocument.defaultView.pageYOffset;
+          }
+        };
+        handler = function() {
+          var containerBottom, containerTopOffset, elementBottom, remaining, shouldScroll;
+          if (container === windowElement) {
+            containerBottom = height(container) + pageYOffset(container[0].document.documentElement);
+            elementBottom = offsetTop(elem) + height(elem);
+          } else {
+            containerBottom = height(container);
+            containerTopOffset = 0;
+            if (offsetTop(container) !== void 0) {
+              containerTopOffset = offsetTop(container);
+            }
+            elementBottom = offsetTop(elem) - containerTopOffset + height(elem);
+          }
+          if (useDocumentBottom) {
+            elementBottom = height((elem[0].ownerDocument || elem[0].document).documentElement);
+          }
+          remaining = elementBottom - containerBottom;
+          shouldScroll = remaining <= height(container) * scrollDistance + 1;
+          if (shouldScroll) {
+            checkWhenEnabled = true;
+            if (scrollEnabled) {
+              if (scope.$$phase || $rootScope.$$phase) {
+                return scope.infiniteScroll();
+              } else {
+                return scope.$apply(scope.infiniteScroll);
+              }
+            }
+          } else {
+            return checkWhenEnabled = false;
+          }
+        };
+        throttle = function(func, wait) {
+          var later, previous, timeout;
+          timeout = null;
+          previous = 0;
+          later = function() {
+            var context;
+            previous = new Date().getTime();
+            $interval.cancel(timeout);
+            timeout = null;
+            func.call();
+            return context = null;
+          };
+          return function() {
+            var now, remaining;
+            now = new Date().getTime();
+            remaining = wait - (now - previous);
+            if (remaining <= 0) {
+              clearTimeout(timeout);
+              $interval.cancel(timeout);
+              timeout = null;
+              previous = now;
+              return func.call();
+            } else {
+              if (!timeout) {
+                return timeout = $interval(later, remaining, 1);
+              }
+            }
+          };
+        };
+        if (THROTTLE_MILLISECONDS != null) {
+          handler = throttle(handler, THROTTLE_MILLISECONDS);
+        }
+        scope.$on('$destroy', function() {
+          container.unbind('scroll', handler);
+          if (unregisterEventListener != null) {
+            unregisterEventListener();
+            return unregisterEventListener = null;
+          }
+        });
+        handleInfiniteScrollDistance = function(v) {
+          return scrollDistance = parseFloat(v) || 0;
+        };
+        scope.$watch('infiniteScrollDistance', handleInfiniteScrollDistance);
+        handleInfiniteScrollDistance(scope.infiniteScrollDistance);
+        handleInfiniteScrollDisabled = function(v) {
+          scrollEnabled = !v;
+          if (scrollEnabled && checkWhenEnabled) {
+            checkWhenEnabled = false;
+            return handler();
+          }
+        };
+        scope.$watch('infiniteScrollDisabled', handleInfiniteScrollDisabled);
+        handleInfiniteScrollDisabled(scope.infiniteScrollDisabled);
+        handleInfiniteScrollUseDocumentBottom = function(v) {
+          return useDocumentBottom = v;
+        };
+        scope.$watch('infiniteScrollUseDocumentBottom', handleInfiniteScrollUseDocumentBottom);
+        handleInfiniteScrollUseDocumentBottom(scope.infiniteScrollUseDocumentBottom);
+        changeContainer = function(newContainer) {
+          if (container != null) {
+            container.unbind('scroll', handler);
+          }
+          container = newContainer;
+          if (newContainer != null) {
+            return container.bind('scroll', handler);
+          }
+        };
+        changeContainer(windowElement);
+        if (scope.infiniteScrollListenForEvent) {
+          unregisterEventListener = $rootScope.$on(scope.infiniteScrollListenForEvent, handler);
+        }
+        handleInfiniteScrollContainer = function(newContainer) {
+          if ((newContainer == null) || newContainer.length === 0) {
+            return;
+          }
+          if (newContainer instanceof HTMLElement) {
+            newContainer = angular.element(newContainer);
+          } else if (typeof newContainer.append === 'function') {
+            newContainer = angular.element(newContainer[newContainer.length - 1]);
+          } else if (typeof newContainer === 'string') {
+            newContainer = angular.element(document.querySelector(newContainer));
+          }
+          if (newContainer != null) {
+            return changeContainer(newContainer);
+          } else {
+            throw new Exception("invalid infinite-scroll-container attribute.");
+          }
+        };
+        scope.$watch('infiniteScrollContainer', handleInfiniteScrollContainer);
+        handleInfiniteScrollContainer(scope.infiniteScrollContainer || []);
+        if (attrs.infiniteScrollParent != null) {
+          changeContainer(angular.element(elem.parent()));
+        }
+        if (attrs.infiniteScrollImmediateCheck != null) {
+          immediateCheck = scope.$eval(attrs.infiniteScrollImmediateCheck);
+        }
+        return $interval((function() {
+          if (immediateCheck) {
+            return handler();
+          }
+        }), 0, 1);
+      }
+    };
+  }
+]);

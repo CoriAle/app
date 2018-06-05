@@ -19,6 +19,7 @@ class UserViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
 
     @list_route(methods=['get'], permission_classes=[AnyPermission])
     def busca_usuario_nick(self, request):
+        print("hola")
         try:
             usuario = User.objects.get(
                 username=request.GET.get('nick'))
@@ -31,8 +32,10 @@ class UserViewSet(SwappableSerializerMixin, viewsets.ModelViewSet):
     @list_route(methods=['get'])
     def busca_usuario(self, request):
         try:
+            print("hola")
             usuario = User.objects.get(
                 username=request.GET.get('nick'))
+            print(usuario)
             perfil = PerfilUsuario.objects.get(usuario=usuario)
             # persona = Persona.objects.get(id=perfil.persona)
             serializer = PerfilUsuarioWriteSerializer(perfil, context={'request': request})

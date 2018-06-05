@@ -5,8 +5,8 @@
   LoginService.$inject = ['$resource'];
 
   function LoginService($resource) {
-    var url = '/api';
-    return $resource('api/token/:id', {}, {
+    var url = 'http://localhost:8000/api';
+    return $resource('http://localhost:8000/api/token/:id', {}, {
       login: {
         method: 'POST',
         //url: 'api-auth/'
