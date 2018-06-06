@@ -66,7 +66,7 @@
 
           $scope.$on('panel-refresh', function(event, id) {
             
-            console.log('Simulating chart refresh during 3s on #'+id);
+            //console.log('Simulating chart refresh during 3s on #'+id);
 
             // Instead of timeout you can request a chart data
             $timeout(function(){
@@ -75,7 +75,7 @@
               // after we end up to perform own operations
               $scope.$broadcast('removeSpinner', id);
               
-              console.log('Refreshed #' + id);
+              //console.log('Refreshed #' + id);
 
             }, 3000);
 
@@ -88,7 +88,7 @@
           // Before remove panel
           $scope.$on('panel-remove', function(event, id, deferred){
             
-            console.log('Panel #' + id + ' removing');
+            //console.log('Panel #' + id + ' removing');
             
             // Here is obligatory to call the resolve() if we pretend to remove the panel finally
             // Not calling resolve() will NOT remove the panel
@@ -100,7 +100,7 @@
           // Panel removed ( only if above was resolved() )
           $scope.$on('panel-removed', function(event, id){
 
-            console.log('Panel #' + id + ' removed');
+            //console.log('Panel #' + id + ' removed');
 
           });
 

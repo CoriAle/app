@@ -33,7 +33,7 @@
 
           onError = onError || function() { console.log(''); };
           // onError = onError || function() { alert('Failure loading menu'); };
-
+          console.log("ESta ufncion")
           $http
             .get(menuURL)
             .success(onReady)

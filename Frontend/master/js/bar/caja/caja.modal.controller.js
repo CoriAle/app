@@ -146,10 +146,10 @@
               $location.path('/app/caja/pendientes');
               vm.listaCombo();
             } else {
-                $log.info('Modal dismissed at: ' + new Date());
+                //$log.info('Modal dismissed at: ' + new Date());
             }
         }, function() {
-            $log.info('Modal dismissed at: ' + new Date());
+           // $log.info('Modal dismissed at: ' + new Date());
         });
       };
 

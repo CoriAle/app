@@ -20,7 +20,7 @@
         ////////////////
 
         function activate() {
-          $log.log('I\'m a line from custom.js');
+        //  $log.log('I\'m a line from custom.js');
         }
     }
 })();
