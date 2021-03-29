@@ -27,7 +27,7 @@ paramiko==1.16.0
 pyasn1==0.1.9
 pycparser==2.14
 pycrypto==2.6.1
-Pygments==2.1.3
+Pygments==2.7.4
 pyOpenSSL==16.0.0
 python-dateutil==2.5.3
 pytz==2016.6.1
