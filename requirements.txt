@@ -45,4 +45,4 @@ tornado-redis==2.4.18
 typing==3.6.4
 urllib3==1.22
 wcwidth==0.1.7
-Werkzeug==0.11.3
+Werkzeug==0.15.3
