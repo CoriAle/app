@@ -9,7 +9,7 @@ cffi==1.7.0
 chardet==3.0.4
 cryptography==2.2.2
 curtsies==0.2.6
-Django==1.9.1
+Django==2.2.24
 django-cors-headers==2.2.0
 -e git+https://github.com/django-debug-toolbar/django-debug-toolbar.git@0ed1538374d3dc41d51fc562b4e8be6ce8208552#egg=django_debug_toolbar
 django-extensions==1.6.1
